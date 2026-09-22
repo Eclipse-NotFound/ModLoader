@@ -1,0 +1,5 @@
+# transient build/test artifacts
+work/
+spike/release/
+spike/*.log
+*.patched.swf

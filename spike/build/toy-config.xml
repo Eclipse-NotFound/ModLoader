@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<flex-config xmlns="http://www.adobe.com/2006/flex-config">
+  <target-player>32.0</target-player>
+  <default-size>
+    <width>1024</width>
+    <height>768</height>
+  </default-size>
+  <default-frame-rate>30</default-frame-rate>
+  <compiler>
+    <external-library-path>
+      <path-element>D:/RemainsMod/mods/Sandevistan/build/tools/airsdk/frameworks/libs/player/32.0/playerglobal.swc</path-element>
+      <path-element>D:/RemainsMod/mods/Sandevistan/build/tools/airsdk/frameworks/libs/air/airglobal.swc</path-element>
+    </external-library-path>
+    <library-path>
+      <path-element>D:/RemainsMod/mods/Sandevistan/build/tools/airsdk/frameworks/libs/player/32.0/playerglobal.swc</path-element>
+      <path-element>D:/RemainsMod/mods/Sandevistan/build/tools/airsdk/frameworks/libs/air/airglobal.swc</path-element>
+    </library-path>
+    <source-path>
+      <path-element>D:/Program Files/Steam/steamapps/common/Remains/mods/ModLoader/spike/src</path-element>
+    </source-path>
+  </compiler>
+  <use-network>false</use-network>
+  <output>D:/Program Files/Steam/steamapps/common/Remains/mods/ModLoader/spike/release/ToyGame.swf</output>
+</flex-config>
