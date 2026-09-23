@@ -1,54 +1,44 @@
-# ModLoader（通用清单加载器）MEMORY 快照
+# ModLoader 外置记忆
 
-> 最后更新：2026-09-23（v1.0.0 静态核查）
-> 冷启动阅读顺序：本文件 → knowledge/discoveries/loader-review-2026-09-23.md → journal.md → shared-knowledge\knowledge-validation\facts\mod-loader-patch-structure.md（2026-09-22 补充段）
+> 更新：2026-09-23，v2 已部署并完成三目标独立实例冒烟。先读本文件，再读 README.md、journal.md 最近条目；需要核对旧问题时读 knowledge/discoveries/loader-review-2026-09-23.md。
 
-## 当前状态：已部署；三目标运行验证为前一会话记录，本轮做了静态复核
+## 1. 这个模组是什么
 
-- 三份游戏 SWF（root pfe 1.02 / DLC pfe 1.03 / DLC pfeUI 1.04）的 MainFE 已打
-  通用 loader 补丁（`loadModsFromManifest`，读 `mods\loader-manifest.txt`）。
-- 前一会话记录：1.02 七模组全载；1.03 Sandy/RConnect/RandomRooms；1.04
-  Sandy/RConnect，三进程稳定。本轮未重新启动游戏，不把旧记录作为本轮验证。
-- 2026-09-23 静态复核：三份线上 SWF 与 work 补丁产物 SHA-256 一致；三份
-  MainFE 导出差异符合预期；清单、release 文件和入口静态方法检查通过。
-- 旧 7/3/2 个专属 loader 调用点已移除；方法体留作死代码（保各模组补丁脚本幂等）。
+ModLoader 是补在游戏 MainFE 里的通用清单加载层，不是独立 release 模组 SWF。它在主菜单构造后读取 mods/loader-manifest.txt，按宿主 1.02／1.03／1.04 列决定向哪些模组发起异步加载，并调用各入口类的静态 init(MainFE)。旧的专属 loader 方法保留为死代码，启动点已收束为一次 loadModsFromManifest()。
 
-## 关键资产
+## 2. 协作与测试约定
 
-| 路径 | 作用 |
-|---|---|
-| `mods\loader-manifest.txt` | **加载矩阵唯一权威来源**（目录|入口类|1.02|1.03|1.04） |
-| `mods\ModLoader\tools\patch_game_swfs.ps1` | 幂等补丁脚本（Steam 更新后重跑即恢复；-DryRun 干跑） |
-| `mods\ModLoader\tools\smoke_test.ps1` | 冒烟（沙箱内结果不可信，见下） |
-| `mods\ModLoader\work\*.patched.swf` | 已验证的补丁产物（与线上哈希一致） |
-| `mods\ModLoader\spike\` | 可行性 spike 资产（Booter/MechBooter/CmpBooter/ToyT1-T5 等） |
-| 游戏根 `*_before_genericloader_20260922_*.swf` | 回滚点（原七 loader 结构） |
+- 修改三份游戏 SWF 要走 remains-swf-patching 与 remains-release-gate；用户本轮“请进行修复”已授权本轮 v2 部署，不代表未来任意改动可跳过门禁。
+- 真机冒烟用唯一 AIR app id 和临时描述符，不碰用户 pfe 存档或用户进程。受限沙箱曾使大 SWF 装载假性停滞；运行验证需能正常启动 AIR 的环境。
+- ModLoader.sol 若不能刷新，冒烟保守失败；不要把历史状态或旧日志当本轮成功。
 
-## 已知问题 / 教训
+## 3. 当前状态
 
-1. **dsh 受限沙箱（workspace-write Job）内启动 adl64 = 大 SWF 装载假阴性**
-   （窗口活、永不进菜单）。冒烟必须全权访问或用户桌面。本轮曾因此误判回滚。
-2. FFDec 编译器**不能**编译含 `flash.filesystem.File/FileStream` **字段**的类
-   （字段 trait 类型解析失败 → 类初始化静默死亡、无 INIT 无报错）；
-   URLLoader/Dictionary/SharedObject/字符串链均实测可编译可运行。
-   详见 journal 2026-09-22 条目与 spike ToyT1-T5。
-3. ModLoader SharedObject 在部分受限上下文 flush 被拒（键仍会 trace）；
-   验证模组装载用各模组自身文件日志（Local Store）更可靠。
-4. 2026-09-23 核查发现：冒烟脚本能被旧成功键骗过且不验证禁用项；补丁脚本
-   的幂等/旧调用检查过宽、全新检出缺 `work/` 会在参数阶段失败；一行同步异常
-   会中断后续清单加载；格式错误多数静默。
-   证据、影响与优先级见 `knowledge/discoveries/loader-review-2026-09-23.md`。
+- v2 已部署：根 pfe.swf（1.02）、DLC/pfe.swf（1.03）、DLC/pfeUI.swf（1.04）。三份线上哈希与本轮 work/v2-deploy 产物一致；精确 SHA-256 见 README。
+- 2026-09-23 部署后，独立实例分别以 45 秒冒烟通过：1.02 启用 7 个，1.03 启用 3 个，1.04 启用 2 个；无本轮错误状态，禁用项无请求状态，有日志的模组均写了新日志。
+- 工具：tools/patch_game_swfs.ps1、tools/smoke_test.ps1、tools/smoke_assertions.ps1、tools/test_loader.ps1。离线回归检查通过；三目标 FFDec 编译与重新导出校验通过。
+- 本轮回滚点在游戏根：pfe_before_genericloader_v2_20260923_105650_843.swf、DLC_pfe_before_genericloader_v2_20260923_105650_843.swf、DLC_pfeUI_before_genericloader_v2_20260923_105650_843.swf。
 
-## 工作区契约影响（需用户同步到 AGENTS.md，agent 不改）
+## 4. 正在进行与卡点
 
-- AGENTS §3"加载矩阵"表已过时：现为 manifest 驱动，根 pfe 1.02 实载**七**个模组
-  （含 ModSettings）。
-- 新模组接入流程变化：release 放 SWF + manifest 加行，**不再需要 FFDec 补丁**。
-- remains-swf-patching / remains-new-mod / remains-game-update 技能的相关段落
-  需要相应修订（属用户/后续任务）。
+- v2 的功能修复、三目标部署与复验已完成，目前没有已知阻塞项。
+- 根 mods/loader-manifest.txt 新增一行关于异步初始化顺序的注释；该运行时文件被根治理仓 .gitignore 排除，不在 ModLoader 仓库内。
 
-## 下一步候选
+## 5. 已知边界
 
-- git 仓库已初始化（见 journal）；如需 AGENT_SCOPE/完整脚手架走 remains-new-mod。
-- 若 Steam 更新游戏：先修/人工核对补丁脚本的调用集合断言；当前冒烟脚本
-  不足以证明本轮恰载 7/3/2，需改进后再作为门禁。
+- 清单行序仅决定 Loader.load 发起顺序，不保证各 init 完成顺序。没有跨模组依赖调度。
+- MSW 没有独立文件日志；冒烟对它依靠本轮 SharedObject 成功键。SharedObject 失效时应视为验证不足，另做人工功能检查。
+- 三目标冒烟验证加载链与版本门控，未覆盖每个模组的深层玩法功能。
+- 根 AGENTS.md 的旧六模组矩阵、部分 Remains 技能的旧 loader 步骤仍待用户侧修订；本项目尚无 AGENT_SCOPE.md。
+
+## 6. 下一步
+
+- 若 Steam 更新游戏：先用 patch_game_swfs.ps1 -DryRun 生成并验证所有目标，结构不匹配时人工核对 MainFE，部署后重启并跑三个描述符的独立冒烟。
+- 若需要模组严格初始化依赖，另设计串行队列或显式依赖机制；不要假定移动清单行可实现。
+- 后续可补 MSW 的独立版本日志或更直接的 UI 功能断言，降低对 SharedObject 的依赖。
+
+## 7. 深入了解
+
+- 当前使用、状态、验证、回滚：README.md；本轮过程：journal.md 顶部。
+- v1 问题及对应证据：knowledge/discoveries/loader-review-2026-09-23.md；v1 原交接说明可查 Git 提交 ea9cb26。
+- 游戏本体公共结构：shared-knowledge/knowledge-validation/facts/mod-loader-patch-structure.md 的 2026-09-22 补充段（其中旧版本说明需以当前 README 为准）。

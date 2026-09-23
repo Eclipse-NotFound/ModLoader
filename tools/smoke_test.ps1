@@ -1,82 +1,72 @@
-# smoke_test.ps1 - generic loader smoke test
-# Launches the game via the real launch chain, waits for mods to load,
-# then asserts: (a) each mod's own log got fresh writes, (b) the ModLoader
-# SharedObject contains ok_<Entry> marks for every enabled manifest entry.
-# Usage: smoke_test.ps1 [-Descriptor application.xml] [-Seconds 35]
+# Launch one isolated AIR instance. Never use the player's pfe storage or process.
 [CmdletBinding()]
 param(
     [string]$Descriptor = 'application.xml',
-    [int]$Seconds = 35,
-    [string]$GameRoot = (Split-Path -Parent $PSScriptRoot | Split-Path -Parent | Split-Path -Parent)
+    [ValidateRange(10,300)][int]$Seconds = 45,
+    [string]$GameRoot = (Split-Path -Parent $PSScriptRoot | Split-Path -Parent | Split-Path -Parent),
+    [string]$SwfOverride = ''
 )
 $ErrorActionPreference = 'Stop'
-$store = Join-Path $env:APPDATA 'pfe\Local Store'
-$logs = 'sandy_modlog.txt','RConnect.log','RVision.log','RandomRooms_diag.log','ModSettings.log'
+. (Join-Path $PSScriptRoot 'smoke_assertions.ps1')
 
-# manifest entries enabled for this descriptor (recompute expected set)
-$colIdx = 2
-if ($Descriptor -like '*pfeUI*') { $colIdx = 4 }
-elseif ($Descriptor -like '*DLC*') { $colIdx = 3 }
-$expected = @()
-Get-Content (Join-Path $GameRoot 'mods\loader-manifest.txt') | ForEach-Object {
-    $line = $_.TrimEnd()
-    if ($line -and -not $line.StartsWith('#')) {
-        $p = $line -split '\|'
-        if ($p.Count -ge 5 -and $p[$colIdx] -eq '1') { $expected += $p[1] }
-    }
-}
-Write-Host "expected mods for $Descriptor : $($expected -join ', ')"
-
-$baseline = @{}
-foreach ($l in $logs) {
-    $p = Join-Path $store $l
-    $baseline[$l] = if (Test-Path $p) { (Get-Item $p).LastWriteTime } else { [datetime]::MinValue }
-}
-
-Push-Location $GameRoot
-$proc = Start-Process -FilePath '.\adl64.exe' -ArgumentList '-runtime','runtimes\air\win64',$Descriptor,'-nodebug' -WorkingDirectory '.' -PassThru
-Start-Sleep -Seconds $Seconds
-$alive = -not $proc.HasExited
-if ($alive) { Stop-Process -Id $proc.Id -Force }
-Pop-Location
-Write-Host "game ran ${Seconds}s (alive=$alive), stopped."
-
-$fail = @()
-Write-Host ''
-Write-Host '=== mod log freshness ==='
-foreach ($l in $logs) {
-    $f = Get-Item (Join-Path $store $l) -ErrorAction SilentlyContinue
-    if ($f) {
-        $fresh = $f.LastWriteTime -gt $baseline[$l]
-        $tag = 'stale'; if ($fresh) { $tag = 'FRESH' }
-        Write-Host ("  {0,-22} {1}  ({2})" -f $l, $tag, $f.LastWriteTime.ToString('HH:mm:ss'))
-    } else {
-        Write-Host "  $l MISSING"
-    }
-}
-
-Write-Host ''
-Write-Host '=== ModLoader SharedObject marks ==='
-$sol = Get-ChildItem (Join-Path $store '#SharedObjects') -Recurse -Filter 'ModLoader.sol' -ErrorAction SilentlyContinue | Select-Object -First 1
-if (-not $sol) {
-    Write-Host '  ModLoader.sol NOT FOUND - loader did not run!'
-    $fail += 'ModLoader.sol missing'
+$GameRoot = (Resolve-Path -LiteralPath $GameRoot).Path
+$descriptorPath = if ([System.IO.Path]::IsPathRooted($Descriptor)) {
+    $Descriptor
 } else {
-    Write-Host "  found: $($sol.FullName)"
-    $text = [System.Text.Encoding]::ASCII.GetString([System.IO.File]::ReadAllBytes($sol.FullName))
-    foreach ($e in $expected) {
-        if ($text.Contains("ok_$e")) { Write-Host "  ok_$e PRESENT" }
-        else { Write-Host "  ok_$e MISSING"; $fail += "ok_$e" }
+    Join-Path $GameRoot $Descriptor
+}
+if (-not (Test-Path -LiteralPath $descriptorPath)) { throw "descriptor missing: $descriptorPath" }
+[xml]$descriptorXml = [System.IO.File]::ReadAllText($descriptorPath)
+$contentNode = $descriptorXml.SelectSingleNode('/*[local-name()="application"]/*[local-name()="initialWindow"]/*[local-name()="content"]')
+$idNode = $descriptorXml.SelectSingleNode('/*[local-name()="application"]/*[local-name()="id"]')
+if ($null -eq $contentNode -or $null -eq $idNode) { throw 'descriptor missing id or content' }
+$plan = Get-ManifestPlan (Join-Path $GameRoot 'mods\loader-manifest.txt') $contentNode.InnerText
+if ($SwfOverride.Length -gt 0) {
+    $override = $SwfOverride.Replace('\', '/')
+    if ([System.IO.Path]::IsPathRooted($override) -or $override.Contains('..')) {
+        throw 'SwfOverride must be a relative path within GameRoot'
     }
-    if ($text.Contains('err_')) {
-        Write-Host '  WARNING: err_ keys present - inspect sol for details'
-        foreach ($m in [regex]::Matches($text, 'err_[A-Za-z0-9_]+')) { Write-Host "    $($m.Value)" }
+    $overridePath = Join-Path $GameRoot $override
+    if (-not (Test-Path -LiteralPath $overridePath)) { throw "override SWF missing: $overridePath" }
+    $routeColumn = if ($override.Contains('pfeUI')) { 4 } elseif ($override.Contains('DLC')) { 3 } else { 2 }
+    if ($routeColumn -ne $plan.Column) { throw "override path routes to column $routeColumn, expected $($plan.Column)" }
+    $contentNode.InnerText = $override
+}
+$appId = 'pfe-modloader-' + (Get-Date -Format 'yyyyMMddHHmmssfff')
+$idNode.InnerText = $appId
+$tempDescriptor = Join-Path $GameRoot ("app-modloader-test-$appId.xml")
+if (Test-Path -LiteralPath $tempDescriptor) { throw "test descriptor already exists: $tempDescriptor" }
+$store = Join-Path (Join-Path $env:APPDATA $appId) 'Local Store'
+$process = $null
+$startedAtUtc = [datetime]::UtcNow
+$endedAtUtc = $startedAtUtc
+$alive = $false
+
+Write-Host "content=$($plan.Content); expected=$($plan.Enabled -join ', '); disabled=$($plan.Disabled -join ', ')"
+Write-Host "isolated app id=$appId"
+try {
+    $descriptorXml.Save($tempDescriptor)
+    $startedAtUtc = [datetime]::UtcNow
+    $process = Start-Process -FilePath (Join-Path $GameRoot 'adl64.exe') -ArgumentList '-runtime','runtimes\air\win64',(Split-Path -Leaf $tempDescriptor),'-nodebug' -WorkingDirectory $GameRoot -WindowStyle Hidden -PassThru
+    for ($second = 0; $second -lt $Seconds; $second++) {
+        if ($process.HasExited) { break }
+        Start-Sleep -Seconds 1
+    }
+    $endedAtUtc = [datetime]::UtcNow
+    $alive = -not $process.HasExited
+} finally {
+    if ($null -ne $process -and -not $process.HasExited) {
+        Stop-Process -Id $process.Id -Force
+    }
+    if (Test-Path -LiteralPath $tempDescriptor) {
+        Remove-Item -LiteralPath $tempDescriptor -Force
     }
 }
 
-Write-Host ''
-if ($fail.Count -gt 0) {
-    Write-Host "SMOKE FAILED: $($fail -join ', ')" -ForegroundColor Red
-    exit 1
+$result = Test-SmokeEvidence $store $startedAtUtc $endedAtUtc $plan $alive
+foreach ($line in $result.Observations) { Write-Host "  $line" }
+if (-not $result.Passed) {
+    foreach ($failure in $result.Failures) { Write-Host "  FAIL: $failure" -ForegroundColor Red }
+    throw "SMOKE FAILED for $($plan.Content); evidence remains in $store"
 }
-Write-Host 'SMOKE PASSED' -ForegroundColor Green
+Write-Host "SMOKE PASSED for $($plan.Content)" -ForegroundColor Green
