@@ -96,6 +96,7 @@ function Test-SmokeEvidence([string]$store, [datetime]$startedAtUtc, [datetime]$
         'RealisticVisionMod' = 'RVision.log'
         'RandomRoomsMod' = 'RandomRooms_diag.log'
         'ModSettingsMod' = 'ModSettings.log'
+        'ModLoaderMod' = 'ModSettings.log'
         'TDFCMod' = 'tdfc.log'
     }
     foreach ($entry in $plan.Enabled) {
@@ -113,6 +114,10 @@ function Test-SmokeEvidence([string]$store, [datetime]$startedAtUtc, [datetime]$
     }
     foreach ($entry in $plan.Disabled) {
         if (-not $logs.ContainsKey($entry)) { continue }
+        # The current runtime inherits the legacy settings log. Disabled-entry
+        # requested/ok keys above still detect a second host independently.
+        $sharedWithEnabled = @($plan.Enabled | Where-Object { $logs.ContainsKey($_) -and $logs[$_] -eq $logs[$entry] })
+        if ($sharedWithEnabled.Count -gt 0) { continue }
         $path = Join-Path $store $logs[$entry]
         $file = Get-Item -LiteralPath $path -ErrorAction SilentlyContinue
         if ($null -ne $file -and $file.LastWriteTimeUtc -ge $startedAtUtc) {

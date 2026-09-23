@@ -4,3 +4,6 @@ spike/release/
 spike/*.log
 *.patched.swf
 RemainsModScanner.exe
+build/out/
+build/test-runtime/
+release/*.swf

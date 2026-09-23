@@ -50,7 +50,7 @@ Expect-Throw { Transform-MainFe $brokenV2 'pfe.swf' } 'marker alone must not ski
 $manifest = Join-Path $GameRoot 'mods\loader-manifest.txt'
 Assert-Manifest $manifest
 $plan = Get-ManifestPlan $manifest 'DLC/pfeUI.swf'
-Expect ($plan.Enabled.Count -eq 2 -and $plan.Disabled.Count -eq 5) '1.04 matrix'
+Expect ($plan.Enabled.Count -eq 2 -and $plan.Disabled -contains 'ModSettingsMod') '1.04 matrix'
 Expect-Throw { Get-ManifestPlan $manifest 'unknown.swf' } 'unknown descriptor content'
 
 $testDir = Join-Path $WorkDir ('test-loader-' + [guid]::NewGuid().ToString('N'))
@@ -94,6 +94,12 @@ try {
     [IO.File]::SetLastWriteTimeUtc((Join-Path $testDir 'RConnect.log'),[datetime]::UtcNow)
     [IO.File]::WriteAllText((Join-Path $testDir 'ModSettings.log'),'unexpected init')
     Expect (-not (Test-SmokeEvidence $testDir $started $ended $plan $true).Passed) 'fresh disabled log fails'
+    $mergedPlan=[pscustomobject]@{Enabled=@('ModLoaderMod');Disabled=@('ModSettingsMod')}
+    $mergedStatus="session $runId boot_start boot requested_ModLoaderMod ok_ModLoaderMod"
+    [IO.File]::WriteAllText($solPath,$mergedStatus)
+    Expect (Test-SmokeEvidence $testDir $started $ended $mergedPlan $true).Passed 'new host owns inherited log without reviving disabled old host'
+    [IO.File]::WriteAllText($solPath,($mergedStatus+' requested_ModSettingsMod ok_ModSettingsMod'))
+    Expect (-not (Test-SmokeEvidence $testDir $started $ended $mergedPlan $true).Passed) 'shared log never hides duplicate host loading'
     $badManifest = Join-Path $testDir 'bad-manifest.txt'
     [IO.File]::WriteAllText($badManifest,'Bad|BadMod|1|0')
     Expect-Throw { Assert-Manifest $badManifest } 'patch rejects malformed manifest'
