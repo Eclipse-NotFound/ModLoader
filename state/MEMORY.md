@@ -1,14 +1,16 @@
 # ModLoader（通用清单加载器）MEMORY 快照
 
-> 最后更新：2026-09-23（v1.0.0 部署完成）
-> 冷启动阅读顺序：本文件 → journal.md → shared-knowledge\knowledge-validation\facts\mod-loader-patch-structure.md（2026-09-22 补充段）
+> 最后更新：2026-09-23（v1.0.0 静态核查）
+> 冷启动阅读顺序：本文件 → knowledge/discoveries/loader-review-2026-09-23.md → journal.md → shared-knowledge\knowledge-validation\facts\mod-loader-patch-structure.md（2026-09-22 补充段）
 
-## 当前状态：已部署，三目标实测通过
+## 当前状态：已部署；三目标运行验证为前一会话记录，本轮做了静态复核
 
 - 三份游戏 SWF（root pfe 1.02 / DLC pfe 1.03 / DLC pfeUI 1.04）的 MainFE 已打
   通用 loader 补丁（`loadModsFromManifest`，读 `mods\loader-manifest.txt`）。
-- 实测：1.02 七模组全载；1.03 恰载 Sandy/RConnect/RandomRooms；1.04 恰载
-  Sandy/RConnect（manifest 版本列门控生效）；三进程稳定。
+- 前一会话记录：1.02 七模组全载；1.03 Sandy/RConnect/RandomRooms；1.04
+  Sandy/RConnect，三进程稳定。本轮未重新启动游戏，不把旧记录作为本轮验证。
+- 2026-09-23 静态复核：三份线上 SWF 与 work 补丁产物 SHA-256 一致；三份
+  MainFE 导出差异符合预期；清单、release 文件和入口静态方法检查通过。
 - 旧 7/3/2 个专属 loader 调用点已移除；方法体留作死代码（保各模组补丁脚本幂等）。
 
 ## 关键资产
@@ -32,6 +34,10 @@
    详见 journal 2026-09-22 条目与 spike ToyT1-T5。
 3. ModLoader SharedObject 在部分受限上下文 flush 被拒（键仍会 trace）；
    验证模组装载用各模组自身文件日志（Local Store）更可靠。
+4. 2026-09-23 核查发现：冒烟脚本能被旧成功键骗过且不验证禁用项；补丁脚本
+   的幂等/旧调用检查过宽、全新检出缺 `work/` 会在参数阶段失败；一行同步异常
+   会中断后续清单加载；格式错误多数静默。
+   证据、影响与优先级见 `knowledge/discoveries/loader-review-2026-09-23.md`。
 
 ## 工作区契约影响（需用户同步到 AGENTS.md，agent 不改）
 
@@ -44,4 +50,5 @@
 ## 下一步候选
 
 - git 仓库已初始化（见 journal）；如需 AGENT_SCOPE/完整脚手架走 remains-new-mod。
-- 若 Steam 更新游戏：重跑 patch_game_swfs.ps1 + 三目标冒烟即可。
+- 若 Steam 更新游戏：先修/人工核对补丁脚本的调用集合断言；当前冒烟脚本
+  不足以证明本轮恰载 7/3/2，需改进后再作为门禁。
