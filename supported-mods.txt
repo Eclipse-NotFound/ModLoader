@@ -1,0 +1,10 @@
+# 已核验模组的版本范围。格式：目录名|入口类名|1.02|1.03|1.04
+# 扫描器只会在对应 release/<入口类名>.swf 存在且有 SWF 文件头时启用这些开关。
+# 未登记的新模组若符合 <目录>/release/XxxMod.swf 约定，将自动启用三个版本；入口类名为 XxxMod。
+ModSettings|ModSettingsMod|1|0|0
+Sandevistan|SandevistanMod|1|1|1
+Rconnect|RConnectMod|1|1|1
+RealisticVision|RealisticVisionMod|1|0|0
+MoreSkills&Weapons|MoreSkillsWeaponsMod|1|0|0
+TDFC|TDFCMod|1|0|0
+RandomRooms|RandomRoomsMod|1|1|0

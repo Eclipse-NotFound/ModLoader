@@ -20,11 +20,24 @@
 | `DLC/pfe.swf` | `90DEC445E60E352DCAD06B3171A3AE7B588DBF1FE6C8FB452FCEEC392AA9DB02` |
 | `DLC/pfeUI.swf` | `0BD5D24381B5AAEA50E40B2F95A9E54DFE4A7911AAFBA27AFF06961C82F350C7` |
 
+## 一键检测模组
+
+双击 [`RemainsModScanner.exe`](RemainsModScanner.exe)。程序会检查 `mods/<目录>/release/XxxMod.swf` 形式的正式模组包（入口类名为 `XxxMod`），更新游戏实际读取的 `mods/loader-manifest.txt`，然后显示三个游戏版本各准备加载几个模组。**程序不启动游戏**；关闭结果窗口后由玩家自己启动或重启游戏。它不修改游戏 SWF，也不扫描各模组的 `build/`、测试目录、`release/backup/` 或带旧版本后缀的备份包。
+
+现有七个模组的已知版本范围保存在 [`supported-mods.txt`](supported-mods.txt)。扫描器只在对应包存在且有基本 SWF 文件头时启用其原有版本开关；缺包时三个版本都关闭，包放回后自动恢复原有范围。未登记的新模组若符合上述目录和文件名约定，会按用户要求**自动在 1.02／1.03／1.04 全部启用**。这是自动发现与基本文件检查，不等于验证入口类、`init(main)` 或跨版本玩法兼容性；运行时失败仍由 v2 加载器逐项记录，其他模组继续尝试加载。若新模组有明确的版本限制，应把它登记进 `supported-mods.txt` 后重新扫描。
+
+只有名单内容改变时，程序才会写入新名单，并把旧名单备份到 `work/manifest-backups/`；失败时保留原名单。双击程序无需另外安装开发工具。需要从源码重建或做隔离回归时：
+
+    .\mods\ModLoader\tools\build_scanner.ps1
+    .\mods\ModLoader\tools\test_scanner.ps1
+
+命令行可用 `--dry-run --no-ui` 只预览，`--root <游戏目录> --no-ui` 则可针对隔离游戏目录测试。`RemainsModScanner.exe` 是本机生成产物，不纳入 Git；分发或换机器时先运行构建脚本。
+
 ## 日常维护
 
 清单每个非注释行必须恰有五列：`目录名|入口类名|1.02开关|1.03开关|1.04开关`。开关只能是 `0` 或 `1`。目录是 `mods/` 下的单个路径段；入口类名也是 `release/<入口类名>.swf` 的文件名。入口类必须能以 `public static function init(main)` 调用，参数类型只需能接收 MainFE 实例；现有模组既有 `main:*` 也有 `main:Object`。
 
-保留现有目录拼写：`Rconnect`（实际目录大小写靠 Windows 文件系统兼容）和 `MoreSkills&Weapons`。增加、禁用或改变版本覆盖时，编辑清单并重启游戏即可。行序只决定**发起加载请求**的顺序；各 SWF 异步完成，不能靠移动行保证 `init` 顺序或建立模组依赖。
+保留现有目录拼写：`Rconnect`（实际目录大小写靠 Windows 文件系统兼容）和 `MoreSkills&Weapons`。一键扫描启用时，编辑 `supported-mods.txt` 中的已知版本范围，再运行扫描器并重启游戏；直接编辑生成后的清单会在下次扫描时被覆盖。行序只决定**发起加载请求**的顺序；各 SWF 异步完成，不能靠移动行保证 `init` 顺序或建立模组依赖。
 
 v2 对清单去除行首尾空白和 UTF-8 BOM，检查列数、开关、入口重复和路径段；坏行会写 `err_manifest_<行号索引>` 并继续处理后续行。单个 SWF 加载或初始化失败会写 `err_<入口类>`，不阻止其余模块。清单不存在时记录 `err_loader`，模组不会加载。
 

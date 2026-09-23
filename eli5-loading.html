@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Remains 模组怎样加载？</title>
+  <style>
+    :root { color-scheme: light; --ink:#17323b; --muted:#577078; --paper:#f8f6ef; --card:#fffefa; --line:#cfdedb; --teal:#087f74; --teal-light:#e1f4ed; --orange:#c86b35; --orange-light:#fff0dd; --blue:#385f96; --blue-light:#e9f0fa; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:radial-gradient(circle at 15% 0%, #e4f4ee 0, transparent 32%), radial-gradient(circle at 85% 12%, #fff0d8 0, transparent 28%), var(--paper); color:var(--ink); font:16px/1.55 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif; }
+    button { font:inherit; }
+    .wrap { max-width:1220px; margin:auto; padding:36px 24px 64px; }
+    .eyebrow { font-size:.75rem; font-weight:850; letter-spacing:.17em; text-transform:uppercase; color:var(--teal); }
+    h1 { font-size:clamp(2.5rem,5vw,5rem); letter-spacing:-.06em; line-height:1.05; margin:12px 0 16px; max-width:850px; }
+    .lead { max-width:880px; font-size:clamp(1.1rem,1.8vw,1.42rem); color:var(--muted); margin:0 0 26px; }
+    .lead strong { color:var(--ink); }
+    .controls { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin:28px 0 20px; }
+    .control-label { font-weight:800; margin-right:5px; }
+    .tabs { display:flex; flex-wrap:wrap; gap:8px; }
+    .tab,.sim-button { border:2px solid var(--line); background:#fff; color:var(--ink); border-radius:100px; padding:9px 17px; cursor:pointer; font-weight:750; transition:transform .15s,background .15s,border-color .15s; }
+    .tab:hover,.sim-button:hover { transform:translateY(-2px); border-color:var(--teal); }
+    .tab[aria-pressed="true"] { background:var(--ink); border-color:var(--ink); color:white; }
+    .tab small { font-size:.68em; opacity:.75; }
+    .snapshot { margin-left:auto; font-size:.82rem; color:var(--muted); }
+    .flow { display:grid; grid-template-columns:minmax(0,1fr) 48px minmax(0,1.08fr) 48px minmax(0,1fr); align-items:stretch; gap:7px; }
+    .panel { border:2px solid var(--line); border-radius:28px; background:var(--card); min-height:450px; padding:22px; box-shadow:0 16px 36px #16363b0d; display:flex; flex-direction:column; overflow:hidden; }
+    .panel-index { display:inline-flex; align-items:center; gap:9px; font-weight:850; font-size:.9rem; }
+    .number { display:inline-grid; place-items:center; width:30px; height:30px; border-radius:50%; background:var(--ink); color:#fff; }
+    .panel h2 { font-size:clamp(1.4rem,2vw,1.85rem); letter-spacing:-.035em; margin:13px 0 8px; line-height:1.2; }
+    .panel p { margin:0; color:var(--muted); }
+    .arrow { display:grid; place-items:center; color:var(--teal); font-size:3rem; font-weight:900; }
+    .game-screen { margin:23px auto 16px; width:min(100%,285px); aspect-ratio:1.27; border:10px solid #294d59; border-radius:18px; background:linear-gradient(160deg,#97d4c0,#dff3d6 62%,#f5d6a6); position:relative; box-shadow:0 10px 0 #17323b,0 20px 22px #17323b29; overflow:hidden; }
+    .screen-sun { position:absolute; right:25px; top:22px; width:61px; height:61px; background:#ffdb88; border-radius:50%; }
+    .screen-hill { position:absolute; width:140%; height:120px; left:-15%; bottom:-54px; border-radius:50%; background:#547f70; }
+    .screen-menu { position:absolute; left:20px; bottom:29px; background:#fffef3e8; padding:8px 15px; border-radius:10px; font-size:1.18rem; font-weight:900; box-shadow:0 5px 14px #17323b22; }
+    .inside { margin-top:auto; background:var(--teal-light); border:2px solid #b2ddd0; border-radius:17px; padding:14px; display:flex; align-items:center; gap:12px; font-weight:800; }
+    .inside .icon { display:grid; place-items:center; width:48px; height:48px; flex:none; border-radius:14px; background:var(--teal); color:white; font-size:1.5rem; }
+    .inside small { display:block; color:#456d69; font-weight:600; line-height:1.4; }
+    .file-path { font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:.83rem; display:inline-block; margin-top:14px; padding:6px 10px; background:#edf4f1; border-radius:8px; overflow-wrap:anywhere; }
+    .sheet { margin:21px 0 0; border:2px solid #afc8c6; border-radius:15px; background:#fff; padding:12px; box-shadow:7px 8px 0 #d7e7e3; transform:rotate(-1deg); }
+    .sheet-head { display:flex; justify-content:space-between; align-items:center; padding:3px 6px 8px; border-bottom:2px solid #dce9e5; font-weight:850; }
+    .sheet-head span:last-child { color:var(--teal); font-size:.81rem; }
+    .mod-row { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:5px 7px; border-bottom:1px solid #e8efec; font-size:.84rem; transition:opacity .2s,background .2s; }
+    .mod-row:last-child { border-bottom:0; }
+    .mod-row.off { opacity:.4; }
+    .mod-row.on { background:#f2fbf6; }
+    .mod-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .status { flex:none; min-width:42px; text-align:center; border-radius:100px; padding:2px 5px; font-weight:850; }
+    .on .status { background:var(--teal-light); color:var(--teal); }
+    .off .status { background:#edf0ef; color:#708582; }
+    .sheet-caption { margin-top:auto !important; padding-top:14px; font-size:.83rem; }
+    .count-hero { margin:25px auto 10px; text-align:center; }
+    .count { display:block; font-size:clamp(5rem,9vw,8rem); line-height:1; font-weight:950; letter-spacing:-.09em; color:var(--teal); }
+    .count-label { font-weight:850; font-size:1.1rem; }
+    .packages { min-height:125px; display:flex; align-content:center; justify-content:center; flex-wrap:wrap; gap:9px; margin:15px 0; }
+    .package { min-width:62px; max-width:100%; background:var(--orange-light); border:2px solid #e5b27d; color:#7c4b27; border-radius:11px; padding:8px 10px; text-align:center; font-weight:850; font-size:.73rem; box-shadow:0 5px 0 #e6c49b; }
+    .package::before { content:"◆"; display:block; font-size:1.25rem; line-height:1.1; }
+    .finish { margin-top:auto; background:var(--blue-light); border-radius:15px; padding:12px 14px; color:#2f527d !important; font-weight:800; }
+    .big-rule { margin:25px 0 0; display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+    .rule { min-height:116px; border-radius:20px; padding:18px; display:flex; gap:14px; align-items:flex-start; font-weight:740; background:#fff; border:2px solid var(--line); }
+    .rule-icon { font-size:1.8rem; line-height:1; flex:none; }
+    .rule small { display:block; font-weight:500; color:var(--muted); margin-top:3px; }
+    .sim { margin-top:22px; background:#17323b; color:white; border-radius:25px; padding:21px 24px; display:grid; grid-template-columns:1fr auto; gap:12px 20px; align-items:center; }
+    .sim h2 { font-size:1.43rem; margin:0 0 3px; }
+    .sim p { margin:0; color:#c7ddda; }
+    .sim-button { border-color:#92c7b8; background:#dff4e9; white-space:nowrap; }
+    .sim-result { grid-column:1/-1; display:flex; flex-wrap:wrap; align-items:center; gap:10px; min-height:37px; }
+    .sim-pill { padding:5px 11px; border-radius:100px; background:#37545b; color:#eaf8f1; font-weight:800; font-size:.89rem; }
+    .sim-pill.bad { background:#74493f; color:#ffe3d8; }
+    .fine { font-size:.82rem; color:#9fbfba; }
+    details { margin-top:28px; border:2px solid var(--line); border-radius:20px; background:#fff; padding:0 20px; }
+    summary { cursor:pointer; padding:17px 0; font-weight:900; font-size:1.08rem; }
+    .detail-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; border-top:1px solid var(--line); padding:17px 0 20px; }
+    .detail-grid div { background:#f6faf8; border-radius:12px; padding:13px; }
+    .detail-grid strong { display:block; margin-bottom:4px; }
+    .detail-grid p { margin:0; font-size:.9rem; color:var(--muted); }
+    code { font-family:ui-monospace,SFMono-Regular,Consolas,monospace; background:#edf2ef; border-radius:4px; padding:1px 4px; overflow-wrap:anywhere; }
+    .footer { font-size:.8rem; color:var(--muted); margin-top:18px; }
+    @media (max-width:900px) { .flow { grid-template-columns:1fr; gap:4px; } .arrow { transform:rotate(90deg); height:32px; font-size:2.3rem; } .panel { min-height:0; } .game-screen { width:240px; } .big-rule { grid-template-columns:1fr; } .snapshot { margin-left:0; width:100%; } }
+    @media (max-width:620px) { .wrap { padding:26px 15px 42px; } .sim { grid-template-columns:1fr; } .sim-button { justify-self:start; } .detail-grid { grid-template-columns:1fr; } .rule { min-height:0; } }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none !important; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="eyebrow">Remains · 当前 v2 加载器</div>
+    <h1>模组是怎样进游戏的？</h1>
+    <p class="lead"><strong>像按名单邀请客人。</strong>负责读名单的“小管理员”住在游戏文件里；名单和模组包放在游戏文件外面。</p>
+
+    <div class="controls" aria-label="选择游戏版本">
+      <span class="control-label">先选正在玩的版本：</span>
+      <div class="tabs" role="group" aria-label="游戏版本">
+        <button class="tab" type="button" data-version="102" aria-pressed="true">1.02 <small>日常游玩</small></button>
+        <button class="tab" type="button" data-version="103" aria-pressed="false">1.03</button>
+        <button class="tab" type="button" data-version="104" aria-pressed="false">1.04</button>
+      </div>
+      <span class="snapshot">按 2026-09-23 的清单绘制 · 仅供演示，不改游戏</span>
+    </div>
+
+    <section class="flow" aria-label="模组加载的三个阶段">
+      <div class="panel">
+        <div class="panel-index"><span class="number">1</span> 先打开游戏</div>
+        <h2>菜单出现后，管理员开始工作</h2>
+        <p>启动文件决定这次打开哪份游戏。</p>
+        <div class="game-screen" role="img" aria-label="已经打开的游戏菜单">
+          <div class="screen-sun"></div><div class="screen-hill"></div><div class="screen-menu">游戏菜单</div>
+        </div>
+        <div class="inside"><span class="icon" aria-hidden="true">☷</span><span>小管理员在游戏文件里<small>它负责看名单、搬进模组</small></span></div>
+        <span class="file-path" id="game-file">application.xml → pfe.swf</span>
+      </div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="panel">
+        <div class="panel-index"><span class="number">2</span> 再看外面的名单</div>
+        <h2>只挑这一版打了“开”的模组</h2>
+        <p>同一张名单，三个版本各看自己那一栏。</p>
+        <div class="sheet" aria-label="当前版本的模组开关">
+          <div class="sheet-head"><span>模组名单</span><span id="sheet-version">1.02 栏</span></div>
+          <div id="manifest-rows"></div>
+        </div>
+        <p class="sheet-caption">名单位置：<code>mods/loader-manifest.txt</code></p>
+      </div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="panel">
+        <div class="panel-index"><span class="number">3</span> 搬进模组包</div>
+        <h2>每个包装好后，自己开始运行</h2>
+        <p>管理员逐个发出加载请求；谁先装完不一定。</p>
+        <div class="count-hero"><span class="count" id="enabled-count">7</span><span class="count-label">个模组被邀请</span></div>
+        <div class="packages" id="packages" aria-label="本版本启用的模组"></div>
+        <p class="finish">装好一个，就把游戏交给它：<code>init(main)</code></p>
+      </div>
+    </section>
+
+    <section class="big-rule" aria-label="记住这三件事">
+      <div class="rule"><span class="rule-icon" aria-hidden="true">✎</span><span>新增模组？放入正式目录，双击检测程序。<small>名单更新后，再启动或重启游戏。</small></span></div>
+      <div class="rule"><span class="rule-icon" aria-hidden="true">↻</span><span>游戏文件被 Steam 换掉？<small>要重新把“小管理员”装回去。</small></span></div>
+      <div class="rule"><span class="rule-icon" aria-hidden="true">⇢</span><span>名单从上往下发邀请。<small>不能保证模组也按这个顺序装完。</small></span></div>
+    </section>
+
+    <section class="sim" aria-label="单个模组加载失败时的情况">
+      <div><h2>如果有一个模组坏了呢？</h2><p>管理员会记下错误，继续尝试其他模组。</p></div>
+      <button class="sim-button" id="failure-button" type="button" aria-pressed="false">模拟一个模组失败</button>
+      <div class="sim-result" id="sim-result" aria-live="polite"><span class="sim-pill">目前演示：全部正常</span><span class="fine">这里的按钮不会操作真实游戏。</span></div>
+    </section>
+
+    <details>
+      <summary>想知道图中的真实文件和“开始运行”是什么意思？</summary>
+      <div class="detail-grid">
+        <div><strong>谁是“小管理员”？</strong><p>三份游戏 SWF 中各有一段加载代码。<code>mods/ModLoader</code> 目录放的是维护、补丁和测试工具；日常读名单的是游戏 SWF 里的代码。</p></div>
+        <div><strong>名单写了什么？</strong><p>每行是“目录名｜入口名｜1.02 开关｜1.03 开关｜1.04 开关”。<code>1</code> 表示加载，<code>0</code> 表示跳过。</p></div>
+        <div><strong>模组包在哪里？</strong><p>管理员从 <code>mods/&lt;目录名&gt;/release/&lt;入口名&gt;.swf</code> 找包。找不到或包坏了，就记错误，再处理其他包。</p></div>
+        <div><strong><code>init(main)</code> 是什么？</strong><p>模组加载成功后，管理员调用它约定的入口，把游戏主对象交给它；这一步才是模组开始接入游戏。</p></div>
+        <div><strong>如何知道它成功了吗？</strong><p>加载器在本机的 <code>ModLoader</code> 状态记录里写本次启动编号，以及“已请求”“已成功”或“出错”。它每次启动会清掉上一轮状态。</p></div>
+        <div><strong>如果整张名单不见了？</strong><p>管理员会记录读取错误；这一轮无法知道该邀请谁，因此模组不会加载。游戏本身仍可能继续运行。</p></div>
+      </div>
+    </details>
+    <p class="footer">图示依据当前 <code>application.xml</code>、<code>app.xml</code>、<code>app104.xml</code>、<code>mods/loader-manifest.txt</code> 与 ModLoader v2 实现。双击 <code>mods/ModLoader/RemainsModScanner.exe</code> 可重新检测模组并更新真实名单；本图是快照，不会自动更新。</p>
+  </main>
+  <script>
+    const mods = [
+      { name:'ModSettings', flags:[1,0,0] },
+      { name:'Sandevistan', flags:[1,1,1] },
+      { name:'RConnect', flags:[1,1,1] },
+      { name:'RealisticVision', flags:[1,0,0] },
+      { name:'MoreSkills&Weapons', flags:[1,0,0] },
+      { name:'TDFC', flags:[1,0,0] },
+      { name:'RandomRooms', flags:[1,1,0] }
+    ];
+    const versions = {
+      '102': { index:0, label:'1.02', file:'application.xml → pfe.swf' },
+      '103': { index:1, label:'1.03', file:'app.xml → DLC/pfe.swf' },
+      '104': { index:2, label:'1.04', file:'app104.xml → DLC/pfeUI.swf' }
+    };
+    let current = '102';
+    let failing = false;
+    function render() {
+      const v = versions[current];
+      const enabled = mods.filter(m => m.flags[v.index]);
+      document.querySelectorAll('.tab').forEach(tab => tab.setAttribute('aria-pressed', String(tab.dataset.version === current)));
+      document.getElementById('game-file').textContent = v.file;
+      document.getElementById('sheet-version').textContent = v.label + ' 栏';
+      document.getElementById('enabled-count').textContent = enabled.length;
+      const rows = document.getElementById('manifest-rows');
+      rows.replaceChildren(...mods.map(m => {
+        const on = !!m.flags[v.index];
+        const row = document.createElement('div'); row.className = 'mod-row ' + (on ? 'on' : 'off');
+        const name = document.createElement('span'); name.className = 'mod-name'; name.textContent = m.name;
+        const status = document.createElement('span'); status.className = 'status'; status.textContent = on ? '开' : '关';
+        row.append(name,status); return row;
+      }));
+      const packages = document.getElementById('packages');
+      packages.replaceChildren(...enabled.map(m => {
+        const box = document.createElement('span'); box.className = 'package'; box.textContent = m.name; return box;
+      }));
+      const result = document.getElementById('sim-result');
+      result.replaceChildren();
+      function pill(text,bad) { const el=document.createElement('span'); el.className='sim-pill'+(bad?' bad':''); el.textContent=text; result.append(el); }
+      if (failing) { pill('1 个失败，已记下错误',true); pill((enabled.length - 1) + ' 个仍可尝试'); }
+      else { pill('目前演示：全部正常'); }
+      const note=document.createElement('span'); note.className='fine'; note.textContent='这里的按钮不会操作真实游戏。'; result.append(note);
+      const failureButton=document.getElementById('failure-button');
+      failureButton.textContent=failing?'恢复正常演示':'模拟一个模组失败';
+      failureButton.setAttribute('aria-pressed',String(failing));
+    }
+    document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click',() => { current=tab.dataset.version; render(); }));
+    document.getElementById('failure-button').addEventListener('click',() => { failing=!failing; render(); });
+    render();
+  </script>
+</body>
+</html>
