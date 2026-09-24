@@ -338,7 +338,10 @@ function Transform-MainFe([string]$src, [string]$relPath) {
     $importAnchorNet = '   import flash.net.URLRequest;'
     $importAnchorUi = '   import flash.ui.ContextMenu;'
     foreach ($imp in @('   import flash.net.SharedObject;', '   import flash.net.URLLoader;',
-                       '   import flash.utils.Dictionary;')) {
+                       '   import flash.utils.Dictionary;',
+                       '   import flash.events.Event;', '   import flash.events.IOErrorEvent;',
+                       '   import flash.net.URLRequest;', '   import flash.display.Loader;',
+                       '   import flash.display.LoaderInfo;', '   import flash.system.LoaderContext;')) {
         if ($src.Contains($imp)) { continue }
         $anchor = if ($imp.Contains('Dictionary')) {
             if ($src.Contains('   import flash.utils.getQualifiedClassName;')) {

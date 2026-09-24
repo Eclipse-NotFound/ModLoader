@@ -1,0 +1,52 @@
+{
+  "format": "RSPLICE1",
+  "generator": "mkpatch.py 2026-09-24",
+  "loader_version": "v2.3.0",
+  "targets": [
+    {
+      "target": "pfe.swf",
+      "vanillas": [
+        {
+          "build": "1.02",
+          "sha256": "ee2599b0e518750c454b6d099fb28afea1e74507caa59c9454d2f75de97e30dd",
+          "patch": "patches/pfe_1.02_to_modloader.rsplice",
+          "patched_sha256": "f39cbbd6c5352a3932fc739d9809164462eefccf1496361cbba51949ce81ee11"
+        }
+      ]
+    },
+    {
+      "target": "DLC/pfe.swf",
+      "vanillas": [
+        {
+          "build": "1.03a",
+          "sha256": "c1b6f0cf9077ae78304f807fb3789b2d7abeca333c0040438b5f911a9bb0d929",
+          "patch": "patches/pfe_1.03a_to_modloader.rsplice",
+          "patched_sha256": "db86d18c8082e874fdf27d144094fcb2e8f06bf3d9b0ff8d31023ba96f069df0"
+        },
+        {
+          "build": "1.03b",
+          "sha256": "3fe3e13741dbca09938614881dd8afc83d61924ab9a2a6ee81b6710e956f6e85",
+          "patch": "patches/pfe_1.03b_to_modloader.rsplice",
+          "patched_sha256": "ff01f25d1dd897f2cf287fb3763aafc56d5dcfe30fdf482d7e91adf578ca4108"
+        }
+      ]
+    },
+    {
+      "target": "DLC/pfeUI.swf",
+      "vanillas": [
+        {
+          "build": "1.04a",
+          "sha256": "01d21d94661d4319f6185e61033e2b54a1103d1fd788a654f69f991c19a640b8",
+          "patch": "patches/pfe_1.04a_to_modloader.rsplice",
+          "patched_sha256": "d23b1d036b4c6f30a63231879b287ca94ae372ed33ddfc8fc5a5ce1f19174913"
+        },
+        {
+          "build": "1.04b",
+          "sha256": "3cb37d48df3dc5721b0752e634b8e8d7e66c3487fdbe0b3b654651f634beaf8e",
+          "patch": "patches/pfe_1.04b_to_modloader.rsplice",
+          "patched_sha256": "7982ab5527f2e779b48e7123e0ff9cf73649a353c44171e18cb5dd54170f00f9"
+        }
+      ]
+    }
+  ]
+}
