@@ -2,13 +2,15 @@ param([ValidateSet('all','without-msw')][string]$Scenario='all',
     [string]$AnimateRoot='D:\Program Files\Adobe Animate 2024',
     [switch]$InstalledHost, [switch]$SmokeOnly,
     [string]$MigrateFrom='',
+    [ValidateSet('MenuProbe','GroupProbe')][string]$Probe='MenuProbe',
+    [string]$MSWSwf='', [string]$HostSwf='',
     [ValidatePattern('^[a-z0-9-]*$')][string]$RunLabel='')
 $ErrorActionPreference='Stop'
 $label=if($RunLabel){$RunLabel}else{$Scenario}
-$probeOutput='out/MenuProbe-'+$label+'.swf'
+$probeOutput='out/'+$Probe+'-'+$label+'.swf'
 Push-Location $PSScriptRoot
 try {
-    & (Join-Path $AnimateRoot 'jre\bin\java.exe') '-Dfile.encoding=UTF-8' -jar (Join-Path $AnimateRoot 'Common\Configuration\ActionScript 3.0\bin\mxmlc.jar') ("-library-path+="+(Join-Path $AnimateRoot 'Common\Configuration\ActionScript 3.0\FP11.1\playerglobal.swc')) '-target-player=11.1' '-debug=true' '-source-path+=tests' ('-output='+$probeOutput) 'tests/MenuProbe.as'
+    & (Join-Path $AnimateRoot 'jre\bin\java.exe') '-Dfile.encoding=UTF-8' -jar (Join-Path $AnimateRoot 'Common\Configuration\ActionScript 3.0\bin\mxmlc.jar') ("-library-path+="+(Join-Path $AnimateRoot 'Common\Configuration\ActionScript 3.0\FP11.1\playerglobal.swc')) '-target-player=11.1' '-debug=true' '-source-path+=tests' ('-output='+$probeOutput) ('tests/'+$Probe+'.as')
     if($LASTEXITCODE -ne 0){throw 'Menu probe compilation failed'}
 } finally {Pop-Location}
 $gameRoot=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
@@ -18,6 +20,8 @@ New-Item -ItemType Directory -Force $runtime,$out | Out-Null
 $mapping=@{ModLoader='ModLoaderMod.swf';ModSettings='ModSettingsMod.swf';'MoreSkills&Weapons'='MoreSkillsWeaponsMod.swf';Sandevistan='SandevistanMod.swf';RealisticVision='RealisticVisionMod.swf';TDFC='TDFCMod.swf';RConnect='RConnectMod.swf';RandomRooms='RandomRoomsMod.swf'}
 $candidates=@{}
 if(!$InstalledHost){$candidates.ModLoader=Join-Path $PSScriptRoot 'out\ModLoaderMod.swf'}
+if($MSWSwf){$candidates['MoreSkills&Weapons']=(Resolve-Path -LiteralPath $MSWSwf).Path}
+if($HostSwf){$candidates.ModLoader=(Resolve-Path -LiteralPath $HostSwf).Path}
 if($MigrateFrom){
     if($SmokeOnly -or $Scenario -ne 'all'){throw 'MigrateFrom requires full all scenario'}
     $candidates.ModSettings=(Resolve-Path -LiteralPath $MigrateFrom).Path
@@ -40,13 +44,13 @@ Copy-Item -LiteralPath (Join-Path $PSScriptRoot '..\supported-mods.txt') -Destin
 if($LASTEXITCODE -ne 0){throw 'Private manifest scan failed'}
 $manifest=Get-Content -LiteralPath (Join-Path $runtime 'mods\loader-manifest.txt')
 if($Scenario -eq 'without-msw'){$manifest=@($manifest | Where-Object {$_ -notmatch '^MoreSkills&Weapons\|'})}
-$manifest+= 'MenuProbe|MenuProbe|1|0|0'
+$manifest+= "$Probe|$Probe|1|0|0"
 [IO.File]::WriteAllLines((Join-Path $runtime 'mods\loader-manifest.txt'),$manifest,[Text.UTF8Encoding]::new($false))
-$probeDir=Join-Path $runtime 'mods\MenuProbe\release'
+$probeDir=Join-Path $runtime ('mods\'+$Probe+'\release')
 New-Item -ItemType Directory -Force $probeDir | Out-Null
-Copy-Item -LiteralPath (Join-Path $PSScriptRoot $probeOutput) -Destination (Join-Path $probeDir 'MenuProbe.swf')
+Copy-Item -LiteralPath (Join-Path $PSScriptRoot $probeOutput) -Destination (Join-Path $probeDir ($Probe+'.swf'))
 $hashes.pfe=(Get-FileHash -LiteralPath (Join-Path $runtime 'pfe.swf')).Hash
-$hashes.probe=(Get-FileHash -LiteralPath (Join-Path $probeDir 'MenuProbe.swf')).Hash
+$hashes.probe=(Get-FileHash -LiteralPath (Join-Path $probeDir ($Probe+'.swf'))).Hash
 $testId='pfe-modsettings-menus-'+[guid]::NewGuid().ToString('N')
 $descriptor=Join-Path $runtime 'app_modsettings_test.xml'
 @"

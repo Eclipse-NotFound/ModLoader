@@ -98,8 +98,8 @@ package
                if(!w.allLandsLoaded) return;
                ok(countName(main,"ModSettingsCarrier") == 1, "one stable registry carrier");
                if(readApp("host-kind.txt") != "legacy")
-                  ok(carrier.hostId == "ModLoader" && carrier.hostVersion == "2.2.0", "settings are hosted by ModLoader runtime");
-               ok(api.getPages().length == (scenario == "without-msw" ? 3 : 7), "all legacy page IDs registered once");
+                  ok(carrier.hostId == "ModLoader" && carrier.hostVersion == "2.3.0", "settings are hosted by ModLoader runtime");
+               ok(api.getPages().length == (scenario == "without-msw" ? 3 : page("msw-pointer") != null ? 8 : 7), "all legacy page IDs registered once");
                if(scenario != "legacy")
                {
                   ok(api.apiVersion == 1 && api.menuVersion == 1, "old API version and new menu capability coexist");
@@ -110,7 +110,7 @@ package
                   if(scenario == "all")
                   {
                      ids = []; for each(var p:Object in groups[0].pages) ids.push(p.featureName);
-                     ok(ids.join(",") == "基础设置,智能武器,非致命激光枪,锁定豁免", "MSW four feature labels and order");
+                     ok(ids.join(",") == "基础设置,智能武器,非致命激光枪,锁定豁免" + (page("msw-pointer") != null ? ",激光笔" : ""), "MSW current feature labels and order");
                   }
                }
                w.mm.active = false; w.newGame(-1, "LP", null); advance(1); return;
@@ -160,7 +160,7 @@ package
                }
                ok(current("msw"), "first opening defaults to MSW base");
                ok(tabIds(false).join(",") == "msw,sandevistan,realisticvision,rconnect", "four visible mod tabs");
-               ok(tabIds(true).join(",") == "msw,msw-smart,msw-laser,msw-exempt", "four visible feature tabs");
+               ok(tabIds(true).join(",") == "msw,msw-smart,msw-laser,msw-exempt" + (page("msw-pointer") != null ? ",msw-pointer" : ""), "current MSW feature tabs");
                screenshot("menus-base.png");
                click("SettingsFeatureTab:msw-smart"); ok(current("msw-smart"), "smart feature tab opens");
                var cb:* = rows()[0].settingsSc;
@@ -170,12 +170,13 @@ package
                rows()[0].settingsItem["set"](old);
                click("SettingsFeatureTab:msw-laser"); ok(current("msw-laser"), "laser feature tab opens");
                click("SettingsFeatureTab:msw-exempt");
-               ok(rows().length == 16, "exemption first content page has 16 rows");
+               var grouped:Boolean = page("msw-exempt").groups != null && page("msw-exempt").groups.length > 0;
+               ok(rows().length == (grouped ? 0 : 16), "exemption first page uses registered presentation");
                checkGeometry();
                for each(var exemption:Object in page("msw-exempt").items) exemption["set"](true);
                var smart:* = item("msw-smart", "smartEnabled"); old = smart["get"](); smart["set"](true);
-               click("SettingsNextItems");
-               ok(rows().length == 15 && current("msw-exempt"), "31 exemptions remain in one feature with second content page");
+               if(grouped) click("SettingsGroupExpand:devices"); else click("SettingsNextItems");
+               ok(rows().length == (grouped ? 8 : 15) && current("msw-exempt"), "31 exemptions remain accessible in one feature");
                click("SettingsReset");
                var allReset:Boolean = true;
                for each(exemption in page("msw-exempt").items) if(exemption["get"]() !== false) allReset = false;
@@ -342,7 +343,7 @@ package
          ok(text.indexOf("lastErr=") < 0 && text.indexOf("menuStorageError=") < 0, "no UI or menu persistence error");
          if(run == "smoke")
          {
-            ok(text.indexOf("v0.3.1 loaded") >= 0, "installed host reports new version");
+            ok(text.indexOf("v0.4.0 loaded") >= 0, "installed host reports new version");
             var frames:int = 0; var re:RegExp = /frames=(\d+)/g; var match:Object;
             while((match = re.exec(text)) != null) frames = Math.max(frames, int(match[1]));
             ok(frames >= 600, "installed host frame heartbeat continues after menu operations");

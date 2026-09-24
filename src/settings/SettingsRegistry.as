@@ -5,6 +5,7 @@ package
    {
       public const apiVersion:int = 1;
       public const menuVersion:int = 1;
+      public const groupVersion:int = 1;
       private var entries:Array = [];
       private var modules:Array = [];
       private var moduleRevision:int = -1;
@@ -57,11 +58,25 @@ package
          }
          var page:Object = null;
          for each(var p:Object in entries) if(p.modId == modId) { page = p; break; }
+         var grouped:Array = [];
+         var explicitGroups:Boolean = navigation != null && navigation.hasOwnProperty("groups");
+         try
+         {
+            if(explicitGroups) grouped = SettingsGroups.normalize(navigation.groups, items);
+            else if(page != null && page.groups != null) grouped = SettingsGroups.normalize(page.groups, items);
+         }
+         catch(groupError:*)
+         {
+            report("invalid groups in " + modId + ":" + groupError);
+            if(explicitGroups) return; // Reject atomically, keeping any existing valid page.
+            // Legacy refresh may remove items. Keep that flat page usable without stale groups.
+         }
          if(page == null) { page = {modId:modId}; entries.push(page); }
          page.displayName = displayName == null || displayName == "" ? modId : displayName;
          page.items = items;
          page.onPageClose = onPageClose;
          page.desc = desc;
+         page.groups = grouped;
          // modId remains the legacy page ID. Grouping is additional metadata only.
          if(navigation != null || page.moduleId == null)
          {

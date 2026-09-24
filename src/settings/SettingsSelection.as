@@ -8,6 +8,7 @@ package
       private var storage:SharedObject;
       private var moduleId:String = "";
       private var features:Object = {};
+      private var expandedGroups:Object = {};
       private var log:SettingsLog;
 
       public function SettingsSelection(diagnostics:SettingsLog)
@@ -18,6 +19,7 @@ package
             storage = SharedObject.getLocal("ModSettingsMenu", "/");
             if(storage.data.moduleId is String) moduleId = storage.data.moduleId;
             if(storage.data.features != null) features = storage.data.features;
+            if(storage.data.expandedGroups != null) expandedGroups = storage.data.expandedGroups;
          }
          catch(e:*) { report(e); }
       }
@@ -48,6 +50,18 @@ package
          save();
       }
 
+      public function expandedGroup(pageId:String):String
+      {
+         var id:* = expandedGroups["$" + pageId];
+         return id is String ? id : "";
+      }
+
+      public function chooseGroup(pageId:String, groupId:String):void
+      {
+         expandedGroups["$" + pageId] = groupId;
+         save();
+      }
+
       private function save():void
       {
          try
@@ -55,6 +69,7 @@ package
             if(storage == null) return;
             storage.data.moduleId = moduleId;
             storage.data.features = features;
+            storage.data.expandedGroups = expandedGroups;
             storage.flush();
          }
          catch(e:*) { report(e); }

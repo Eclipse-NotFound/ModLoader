@@ -51,7 +51,7 @@ package
             var host:*=main.getChildByName("ModSettingsCarrier");
             if(plan.content=="pfe.swf" && !plan.failure)
             {
-               ok(host!=null && host.hostId=="ModLoader" && host.hostVersion=="2.2.0","embedded settings host published");
+               ok(host!=null && host.hostId=="ModLoader" && host.hostVersion=="2.3.0","embedded settings host published");
                ok(host.modAPI.apiVersion==1 && host.modAPI.menuVersion==1,"existing settings contract preserved");
             }
             else ok(host==null,"unsupported or failed settings runtime publishes no host");

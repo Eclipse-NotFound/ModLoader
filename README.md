@@ -1,6 +1,6 @@
-# Remains ModLoader v2.2.0
+# Remains ModLoader v2.3.0
 
-> 2026-09-24：已内置并安装设置中枢，运行模块 v2.2.0、设置服务 v0.3.1。游戏内清单引导仍为 v2，扫描器仍为 v2.1；本次未重打游戏 SWF。设置仅支持 1.02，加载器保留 1.03／1.04 原有支持。实施、验证与回滚见 [合并记录](knowledge/experiments/settings-merge-2026-09-24.md)。
+> 2026-09-24：运行模块 v2.3.0、设置服务 v0.4.0 已安装，增加通用可展开分组，MSW 锁定豁免首个接入。游戏内清单引导仍为 v2，扫描器仍为 v2.1；本次未重打游戏 SWF。设置仅支持 1.02，加载器保留 1.03／1.04 原有支持。当前验证与回滚见 [分组记录](knowledge/experiments/grouped-settings-2026-09-24.md)，首次内置过程见 [合并记录](knowledge/experiments/settings-merge-2026-09-24.md)。
 
 ## 当前结构
 
@@ -47,7 +47,7 @@ v2 对清单去除行首尾空白和 UTF-8 BOM，检查列数、开关、入口�
 
 ## 状态与验证
 
-设置界面和接口说明见 [settings-interface.md](docs/settings-interface.md)。原两级菜单、MSW F6 路由、页面 ID、回调和设置归属均保留。菜单位置仍存于 `ModSettingsMenu`（路径 `/`），不要迁入下面每次启动被清空的 `ModLoader` 诊断存储。设置日志继续使用 `ModSettings.log`，同时输出运行模块和设置服务版本；载体附加 `hostId=ModLoader`、`hostVersion=2.2.0` 供诊断。
+设置界面和接口说明见 [settings-interface.md](docs/settings-interface.md)。原两级菜单、MSW F6 路由、页面 ID、回调和设置归属均保留。`groupVersion=1` 支持可选分组元数据，平面 `items` 接口不变。菜单位置及每页展开组仍存于 `ModSettingsMenu`（路径 `/`），不要迁入下面每次启动被清空的 `ModLoader` 诊断存储。设置日志继续使用 `ModSettings.log`，同时输出运行模块和设置服务版本；载体附加 `hostId=ModLoader`、`hostVersion=2.3.0` 供诊断。
 
 加载器每次启动会清空自己的 `ModLoader` SharedObject，写入新的 `session=run_<毫秒>_<随机数>`，以及 `boot_start`、`requested_<入口类>`、`ok_<入口类>`、`boot` 或 `err_*`。值中带相同的 run id 和时间。SharedObject 若不能刷新，游戏仍可继续加载模组，但状态证据不可用；冒烟测试会保守地判失败。
 
@@ -79,7 +79,15 @@ v2 对清单去除行首尾空白和 UTF-8 BOM，检查列数、开关、入口�
 
 菜单和启动测试复制当前正式客户端到独立游戏目录，使用唯一 AIR app id，保持真实存档和用户进程不受影响。`test-menus.ps1 -MigrateFrom <旧设置SWF绝对路径>` 用同一测试存储先运行旧宿主再切换新宿主，验证原位置记忆继承。`test-startup.ps1` 同时验证三版本正常加载、运行模块缺失及初始化失败，故障仅注入测试副本。安装后用 `test-menus.ps1 -InstalledHost -SmokeOnly -RunLabel installed` 检查正式字节的菜单、版本与持续心跳。
 
-本轮通过旧版记忆迁移 71 项、无 MSW 20 项、中文按钮/记录页往返 24 项、三版本及故障注入 94 项、完整客户端安装前后各 50 项。验证范围是加载与设置，不是全部模组玩法认证。正式运行文件 15110 字节，SHA-256：`C9701A91013899E2674F29990AC6E4977A6C4678D0AE47D8C14324F97084704C`。
+当前分组验证：跨三进程 62+6+4 项、新 MSW 配旧宿主 8 项、旧客户端及新组合各 50 项；最终文件中文按钮/记录往返 24 项、安装前后各 65 项通过。正式运行文件 17282 字节，SHA-256：`375951AE86BCCD8886CDEAC8B479A339877CEE30F5D1B489C21FE06C736C0BF5`。验证范围和精确产物对应关系见分组记录，不代表全部模组玩法认证。
+
+分组探针：`./build/test-menus.ps1 -Probe GroupProbe -RunLabel groups`。指定候选客户端使用 `-MSWSwf <绝对路径>`；旧宿主兼容使用 `-HostSwf <绝对路径> -SmokeOnly`；正式文件复验使用 `-InstalledHost -SmokeOnly`。不加 `-SmokeOnly` 会用同一独立应用 ID 启动三次，检查展开和全收起状态的跨进程保存。
+
+v2.2.0 首次合并历史验证为旧记忆迁移 71 项、无 MSW 20 项、中文按钮 24 项、三版本及故障 94 项、安装前后各 50 项；旧文件 15110 字节、C9701A91…，本轮没有重跑三版本故障套件。
+
+## 当前分组版本回滚
+
+退出游戏后，从 `work/backups/before-groups-20260924-075628/` 成对恢复 `ModLoaderMod.swf` 与 `MoreSkillsWeaponsMod.swf` 到各自正式 `release/`，再重启。分别恢复到 v2.2.0/C9701A91… 和含激光笔的 MSW v1.13.0/476430BC…；不改版本表、清单或配置。安装前后文件与保护项指纹在 `build/out/groups-installation/deployment.json`（installed-and-verified）。旧 ModSettings 继续禁用。下面是首次合并的历史回滚方法，不用于仅撤回分组功能。
 
 ## 设置合并的回滚
 

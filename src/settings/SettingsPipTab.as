@@ -329,6 +329,7 @@ package
                return;
             }
             enforce(ov);
+            refreshGroupHeaders();
          }
          catch(e5:*)
          {
@@ -749,7 +750,7 @@ package
          tabRow.name = "ModSettingsNavigation";
          tabRow.x = 30; tabRow.y = 66; tabRow.visible = panelOpen;
          var page:* = pg.length > 0 ? pg[selPage] : null;
-         var count:int = page == null ? 0 : page.items.length;
+         var count:int = page == null ? 0 : displayRows(page).length;
          rowOffset = count == 0 ? 0 : Math.min(rowOffset, int((count - 1) / ROW_CAP) * ROW_CAP);
          var groups:Array = registry.getModules();
          var modTabs:Array = [], featureTabs:Array = [];
@@ -902,6 +903,78 @@ package
 
       // ---------------- 行渲染（按当前注册页） ----------------
 
+      private function displayRows(page:Object):Array
+      {
+         return SettingsGroups.project(page, selection.expandedGroup(page.modId));
+      }
+
+      private function onGroupExpand(e:*):void
+      {
+         var page:Object = pages()[selPage];
+         var id:String = e.currentTarget.settingsGroup.id;
+         selection.chooseGroup(page.modId, selection.expandedGroup(page.modId) == id ? "" : id);
+         var shown:Array = displayRows(page);
+         for(var i:int = 0; i < shown.length; i++)
+            if(shown[i].group != null && shown[i].group.id == id) { rowOffset = int(i / ROW_CAP) * ROW_CAP; break; }
+         changeItems(0);
+      }
+
+      private function onGroupToggle(e:*):void
+      {
+         var group:Object = e.currentTarget.settingsGroup;
+         var state:Object = SettingsGroups.state(group);
+         if(state.failed > 0) return;
+         try { group.setAll(state.selected != state.total); }
+         catch(failure:*) { err("groupSet:" + group.id, failure); }
+         // Read back client-owned values, including partial results if its callback threw.
+         changeItems(0);
+      }
+
+      private function refreshGroupHeaders():void
+      {
+         for each(var row:* in rows)
+         {
+            var group:Object = row.settingsGroup;
+            if(group == null || group.setAll == null) continue;
+            var state:Object = SettingsGroups.state(group);
+            var label:String = group.label + " · " + state.label + "（" + state.selected + "/" + state.total + "）";
+            var button:* = row.settingsGroupButton;
+            if(button.settingsLabel == label) continue;
+            button.settingsLabel = label;
+            drawButtonFace(button.graphics, 460, 24, state.selected == state.total && state.failed == 0);
+            var text:TextField = button.getChildAt(0) as TextField;
+            text.text = label;
+            while(text.width > 448 && text.text.length > 2) text.text = text.text.substr(0, text.text.length - 2) + "…";
+            text.x = (460 - text.width) / 2;
+            button.mouseEnabled = state.failed == 0;
+            button.alpha = state.failed == 0 ? 1 : 0.4;
+         }
+      }
+
+      private function makeGroupRow(group:Object, y:Number, page:Object):MovieClip
+      {
+         var row:MovieClip = new MovieClip();
+         row.name = "SettingsGroup:" + group.id; row.x = 30; row.y = y; row.settingsGroup = group;
+         var button:MovieClip = navigationButton(group.label, "SettingsGroupToggle:" + group.id,
+            0, 460, onGroupToggle, group.setAll != null);
+         button.settingsGroup = group; row.settingsGroupButton = button;
+         if(group.setAll == null) button.alpha = 1;
+         row.addChild(button);
+         var opened:Boolean = selection.expandedGroup(page.modId) == group.id;
+         var expand:MovieClip = navigationButton(opened ? "收起" : "展开", "SettingsGroupExpand:" + group.id,
+            466, 84, onGroupExpand, true);
+         expand.settingsGroup = group; expand.settingsExpanded = opened;
+         // Draw the disclosure arrow; the game's font lacks reliable triangle glyphs.
+         expand.graphics.lineStyle(); expand.graphics.beginFill(0x00FF99);
+         expand.graphics.moveTo(8, opened ? 15 : 9);
+         expand.graphics.lineTo(18, opened ? 15 : 9);
+         expand.graphics.lineTo(13, opened ? 8 : 16);
+         expand.graphics.endFill();
+         (expand.getChildAt(0) as TextField).x = 29;
+         row.addChild(expand);
+         return row;
+      }
+
       private function renderRows(ov:*):void
       {
          if(rows != null)
@@ -928,14 +1001,20 @@ package
             if(helpTf != null) helpTf.text = "暂无已注册的设置页。启用支持此入口的模组后会自动出现。";
             return;
          }
-         var items:Array = page["items"];
+         var items:Array = displayRows(page);
          if(head != null) head["text"] = (page["displayName"] == null ? "" : page["displayName"]) + " 设置";
          if(helpTf != null) helpTf["text"] = (page["desc"] == null || page["desc"] == "") ? HELP_DEFAULT : page["desc"];
          if(items == null) return;
          var n:int = Math.min(items.length - rowOffset, ROW_CAP);
          for(var i:int = 0; i < n; i++)
          {
-            var it:Object = items[rowOffset + i];
+            var display:Object = items[rowOffset + i];
+            if(display.group != null)
+            {
+               var header:MovieClip = makeGroupRow(display.group, 160 + i * 28, page);
+               header.visible = false; ov.addChild(header); rows.push(header); continue;
+            }
+            var it:Object = display.item;
             if(it == null || it["key"] == null) continue;
             var r:MovieClip = new MovieClip();
             r["x"] = 30;
@@ -947,11 +1026,13 @@ package
             bg["graphics"].endFill();
             bg["mouseEnabled"] = false;
             r["addChild"](bg);
-            var lt:TextField = makeLabel(it["label"] == null ? String(it["key"]) : String(it["label"]), 14, 0xD8FFE8, "label");
-            lt["x"] = 10;
+            var lt:TextField = makeLabel(display.label != null ? String(display.label) :
+               it["label"] == null ? String(it["key"]) : String(it["label"]), 14, 0xD8FFE8, "label");
+            lt["x"] = display.nested ? 28 : 10;
             lt["y"] = 3;
             r["addChild"](lt);
             r["settingsItem"] = it;
+            r.name = "SettingsItem:" + it.key;
             var kind:String = it["kind"] == null ? "check" : it["kind"];
             var cur:* = getItemVal(it);
             if(kind == "check")
@@ -996,6 +1077,7 @@ package
             ov["addChild"](r);
             rows[rows.length] = r;
          }
+         refreshGroupHeaders();
       }
 
       private function makeCheck():*
@@ -1146,6 +1228,7 @@ package
             if(row == null) return;
             var it:Object = row["settingsItem"];
             it["set"](cb["selected"] == true);
+            refreshGroupHeaders();
          }
          catch(err2:*)
          {
@@ -1164,6 +1247,7 @@ package
             var cur:Boolean = getItemVal(it) == true;
             it["set"](!cur);
             drawToggle(box, getItemVal(it) == true);
+            refreshGroupHeaders();
          }
          catch(err2:*)
          {

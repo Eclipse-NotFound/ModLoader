@@ -6,7 +6,7 @@ package
 
    public class SettingsHost extends Sprite
    {
-      public static const VERSION:String = "0.3.1";
+      public static const VERSION:String = "0.4.0";
       private static var instance:SettingsHost;
       private var main:*;
       private var carrier:MovieClip;

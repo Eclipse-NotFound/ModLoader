@@ -5,7 +5,7 @@ package
    /** Runtime services shipped with ModLoader; MainFE still owns SWF loading. */
    public class ModLoaderMod extends Sprite
    {
-      public static const VERSION:String = "2.2.0";
+      public static const VERSION:String = "2.3.0";
       private static var initialized:Boolean = false;
 
       public function ModLoaderMod() {}
