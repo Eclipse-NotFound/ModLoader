@@ -10,3 +10,4 @@ RealisticVision|RealisticVisionMod|1|0|0
 MoreSkills&Weapons|MoreSkillsWeaponsMod|1|0|0
 TDFC|TDFCMod|1|0|0
 RandomRooms|RandomRoomsMod|1|1|0
+RModifier|LootEditorMod|1|0|0
