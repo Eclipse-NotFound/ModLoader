@@ -73,3 +73,7 @@ api.registerPage("my-targets", "目标设置", flatItems, save, "说明", naviga
 - 16行限制包含组标题，超出后分页，所有小项可达。恢复默认遍历完整平面items，包含收起或不可见成员，不改变展开位置。
 - 显式`groups:[]`清除分组。省略groups保留已有分组，重新绑定到本次items；若旧刷新删掉其成员，则记录诊断并回退为可用的平面页。显式无效分组会原子拒绝本次登记，保留此前有效页面。
 - 当前MSW锁定豁免用5组31项接入，最大展开14行；组操作在MSW内一次修改并保存，F6仍读同一平面31项，既有选择与玩法语义不变。
+
+## 语言显示扩展（2026-10-03）
+
+服务声明 `localizationVersion=1` 时，`registerPage` 第六参数可提供 `translate:Function`；输入是客户端原始标签/说明，输出是当前游戏语言的显示文字。旧服务仍按已有参数调用。`api.text(page, value)` 供宿主统一取显示文本，`getPages()` 中的原始字段与设置键不改写。语言变化会递增 `revision`，无需重新注册页面。详见 [localization.md](localization.md)。

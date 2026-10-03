@@ -7,3 +7,6 @@ RemainsModScanner.exe
 build/out/
 build/test-runtime/
 release/*.swf
+
+# Isolated localization candidates and runtime evidence
+build/localization/

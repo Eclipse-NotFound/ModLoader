@@ -1,5 +1,6 @@
 package
 {
+   import modlocales.loader.LoaderLocale;
    import flash.display.MovieClip;
    import flash.display.Sprite;
    import flash.events.MouseEvent;
@@ -584,6 +585,7 @@ package
             fembed = rowEmbed;
          }
          if(fname != null) fmt.font = fname; else fmt.font = "SimHei";
+         if(LoaderLocale.language() != "zh") { fmt.font="_sans";fembed=false; }
          if(fsize != null) fmt.size = fsize; else fmt.size = size;
          fmt.color = fcolor;
          tf.defaultTextFormat = fmt;
@@ -606,7 +608,7 @@ package
             {
             }
          }
-         tf.text = text;
+         LoaderLocale.bind(tf,text);
          tf.selectable = false;
          tf.mouseEnabled = false;
          tf.autoSize = TextFieldAutoSize.LEFT;
@@ -689,6 +691,12 @@ package
          {
             err("buttonStyle", ecal);
          }
+         if(LoaderLocale.language() != "zh")
+         {
+            var localizedFormat:TextFormat=lt.defaultTextFormat;
+            localizedFormat.font="_sans";lt.embedFonts=false;
+            lt.defaultTextFormat=localizedFormat;lt.setTextFormat(localizedFormat);
+         }
          myBut["addChild"](myButHi);
          myBut["addChild"](lt);
          myBut["mouseChildren"] = false;
@@ -721,6 +729,7 @@ package
          head["x"] = 600;
          head["y"] = 164;
          head["visible"] = false;
+         head.autoSize=TextFieldAutoSize.NONE;head.width=230;head.height=30;
          ov["addChild"](head);
          helpTf = makeLabel(HELP_DEFAULT, 13, 0x9FE8C8);
          helpTf["x"] = 600;
@@ -760,7 +769,7 @@ package
             if(page == null || page.moduleId != group.id) continue;
             if(group.pages.length == 1 && group.pages[0].featureName == "") continue;
             for each(var feature:Object in group.pages)
-               featureTabs.push({id:feature.modId, label:feature.featureName == "" ? feature.displayName : feature.featureName});
+               featureTabs.push({id:feature.modId, label:registry.text(feature,feature.featureName == "" ? feature.displayName : feature.featureName)});
          }
          tabRow["moduleId"] = page == null ? "" : page.moduleId;
          tabRow["pageId"] = page == null ? "" : page.modId;
@@ -788,12 +797,13 @@ package
          var prefix:String = features ? "SettingsFeature" : "SettingsModule";
          var caption:TextField = makeLabel(features ? "功能" : "模组", 14, 0x9FE8C8, "chip");
          caption.x = 0; caption.y = y + 2; tabRow.addChild(caption);
+         var startX:Number = Math.max(48, caption.width + 12);
          var chunks:Array = [[]], used:Number = 0, selectedChunk:int = 0;
          for each(var tab:Object in tabs)
          {
             var measure:TextField = makeLabel(tab.label, 14, 0xD8FFE8, "chip");
             tab.width = Math.max(72, Math.min(180, measure.width + 20));
-            if(used + tab.width > 562 && chunks[chunks.length - 1].length > 0)
+            if(used + tab.width > 610 - startX && chunks[chunks.length - 1].length > 0)
             { chunks.push([]); used = 0; }
             if(tab.id == selected) selectedChunk = chunks.length - 1;
             chunks[chunks.length - 1].push(tab); used += tab.width + 6;
@@ -801,7 +811,7 @@ package
          var current:int = features ? featureTabsPage : modTabsPage;
          current = followSelection ? selectedChunk : Math.max(0, Math.min(current, chunks.length - 1));
          if(features) featureTabsPage = current; else modTabsPage = current;
-         var x:Number = 48;
+         var x:Number = startX;
          for each(tab in chunks[current])
          {
             var button:MovieClip = navigationButton(tab.label, prefix + "Tab:" + tab.id,
@@ -892,7 +902,7 @@ package
                renderRows(ov);
             }
             setRowsVisible(true);
-            if(helpTf != null) helpTf["text"] = "已恢复默认（" + result.applied + " 项）" + (result.failed > 0 ? "；失败 " + result.failed + " 项，请查看日志。" : "。");
+            if(helpTf != null) helpTf.text = LoaderLocale.format("已恢复默认（{0} 项）",result.applied) + (result.failed > 0 ? " " + LoaderLocale.format("失败 {0} 项，请查看日志。",result.failed) : "");
             diagnostics.diagAdd("reset");
          }
          catch(failure:*)
@@ -937,7 +947,8 @@ package
             var group:Object = row.settingsGroup;
             if(group == null || group.setAll == null) continue;
             var state:Object = SettingsGroups.state(group);
-            var label:String = group.label + " · " + state.label + "（" + state.selected + "/" + state.total + "）";
+            var stateText:String = state.failed > 0 ? LoaderLocale.text(state.label) : registry.text(pages()[selPage],state.label);
+            var label:String = registry.text(pages()[selPage],group.label) + " · " + stateText + "（" + state.selected + "/" + state.total + "）";
             var button:* = row.settingsGroupButton;
             if(button.settingsLabel == label) continue;
             button.settingsLabel = label;
@@ -955,7 +966,7 @@ package
       {
          var row:MovieClip = new MovieClip();
          row.name = "SettingsGroup:" + group.id; row.x = 30; row.y = y; row.settingsGroup = group;
-         var button:MovieClip = navigationButton(group.label, "SettingsGroupToggle:" + group.id,
+         var button:MovieClip = navigationButton(registry.text(page,group.label), "SettingsGroupToggle:" + group.id,
             0, 460, onGroupToggle, group.setAll != null);
          button.settingsGroup = group; row.settingsGroupButton = button;
          if(group.setAll == null) button.alpha = 1;
@@ -971,6 +982,13 @@ package
          expand.graphics.lineTo(13, opened ? 8 : 16);
          expand.graphics.endFill();
          (expand.getChildAt(0) as TextField).x = 29;
+         if(LoaderLocale.language() != "zh")
+         {
+            var expandText:TextField=expand.getChildAt(0) as TextField;
+            expandText.styleSheet=null;expandText.autoSize=TextFieldAutoSize.NONE;
+            expandText.width=51;expandText.height=24;
+            LoaderLocale.bind(expandText,opened ? "收起" : "展开",true);
+         }
          row.addChild(expand);
          return row;
       }
@@ -997,13 +1015,13 @@ package
          var page:* = pg[selPage];
          if(page == null)
          {
-            if(head != null) head.text = "模组设置";
-            if(helpTf != null) helpTf.text = "暂无已注册的设置页。启用支持此入口的模组后会自动出现。";
+            if(head != null) LoaderLocale.bind(head as TextField,"模组设置");
+            if(helpTf != null) LoaderLocale.bind(helpTf,"暂无已注册的设置页。启用支持此入口的模组后会自动出现。");
             return;
          }
          var items:Array = displayRows(page);
-         if(head != null) head["text"] = (page["displayName"] == null ? "" : page["displayName"]) + " 设置";
-         if(helpTf != null) helpTf["text"] = (page["desc"] == null || page["desc"] == "") ? HELP_DEFAULT : page["desc"];
+         if(head != null) LoaderLocale.bind(head as TextField,registry.text(page,page.displayName) + LoaderLocale.text(" 设置"),true,true);
+         if(helpTf != null) LoaderLocale.bind(helpTf,page.desc == null || page.desc == "" ? LoaderLocale.text(HELP_DEFAULT) : registry.text(page,page.desc),true,true);
          if(items == null) return;
          var n:int = Math.min(items.length - rowOffset, ROW_CAP);
          for(var i:int = 0; i < n; i++)
@@ -1026,10 +1044,17 @@ package
             bg["graphics"].endFill();
             bg["mouseEnabled"] = false;
             r["addChild"](bg);
-            var lt:TextField = makeLabel(display.label != null ? String(display.label) :
-               it["label"] == null ? String(it["key"]) : String(it["label"]), 14, 0xD8FFE8, "label");
+            var lt:TextField = makeLabel(registry.text(page,display.label != null ? String(display.label) :
+               it["label"] == null ? String(it["key"]) : String(it["label"])), 14, 0xD8FFE8, "label");
             lt["x"] = display.nested ? 28 : 10;
             lt["y"] = 3;
+            if(LoaderLocale.language() != "zh")
+            {
+               // Keep longer Latin/Cyrillic labels clear of the slider/checkbox.
+               lt.styleSheet=null;lt.autoSize=TextFieldAutoSize.NONE;
+               lt.width=(it.kind == "slider" ? 250 : 350)-lt.x;lt.height=24;
+               LoaderLocale.bind(lt,registry.text(page,display.label != null ? String(display.label) : it.label),true,true);
+            }
             r["addChild"](lt);
             r["settingsItem"] = it;
             r.name = "SettingsItem:" + it.key;
@@ -1050,6 +1075,12 @@ package
                var numb:TextField = makeLabel(fmtVal(it, cur), 13, 0xE8FFE8, "value");
                numb["x"] = 505;
                numb["y"] = 4;
+               if(LoaderLocale.language() != "zh")
+               {
+                  numb.styleSheet=null;numb.autoSize=TextFieldAutoSize.NONE;
+                  numb.width=90;numb.height=24;
+                  LoaderLocale.bind(numb,fmtVal(it,cur),true,true);
+               }
                r["addChild"](numb);
                r["settingsNumb"] = numb;
                var sc:* = makeSlider(it, cur);
@@ -1185,7 +1216,7 @@ package
       private function fmtVal(it:Object, v:*):String
       {
          var st:Number = Number(it["step"]);
-         var suffix:String = it["suffix"] == null ? "" : String(it["suffix"]);
+         var suffix:String = registry.text(pages()[selPage],it["suffix"]);
          if(st >= 1) return String(Math.round(Number(v))) + suffix;
          var d:int = 0;
          var t:Number = st;
@@ -1266,7 +1297,7 @@ package
             var v:* = valOf(it, Number(sc["scrollPosition"]));
             v = Math.max(Number(it["min"]), Math.min(Number(it["max"]), v));
             it["set"](v);
-            if(row["settingsNumb"] != null) row["settingsNumb"]["text"] = fmtVal(it, v);
+            if(row["settingsNumb"] != null) LoaderLocale.bind(row.settingsNumb as TextField,fmtVal(it,v),true,true);
             // 拖动期间不落盘（D-035）：关面板时宿主统一调各注册方 onPageClose
          }
          catch(err2:*)
@@ -1286,7 +1317,7 @@ package
             var v:Number = Number(getItemVal(it)) + Number(btn["settingsDir"]) * Number(it["step"]);
             v = Math.max(Number(it["min"]), Math.min(Number(it["max"]), v));
             it["set"](v);
-            if(row["settingsNumb"] != null) row["settingsNumb"]["text"] = fmtVal(it, getItemVal(it));
+            if(row["settingsNumb"] != null) LoaderLocale.bind(row.settingsNumb as TextField,fmtVal(it,getItemVal(it)),true,true);
          }
          catch(err2:*)
          {
@@ -1302,7 +1333,7 @@ package
             if(row == null) return;
             var it:Object = row["settingsItem"];
             var hint:String = it["hint"] == null ? "" : it["hint"];
-            if(helpTf != null) helpTf["text"] = it["label"] + (hint != "" ? "：\n" + hint : "");
+            if(helpTf != null) LoaderLocale.bind(helpTf,registry.text(pages()[selPage],it["label"]) + (hint != "" ? ":\n" + registry.text(pages()[selPage],hint) : ""),true,true);
          }
          catch(e:*)
          {
@@ -1317,7 +1348,7 @@ package
             {
                var pg:Array = pages();
                var d:String = selPage < pg.length ? pg[selPage]["desc"] : null;
-               helpTf["text"] = (d == null || d == "") ? HELP_DEFAULT : d;
+               LoaderLocale.bind(helpTf,(d == null || d == "") ? LoaderLocale.text(HELP_DEFAULT) : registry.text(pg[selPage],d),true,true);
             }
          }
          catch(e:*)

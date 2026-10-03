@@ -1,0 +1,123 @@
+{
+  "date": "2026-10-03",
+  "status": "installed-and-verified",
+  "languages": [
+    "en",
+    "ru"
+  ],
+  "catalogEntries": 526,
+  "test": {
+    "assertions": 4431,
+    "settingsUnchanged": 113,
+    "run": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\runs\\pfe-modsettings-languages-2c5161957d14498d92dace734f166b3a",
+    "applicationId": "pfe-modsettings-languages-2c5161957d14498d92dace734f166b3a",
+    "coverage": "1.02, zh/en/ru/zh, nine pages, all item pages and five groups, F6/network/TDFC/F1, native custom names, player text preservation, no clipping"
+  },
+  "candidates": {
+    "ModLoader": {
+      "verifiedFile": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\verified\\ModLoaderMod.swf",
+      "sourceBuild": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\ModLoaderMod.swf",
+      "size": 20032,
+      "sha256": "2D01241A89FB25D608AC5138254E14DC3E5FB46E7120319A0D5922E4CF9816FD",
+      "target": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\release\\ModLoaderMod.swf",
+      "currentInstalledSHA256": "375951AE86BCCD8886CDEAC8B479A339877CEE30F5D1B489C21FE06C736C0BF5",
+      "catalogEntries": 19,
+      "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\backups\\before-languages-20261003-160623-9ebd8cd6\\ModLoader\\ModLoaderMod.swf",
+      "installedSHA256": "2D01241A89FB25D608AC5138254E14DC3E5FB46E7120319A0D5922E4CF9816FD"
+    },
+    "MoreSkills&Weapons": {
+      "verifiedFile": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\verified\\MoreSkillsWeaponsMod.swf",
+      "sourceBuild": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\MoreSkills&Weapons\\build\\out\\localization\\MoreSkillsWeaponsMod.swf",
+      "size": 75389,
+      "sha256": "F9CECF74823D6DCA7009E04F01B83F49788FB5F2E874BC529C5F6124A9986362",
+      "target": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\MoreSkills&Weapons\\release\\MoreSkillsWeaponsMod.swf",
+      "currentInstalledSHA256": "81FAD2EBCA9F272117BBDEAA8DFF2D2A550213700A0A04D1C761148F407F628F",
+      "catalogEntries": 179,
+      "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\backups\\before-languages-20261003-160623-9ebd8cd6\\MoreSkills&Weapons\\MoreSkillsWeaponsMod.swf",
+      "installedSHA256": "F9CECF74823D6DCA7009E04F01B83F49788FB5F2E874BC529C5F6124A9986362"
+    },
+    "Sandevistan": {
+      "verifiedFile": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\verified\\SandevistanMod.swf",
+      "sourceBuild": "D:\\RemainsMod\\mods\\Sandevistan\\build\\out\\SandevistanMod.swf",
+      "size": 54944,
+      "sha256": "A6E706F0AF8CC912A600D3B2262D3AAE1CCFFB7A9DD18B6B45F354FA860272E4",
+      "target": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\Sandevistan\\release\\SandevistanMod.swf",
+      "currentInstalledSHA256": "8ECFDDC8CAA729B1346873D325CE9EC61DCEF8A516D5A5380E363A15195F11C4",
+      "catalogEntries": 42,
+      "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\backups\\before-languages-20261003-160623-9ebd8cd6\\Sandevistan\\SandevistanMod.swf",
+      "installedSHA256": "A6E706F0AF8CC912A600D3B2262D3AAE1CCFFB7A9DD18B6B45F354FA860272E4"
+    },
+    "RealisticVision": {
+      "verifiedFile": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\verified\\RealisticVisionMod.swf",
+      "sourceBuild": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RealisticVision\\build\\RealisticVisionMod_test.swf",
+      "size": 25298,
+      "sha256": "72D2F75BA89E7B40CC78C5A5E48E1C61AF297753CBE2DCA929E0F1AD5BA6A303",
+      "target": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RealisticVision\\release\\RealisticVisionMod.swf",
+      "currentInstalledSHA256": "772E58A0CF384656632CFFD9503929188445CC4B19953A725B7B47801D3E7080",
+      "catalogEntries": 31,
+      "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\backups\\before-languages-20261003-160623-9ebd8cd6\\RealisticVision\\RealisticVisionMod.swf",
+      "installedSHA256": "72D2F75BA89E7B40CC78C5A5E48E1C61AF297753CBE2DCA929E0F1AD5BA6A303"
+    },
+    "Rconnect": {
+      "verifiedFile": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\verified\\RConnectMod.swf",
+      "sourceBuild": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RConnect\\build\\localization\\RConnectMod.swf",
+      "size": 93060,
+      "sha256": "2B25A7D2301D1BAAC40E04E70BA48E9BC40B5C292C0B3938A69BF6B151B41186",
+      "target": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\Rconnect\\release\\RConnectMod.swf",
+      "currentInstalledSHA256": "8F62E2DDA36447D7C016F6CBAB05DA62E5A62542AE6B6DF6BEEB2FF022F477FA",
+      "catalogEntries": 38,
+      "baseline": "9583c9d (deployed M41)",
+      "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\backups\\before-languages-20261003-160623-9ebd8cd6\\Rconnect\\RConnectMod.swf",
+      "installedSHA256": "2B25A7D2301D1BAAC40E04E70BA48E9BC40B5C292C0B3938A69BF6B151B41186"
+    },
+    "RandomRooms": {
+      "verifiedFile": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\verified\\RandomRoomsMod.swf",
+      "sourceBuild": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RandomRooms\\build\\RandomRooms-localization.swf",
+      "size": 100081,
+      "sha256": "F21D7C04FF1CCF59779F0B8D9F52D982585145447C47727C660E9ECC7D62C0DF",
+      "target": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RandomRooms\\release\\RandomRoomsMod.swf",
+      "currentInstalledSHA256": "2FE250215885C6B4023357F7948E8A92928EC62B8AE8970A675B936D1103D976",
+      "catalogEntries": 73,
+      "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\backups\\before-languages-20261003-160623-9ebd8cd6\\RandomRooms\\RandomRoomsMod.swf",
+      "installedSHA256": "F21D7C04FF1CCF59779F0B8D9F52D982585145447C47727C660E9ECC7D62C0DF"
+    },
+    "TDFC": {
+      "verifiedFile": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\verified\\TDFCMod.swf",
+      "sourceBuild": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\TDFC\\build\\out\\TDFCMod.swf",
+      "size": 38656,
+      "sha256": "99BFBAA68229635FBAA496EF9287A94BB9EA7C65D71339CEF3FDE65F47E30275",
+      "target": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\TDFC\\release\\TDFCMod.swf",
+      "currentInstalledSHA256": "311880C78186565E915A3B9C15AE41CC3E09DE9478994D1673B237236C0DB7D4",
+      "catalogEntries": 138,
+      "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\backups\\before-languages-20261003-160623-9ebd8cd6\\TDFC\\TDFCMod.swf",
+      "installedSHA256": "99BFBAA68229635FBAA496EF9287A94BB9EA7C65D71339CEF3FDE65F47E30275"
+    },
+    "RModifier": {
+      "verifiedFile": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\verified\\LootEditorMod.swf",
+      "sourceBuild": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RModifier\\build\\out\\localization\\LootEditorMod.swf",
+      "size": 37127,
+      "sha256": "4F1D6CF19979F4EA4960F8CCD8377C1D3CAC490BED9949866885357D073C8625",
+      "target": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RModifier\\release\\LootEditorMod.swf",
+      "currentInstalledSHA256": "502730145A8750011F41722B6F568AA102059A200598BEEEE5D2B60A8109E764",
+      "catalogEntries": 6,
+      "baseline": "6567ebe (installed LootEditor 0.2.1), current 0.3.0 source also localized",
+      "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\backups\\before-languages-20261003-160623-9ebd8cd6\\RModifier\\LootEditorMod.swf",
+      "installedSHA256": "4F1D6CF19979F4EA4960F8CCD8377C1D3CAC490BED9949866885357D073C8625"
+    }
+  },
+  "gameSHA256": "C631CBF3511B6EE303F533D08D51511FE0EB702F43E5DB17F5241D8576C64867",
+  "authorization": "用户明确回复：安装这八个语言候选",
+  "sourceVersionMarker": "SettingsRegistry.localizationVersion=1; eight SWF SHA256 values identify this language release",
+  "installedAt": "2026-10-03T08:07:59.150159+00:00",
+  "backupRoot": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\backups\\before-languages-20261003-160623-9ebd8cd6",
+  "deploymentReceipt": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\backups\\before-languages-20261003-160623-9ebd8cd6\\deployment.json",
+  "protectedFilesUnchanged": 498,
+  "postInstallTest": {
+    "assertions": 4432,
+    "run": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\localization\\runs\\pfe-modsettings-languages-999e75dbf5c740688f0129904e81fe91",
+    "result": "PASS 4432 checks",
+    "inputs": "installed release files copied to isolated runtime",
+    "settingsUnchanged": 113,
+    "layoutOverflows": 0
+  }
+}

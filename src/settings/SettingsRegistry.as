@@ -1,11 +1,14 @@
 package
 {
+   import modlocales.loader.LoaderLocale;
    /** Callback-only registry: storage and gameplay always belong to the client. */
    public class SettingsRegistry
    {
       public const apiVersion:int = 1;
       public const menuVersion:int = 1;
       public const groupVersion:int = 1;
+      public const localizationVersion:int = 1;
+      private var currentLanguage:String = "";
       private var entries:Array = [];
       private var modules:Array = [];
       private var moduleRevision:int = -1;
@@ -18,7 +21,18 @@ package
          log = diagnostics;
       }
 
-      public function get revision():uint { return serial; }
+      public function get revision():uint
+      {
+         var code:String=LoaderLocale.language();
+         if(code != currentLanguage) { currentLanguage=code;serial++; }
+         return serial;
+      }
+      public function text(page:Object,value:*):String
+      {
+         var source:String=value == null ? "" : String(value);
+         try { if(page != null && page.translate is Function) return page.translate(source); } catch(e:*) {}
+         return LoaderLocale.render(source);
+      }
 
       internal function attachView(callbacks:Object):void { view = callbacks; }
       /** Optional UI routing for a client's existing shortcut. No global key is claimed. */
@@ -76,6 +90,7 @@ package
          page.items = items;
          page.onPageClose = onPageClose;
          page.desc = desc;
+         page.translate = navigation != null && navigation.translate is Function ? navigation.translate : null;
          page.groups = grouped;
          // modId remains the legacy page ID. Grouping is additional metadata only.
          if(navigation != null || page.moduleId == null)
@@ -94,7 +109,7 @@ package
       /** Ordered presentation view; never reorders or replaces the flat client view. */
       public function getModules():Array
       {
-         if(moduleRevision == int(serial)) return modules;
+         if(moduleRevision == int(revision)) return modules;
          modules = [];
          var byId:Object = {};
          var knownIds:Array = ["msw", "sandevistan", "realisticvision", "rconnect"];
@@ -105,7 +120,7 @@ package
             if(group == null)
             {
                var rank:int = knownIds.indexOf(page.moduleId);
-               group = {id:page.moduleId, name:rank < 0 ? page.moduleName : knownNames[rank],
+               group = {id:page.moduleId, name:rank < 0 ? text(page,page.moduleName) : LoaderLocale.text(knownNames[rank]),
                   order:rank < 0 ? 4 + modules.length : rank, pages:[]};
                byId["$" + page.moduleId] = group;
                modules.push(group);
