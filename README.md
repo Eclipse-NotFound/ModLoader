@@ -1,65 +1,62 @@
-# Remains ModLoader
+# Remains mod starter guide · ModLoader
 
-A manifest-driven mod loader and unified settings hub for **Fallout Equestria: REMAINS** (Steam, v1.02–1.04).
+**English** · [简体中文](README.zh-CN.md)
 
-English (this page) · [简体中文](README.zh-CN.md)
+Start here if you are new to modding Fallout Equestria: REMAINS. ModLoader lets the game load mods and provides their in-game settings. Pick only the gameplay changes you want. **No coding or developer tools required.**
 
-## What it does
+**[Open the step-by-step installation guide](docs/INSTALL.md)** · [All downloads and release notes](https://github.com/Eclipse-NotFound/ModLoader/releases)
 
-- Patches the game **once** with a generic loader; after that, installing, removing or reordering mods never touches the game files again — you only manage the `mods/` folder.
-- Loads mods from `mods/loader-manifest.txt`: one line per mod, `directory|entryClass|1.02|1.03|1.04`, where the last three columns are per-game-version enable switches (`1`/`0`).
-- Ships a unified in-game settings hub (press **F6**): every mod's settings in one panel, with expandable groups and settings that persist across restarts. Mods keep their legacy `ModSettingsCarrier.modAPI` interface — no separate ModSettings mod needed.
-- Ships a Windows scanner (`RemainsModScanner.exe`) that discovers mod packages under `mods/<dir>/release/<Entry>Mod.swf` and regenerates the manifest. It validates basic SWF headers, keeps per-mod version ranges from `supported-mods.txt`, and never starts the game.
+## Which files do I need?
 
-## Requirements
+| File | Purpose |
+|---|---|
+| [Remains-GamePatch-v2.3.0.zip](https://github.com/Eclipse-NotFound/ModLoader/releases/download/v2.3.0/Remains-GamePatch-v2.3.0.zip) | First installation: enables mod loading; extract and run Patch-Game.bat |
+| [ModLoader_v2.3.0-r1.zip](https://github.com/Eclipse-NotFound/ModLoader/releases/download/v2.3.0-r1/ModLoader_v2.3.0-r1.zip) | Settings component and scanner: merge the package’s mods folder into the game folder |
+| Your chosen mod package(s) below | Adds the gameplay features: bullet time, weapons, maps and more |
 
-- Fallout Equestria: REMAINS installed via Steam.
-- The one-time game patch applied once via the release package (below). Steam "verify integrity" restores vanilla files — just re-run the patcher afterwards; it is idempotent.
+**You need both setup downloads.** The latest v2.3.0-r1 release contains the settings/scanner package only. The first-time GamePatch is still attached to v2.3.0, so both direct links are provided above.
 
-## Install / player quick start
+For Windows. Start with **Remains 1.02**. The patcher recognizes some 1.03/1.04 builds, but that does not mean every mod or the settings component supports those versions.
 
-1. Download `Remains-GamePatch-v2.3.0.zip` from [Releases](../../releases) and run `Patch-Game.bat`. It auto-locates your Steam install, verifies your game build by hash (supports five known vanilla builds across 1.02/1.03/1.04), backs the originals up and applies a binary patch that only injects this loader — no game content is redistributed.
-2. Download `Remains-AllMods-*.zip` (or any individual mod package) and copy its `mods` folder into your game root (next to `pfe.swf`). Restart the game.
+## Installation order
 
-Full player-facing walkthrough (Chinese, with diagrams): see the "安装指南" linked in the release notes.
+1. Save and close the game; Steam Library → right-click Remains → **Manage → Browse local files**.
+2. Extract GamePatch, double-click **Patch-Game.bat**, and select the game folder if prompted. Wait for **[done]** and keep its automatic backups.
+3. Extract ModLoader and your chosen mods. Merge each package’s **mods** folder into the game folder, next to pfe.swf.
+4. Double-click **mods/ModLoader/RemainsModScanner.exe**, wait for completion, close its message, then launch the game normally.
+5. Open **PipBuck → Settings → Mods (`模组`)** for mods that provide settings. MSW also has its own F6 shortcut.
 
-## How loading works
+Missing files or no mod effect? [Check the folder diagram and troubleshooting steps](docs/INSTALL.md#troubleshooting). The scanner updates the mod list; it does not launch the game.
 
-After the patch, `MainFE.onEnterFrameLoader` calls `loadModsFromManifest()` once the main menu is created. It reads `mods/loader-manifest.txt`, picks the version column for the running SWF, and `Loader.load()`s each enabled mod; on complete it resolves the entry class and calls its `static init(main)`. Manifest lines are trimmed (BOM-safe), validated for column count, switch values, duplicate entries and path segments; bad lines are logged as `err_manifest_<n>` and skipped without affecting other mods. Load/init failures are logged per-entry (`err_<Entry>`); the rest keep loading.
+<a id="choose-mods"></a>
 
-| Descriptor | Actual SWF | Loads |
+## Choose your mods
+
+| Mod | What it adds | Public version |
 |---|---|---|
-| `application.xml` | `pfe.swf` (1.02, main play version) | all 7 mods |
-| `app.xml` | `DLC/pfe.swf` (1.03) | 3 mods |
-| `app104.xml` | `DLC/pfeUI.swf` (1.04) | 2 mods |
+| [Sandevistan](https://github.com/Eclipse-NotFound/Sandevistan) | Bullet time, fast replays and colorful afterimages | [v1.145](https://github.com/Eclipse-NotFound/Sandevistan/releases/tag/v1.145) |
+| [MoreSkillsAndWeapons](https://github.com/Eclipse-NotFound/MoreSkillsAndWeapons) | Smart bullets, ricochets, lasers and combat controls | [v1.15.3](https://github.com/Eclipse-NotFound/MoreSkillsAndWeapons/releases/tag/v1.15.3) |
+| [TDFC](https://github.com/Eclipse-NotFound/TDFC) | Enemy perception and tactics with vanilla HP and damage | [v0.6.4](https://github.com/Eclipse-NotFound/TDFC/releases/tag/v0.6.4) |
+| [RealisticVision](https://github.com/Eclipse-NotFound/RealisticVision) | Line of sight, exploration fog and remembered terrain | [v0.30.1](https://github.com/Eclipse-NotFound/RealisticVision/releases/tag/v0.30.1) |
+| [RandomRooms](https://github.com/Eclipse-NotFound/RandomRooms) | Four themes of expanding procedural exploration | [v13.2](https://github.com/Eclipse-NotFound/RandomRooms/releases/tag/v13.2) |
+| [RConnect](https://github.com/Eclipse-NotFound/RConnect) | Explore together with one friend | [v0.2.8](https://github.com/Eclipse-NotFound/RConnect/releases/tag/v0.2.8) |
+| [RModifier](https://github.com/Eclipse-NotFound/RModifier) | Chinese desktop tool for loot, lines and maps | [v0.4.0](https://github.com/Eclipse-NotFound/RModifier/releases/tag/v0.4.0) |
 
-## Repository layout
+You do not need the whole collection. `Remains-AllMods-2026-09-24.zip` is a snapshot from that date, **not an automatically updated bundle**. Use the individual project pages for newer versions. RModifier is a separate desktop editor with its own game-connection steps.
 
-```
-src/runtime/    loader + settings runtime entry (compiled into release/ModLoaderMod.swf)
-src/settings/   the settings hub service
-tools/          patch_game_swfs.ps1 (FFDec-based patcher), scanner build/test scripts,
-                player-patch/ (the player-facing RSPLICE1 patcher shipped in the GamePatch zip)
-release/        ModLoaderMod.swf + supported-mods.txt
-docs/           settings-interface.md (API for mods)
-knowledge/, state/ — development records (Chinese)
-```
+## Updating, disabling and common problems
 
-The scanner exe is a local build artifact and is not committed; rebuild with `tools/build_scanner.ps1` (see the Chinese README for CLI flags such as `--dry-run --no-ui`).
+Run the scanner and restart after adding mods. Back up old mod files and preserve your configuration when updating. To disable a mod temporarily, move its folder outside `mods`, scan and restart. A Steam update or file verification may require the game patch again; do not force installation on an unsupported build.
 
-## Verification tooling
+[Full installation, updating, disabling and recovery guide](docs/INSTALL.md) · [Report an installation problem](https://github.com/Eclipse-NotFound/ModLoader/issues)
 
-- `tools/test_loader.ps1` — offline manifest regression (no game launch, no SWF changes).
-- `tools/smoke_test.ps1 -Descriptor application.xml` — full smoke run in an isolated AIR app id; asserts run ids, requested/ok entries, no `err_*`.
-- The player patcher verifies SHA-256 of both input (known vanilla builds) and output before writing anything.
+<details>
+<summary>Development resources (not needed to install)</summary>
 
-## Related mods
+[Settings API](docs/settings-interface.md) · [Technical and historical validation notes (Chinese)](docs/DEVELOPMENT.zh-CN.md) · [Source](src/) · [Release history](https://github.com/Eclipse-NotFound/ModLoader/releases)
 
-[Sandevistan](https://github.com/Eclipse-NotFound/Sandevistan) ·
-[MoreSkillsAndWeapons](https://github.com/Eclipse-NotFound/MoreSkillsAndWeapons) ·
-[TDFC](https://github.com/Eclipse-NotFound/TDFC) ·
-[RealisticVision](https://github.com/Eclipse-NotFound/RealisticVision) ·
-[RandomRooms](https://github.com/Eclipse-NotFound/RandomRooms) ·
-[RConnect](https://github.com/Eclipse-NotFound/RConnect)
+Runtime 2.3.0, scanner 2.1; r1 updates the compatibility table. Manifest generation, builds, validation and historical deployment recovery belong in the development reference.
 
-> Fan mod project; not affiliated with the game's authors. Development records inside this repo are mostly written in Chinese.
+</details>
+
+An unofficial fan project; you need your own copy of the game.
