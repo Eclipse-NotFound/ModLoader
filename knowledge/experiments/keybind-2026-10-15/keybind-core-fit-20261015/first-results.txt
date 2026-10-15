@@ -1,0 +1,30 @@
+PASS new capability preserves existing interface versions
+PASS existing F10 collision is visible without changing defaults
+PASS invalid keybind registration cannot publish a broken page
+PASS new page opens in the real Pip menu
+PASS binding uses an actionable menu button within its row
+PASS clear binding control is available
+PASS clicking current binding begins capture
+PASS a press preceding capture keeps its release for client cleanup
+PASS a modifier alone keeps waiting
+PASS new exact Ctrl+K binding reaches the client setter
+PASS new binding cannot fire before the captured press is released
+PASS capture and operating-system repeat do not reach game listeners
+PASS binding becomes usable after release
+PASS extra modifiers do not match
+PASS native bare-key collision is rejected without losing the old value
+PASS cross-mod collision is rejected before the old F10 listeners
+PASS Escape cancels without replacing the binding
+PASS Delete clears instead of becoming a gameplay key
+PASS an unbound action can be rebound
+PASS changing page cancels capture
+PASS losing focus cancels capture and releases held state
+PASS closing all pages cancels capture
+PASS reset keeps the original default despite an existing conflict
+PASS new controls follow English language switching
+PASS new controls follow Russian language switching
+PASS held query sees the exact combination during gameplay
+PASS held query rejects an extra modifier
+PASS releasing the extra modifier restores the held combination
+PASS releasing the primary key ends the held action
+PASS 29 assertions

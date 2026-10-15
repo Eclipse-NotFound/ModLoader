@@ -6,6 +6,7 @@ spike/*.log
 RemainsModScanner.exe
 build/out/
 build/test-runtime/
+build/backups/
 release/*.swf
 
 # Isolated localization candidates and runtime evidence

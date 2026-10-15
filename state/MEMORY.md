@@ -1,5 +1,7 @@
 # ModLoader 外置记忆
 
+> 2026-10-15 菜单改键：ModLoader2.4.0/settings0.5.0已安装，24865B，SHA256 BD71B6F31774B97841D4C158451DA0353B53BC46AC72F8E2A7FE2C3F3F4908B1。用户在改装会话明确授权公共依赖部署；七客户端23项候选联合346项＋公共39项通过，正式文件回读再39项通过。FA由对应会话单独部署，其余六客户端仍是候选，不自动扩大安装范围。新增keybindVersion=1，保留现有接口版本；回滚、指纹及入口见[keybind-integration-2026-10-15.md](keybind-integration-2026-10-15.md)。下方旧版本记录保留历史。
+
 > 2026-10-14 分发合集：按用户要求打包除RModifier外十个已验证部署组件，含ContinuousScene0.3/RV0.30.4/WB0.4.2配套宿主；RConnect保留0.2.22-dev预发布标记。包在build/out/Remains-AllMods-NoRModifier-2026-10-14.zip，82项安装/回退/扫描/隔离启动及最终ZIP回读通过。只生成包，未更改正式安装或上传。指纹与边界见[合集记录](collection-2026-10-14.md)。
 
 > 2026-10-08 玩家文档：按用户要求更新公开 GitHub 中英文首页、玩家指引、最新发布页说明与仓库简介，公开提交 94d419c。未发布本地开发代码或更换安装包。详见 [发布记录](github-player-guides-2026-10-08.md)。

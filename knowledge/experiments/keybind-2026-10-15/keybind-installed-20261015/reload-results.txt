@@ -1,0 +1,11 @@
+PASS new capability preserves existing interface versions
+PASS existing F10 collision is visible without changing defaults
+PASS invalid keybind registration cannot publish a broken page
+PASS new page opens in the real Pip menu
+PASS binding uses an actionable menu button within its row
+PASS clear binding control is available
+PASS client binding survives a fresh process
+PASS restored binding drives the shared matcher
+PASS restore defaults restores the original binding
+PASS reset page still renders its binding control
+PASS 10 assertions

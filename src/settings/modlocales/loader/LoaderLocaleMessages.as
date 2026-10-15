@@ -1,6 +1,20 @@
 package modlocales.loader {
    public class LoaderLocaleMessages {
       public static const DATA:Object = {
+  "快捷键": {"en":"Shortcuts","ru":"Клавиши"},
+  "读取失败": {"en":"Unavailable","ru":"Недоступно"},
+  "未绑定": {"en":"Unbound","ru":"Не назначено"},
+  "等待按键": {"en":"Press a key","ru":"Нажмите клавишу"},
+  "清除": {"en":"Clear","ru":"Убрать"},
+  "已取消改键": {"en":"Binding cancelled","ru":"Назначение отменено"},
+  "不能使用该按键": {"en":"This key cannot be used","ru":"Эту клавишу нельзя использовать"},
+  "该键由原版保留，请使用组合键或另选按键": {"en":"Reserved by the game. Use a combination or another key.","ru":"Клавиша зарезервирована игрой. Выберите сочетание или другую клавишу."},
+  "该单键已用于原版操作，请使用组合键或另选按键": {"en":"Used by the game. Use a combination or another key.","ru":"Клавиша занята игрой. Выберите сочетание или другую клавишу."},
+  "已被占用": {"en":"Already used","ru":"Уже используется"},
+  "请按新的组合键；Esc取消，Delete清除": {"en":"Press a new combination. Esc: cancel. Delete: clear.","ru":"Нажмите новое сочетание. Esc: отмена. Delete: убрать."},
+  "已保存": {"en":"Saved","ru":"Сохранено"},
+  "保存失败，请重试": {"en":"Could not save. Try again","ru":"Не удалось сохранить. Повторите"},
+  "点击当前按键以修改；右侧清除可解除绑定": {"en":"Click the binding to change it; Clear removes it.","ru":"Нажмите сочетание, чтобы изменить; «Убрать» снимает назначение."},
   "模组": {
     "en": "Mods",
     "ru": "Моды"

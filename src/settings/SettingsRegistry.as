@@ -1,6 +1,8 @@
 package
 {
    import modlocales.loader.LoaderLocale;
+   import flash.display.Stage;
+   import flash.events.KeyboardEvent;
    /** Callback-only registry: storage and gameplay always belong to the client. */
    public class SettingsRegistry
    {
@@ -8,6 +10,8 @@ package
       public const menuVersion:int = 1;
       public const groupVersion:int = 1;
       public const localizationVersion:int = 1;
+      public const keybindVersion:int = 1;
+      private var keybinds:SettingsKeybinds;
       private var currentLanguage:String = "";
       private var entries:Array = [];
       private var modules:Array = [];
@@ -19,6 +23,7 @@ package
       public function SettingsRegistry(diagnostics:SettingsLog = null)
       {
          log = diagnostics;
+         keybinds = new SettingsKeybinds(this);
       }
 
       public function get revision():uint
@@ -35,6 +40,19 @@ package
       }
 
       internal function attachView(callbacks:Object):void { view = callbacks; }
+      internal function attachKeyStage(stage:Stage):void { keybinds.attach(stage); }
+      internal function keybindChanged():void { serial++; }
+      public function matchesKey(pageId:String,key:String,event:KeyboardEvent):Boolean { return keybinds.matches(pageId,key,event); }
+      public function isKeyDown(pageId:String,key:String):Boolean { return keybinds.down(pageId,key); }
+      public function isCapturingKey():Boolean { return keybinds.capturing; }
+      public function beginKeyCapture(pageId:String,key:String):Boolean { return keybinds.begin(pageId,key); }
+      public function clearKey(pageId:String,key:String):Boolean { return keybinds.clear(pageId,key); }
+      public function cancelKeyCapture():void { keybinds.cancel(); }
+      public function keyLabel(value:*):String { return keybinds.label(value); }
+      public function keyConflict(pageId:String,key:String,value:*):String { return keybinds.conflict(pageId,key,value); }
+      public function keyCaptureWaiting(pageId:String,key:String):Boolean { return keybinds.waiting(pageId,key); }
+      public function keyCaptureStatus(pageId:String):String { return keybinds.status(pageId); }
+      internal function keyCaptureContext(pageId:String):void { keybinds.setContext(pageId); }
       /** Optional UI routing for a client's existing shortcut. No global key is claimed. */
       public function togglePage(modId:String = ""):Boolean
       {
@@ -63,11 +81,13 @@ package
          for each(var it:Object in items)
          {
             if(it == null || it.key == null || !(it["get"] is Function) || !(it["set"] is Function)
-               || (it.kind != "check" && it.kind != "slider") || keys["$" + it.key])
+               || (it.kind != "check" && it.kind != "slider" && it.kind != "keybind") || keys["$" + it.key])
             { report("invalid item in " + modId); return; }
             if(it.kind == "slider" && (!isFinite(Number(it.min)) || !isFinite(Number(it.max))
                || !isFinite(Number(it.step)) || Number(it.step) <= 0 || Number(it.max) < Number(it.min)))
             { report("invalid slider in " + modId); return; }
+            if(it.kind == "keybind" && it["def"] != null && SettingsKeybinds.normalize(it["def"]) == null)
+            { report("invalid key binding in " + modId); return; }
             keys["$" + it.key] = true;
          }
          var page:Object = null;
@@ -135,6 +155,7 @@ package
 
       public function closeAll():void
       {
+         keybinds.cancel();
          // Snapshot callbacks so a client registering during close cannot extend this pass.
          var callbacks:Array = [];
          for each(var page:Object in entries) callbacks.push({id:page.modId, fn:page.onPageClose});

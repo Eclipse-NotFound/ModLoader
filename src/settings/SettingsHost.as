@@ -6,7 +6,7 @@ package
 
    public class SettingsHost extends Sprite
    {
-      public static const VERSION:String = "0.4.0";
+      public static const VERSION:String = "0.5.0";
       private static var instance:SettingsHost;
       private var main:*;
       private var carrier:MovieClip;
@@ -49,6 +49,7 @@ package
       {
          try
          {
+            settings.attachKeyStage(main.stage);
             if(carrier == null)
             {
                // Do not steal the name from an already loaded independent host.

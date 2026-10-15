@@ -1,0 +1,35 @@
+{
+  "storage": "C:\\Users\\hello\\AppData\\Roaming\\pfe-modsettings-menus-6450adfc0bd24c82a0012f432a167774\\Local Store",
+  "appId": "pfe-modsettings-menus-6450adfc0bd24c82a0012f432a167774",
+  "installedClients": false,
+  "migration": false,
+  "installedHost": false,
+  "hashes": {
+    "RConnect": "B2ED7F3A9B1D176DFFB2B912D69DA8084982906FF71D6FBA8367BD36514E84F8",
+    "FirearmAttachments": "B3304596EB7E08796F9DE2CF02E1E7CCCFF10E188D26FEDFA960AA6370D2A4B9",
+    "ModLoader": "BD71B6F31774B97841D4C158451DA0353B53BC46AC72F8E2A7FE2C3F3F4908B1",
+    "RModifier": "4F1D6CF19979F4EA4960F8CCD8377C1D3CAC490BED9949866885357D073C8625",
+    "MoreSkills&Weapons": "B7A3C811D0A073F026A5E810386699C1059F99EF066012992CFDE605FF96E402",
+    "probe": "6B107D3A3F43694B24BAF81C024B3A0C2D677742D465E8AE8807325652BB7A11",
+    "WallBlend": "8EAC7B08BABF2631A1897C988C36416BA8B6CF204788256B46F436CACB319BB3",
+    "LightAndDarkness": "D8666B4ACD9E98BC73785402F9A9A771DA5F54CC742C4D69664824ADAD1857A3",
+    "Sandevistan": "CEC6A3061CB90380579D8A95AA1254E0328BD0DAE6E239FC4CA5205D6CCCF942",
+    "ContinuousScene": "E977168ED9F1B21FA27A01361E18483D83AAF0808B1A657838F06F6284A81928",
+    "TDFC": "99BFBAA68229635FBAA496EF9287A94BB9EA7C65D71339CEF3FDE65F47E30275",
+    "ModSettings": "C2BC2CCE45A9B7125D8CF048B352E059EC6DDF466F8625CA77BCC4B3E6A4B451",
+    "RandomRooms": "2C4B88FB016921725D86C2893B14B41A888CD430B921028C6F59F480924A4AE2",
+    "RealisticVision": "E99608088A8B00B4442BC3AEF52D8035336F0123EA5A96D55503C90B1F6E0808",
+    "pfe": "9987C696BEBBEB0626D8F73DA775CF867B2CED4FF626137FD9F161264270F938"
+  },
+  "candidateSources": {
+    "MoreSkills&Weapons": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\MoreSkills&Weapons\\build\\out\\keybind-20261015\\candidate-final\\MoreSkillsWeaponsMod.swf",
+    "RandomRooms": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RandomRooms\\build\\style-review\\game-harness\\comparison-app\\development\\RandomRoomsMod.swf",
+    "RConnect": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RConnect\\build\\keybind-output\\candidate\\RConnectMod.swf",
+    "FirearmAttachments": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\FirearmAttachments\\build\\out\\keybind-2026-10-15\\FirearmAttachmentsMod.swf",
+    "Sandevistan": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\Sandevistan\\build\\out\\keybind-20261015-006\\SandevistanMod.swf",
+    "RealisticVision": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RealisticVision\\build\\keybind-output\\candidate\\RealisticVisionMod.swf",
+    "LightAndDarkness": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\LightAndDarkness\\build\\generated\\keybind-worktree\\build\\out\\LightAndDarknessMod.swf",
+    "ModLoader": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\ModLoaderMod.swf"
+  },
+  "scenario": "all"
+}

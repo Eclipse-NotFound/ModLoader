@@ -1013,6 +1013,7 @@ package
          var pg:Array = pages();
          if(selPage >= pg.length) selPage = 0;
          var page:* = pg[selPage];
+         registry.keyCaptureContext(page == null ? "" : String(page.modId));
          if(page == null)
          {
             if(head != null) LoaderLocale.bind(head as TextField,"模组设置");
@@ -1022,6 +1023,8 @@ package
          var items:Array = displayRows(page);
          if(head != null) LoaderLocale.bind(head as TextField,registry.text(page,page.displayName) + LoaderLocale.text(" 设置"),true,true);
          if(helpTf != null) LoaderLocale.bind(helpTf,page.desc == null || page.desc == "" ? LoaderLocale.text(HELP_DEFAULT) : registry.text(page,page.desc),true,true);
+         if(helpTf != null && registry.keyCaptureStatus(page.modId) != "")
+            LoaderLocale.bind(helpTf,registry.keyCaptureStatus(page.modId),true,true);
          if(items == null) return;
          var n:int = Math.min(items.length - rowOffset, ROW_CAP);
          for(var i:int = 0; i < n; i++)
@@ -1057,10 +1060,27 @@ package
             }
             r["addChild"](lt);
             r["settingsItem"] = it;
+            r["settingsPageId"] = page.modId;
             r.name = "SettingsItem:" + it.key;
             var kind:String = it["kind"] == null ? "check" : it["kind"];
             var cur:* = getItemVal(it);
-            if(kind == "check")
+            if(kind == "keybind")
+            {
+               lt.styleSheet = null; lt.autoSize = TextFieldAutoSize.NONE;
+               lt.width = 240 - lt.x; lt.height = 22;
+               var waiting:Boolean = registry.keyCaptureWaiting(page.modId,it.key);
+               var warning:String = registry.keyConflict(page.modId,it.key,cur);
+               var bindText:String = waiting ? LoaderLocale.text("等待按键") : registry.keyLabel(cur);
+               var bind:MovieClip = keyButton(bindText + (warning != "" ? " !" : ""), 250, 210);
+               bind.name = "SettingsKeyChange:" + it.key;
+               bind.addEventListener(MouseEvent.CLICK,onKeyChange);
+               r.addChild(bind);
+               var clear:MovieClip = keyButton(LoaderLocale.text("清除"), 475, 60);
+               clear.name = "SettingsKeyClear:" + it.key;
+               clear.addEventListener(MouseEvent.CLICK,onKeyClear);
+               r.addChild(clear);
+            }
+            else if(kind == "check")
             {
                var cb:* = makeCheck();
                cb["selected"] = cur == true;
@@ -1126,6 +1146,34 @@ package
          box["buttonMode"] = true;
          box.addEventListener(MouseEvent.CLICK, onHandToggle);
          return box;
+      }
+
+      private function keyButton(text:String, x:Number, width:Number):MovieClip
+      {
+         var button:MovieClip = new MovieClip();
+         button.x = x; button.y = 2; button.buttonMode = true; button.mouseChildren = false;
+         button.graphics.lineStyle(1,0x518D68); button.graphics.beginFill(0x10271B);
+         button.graphics.drawRect(0,0,width,20); button.graphics.endFill();
+         // Native main buttons use 20pt text; these compact binding buttons
+         // need their own format before localization records the font size.
+         var caption:TextField = new TextField();
+         var format:TextFormat = new TextFormat();
+         format.font = LoaderLocale.language() == "zh" && rowFont != null ? rowFont : "_sans";
+         format.size = text.length > 25 ? 10 : 12; format.color = 0xD8FFE8;
+         caption.defaultTextFormat = format;
+         caption.embedFonts = LoaderLocale.language() == "zh" && rowEmbed;
+         caption.selectable = false; caption.mouseEnabled = false;
+         caption.autoSize = TextFieldAutoSize.NONE;
+         caption.x = 4; caption.y = -1; caption.width = width-8; caption.height = 22;
+         caption.text = text; caption.setTextFormat(format);
+         while(Number(format.size) > 8 && (caption.textHeight > caption.height-4 || caption.textWidth > caption.width-4))
+         {
+            format.size = Number(format.size)-0.5;
+            caption.defaultTextFormat = format; caption.setTextFormat(format);
+         }
+         LoaderLocale.bind(caption,text);
+         button.addChild(caption);
+         return button;
       }
 
       private function makeSlider(it:Object, cur:*):*
@@ -1230,6 +1278,20 @@ package
 
       // ---------------- 控件事件 ----------------
 
+      private function onKeyChange(e:MouseEvent):void
+      {
+         e.stopImmediatePropagation();
+         var row:* = rowOf(e.currentTarget);
+         if(row != null) registry.beginKeyCapture(row.settingsPageId,row.settingsItem.key);
+      }
+
+      private function onKeyClear(e:MouseEvent):void
+      {
+         e.stopImmediatePropagation();
+         var row:* = rowOf(e.currentTarget);
+         if(row != null) registry.clearKey(row.settingsPageId,row.settingsItem.key);
+      }
+
       private function rowOf(o:*):*
       {
          while(o != null)
@@ -1333,6 +1395,17 @@ package
             if(row == null) return;
             var it:Object = row["settingsItem"];
             var hint:String = it["hint"] == null ? "" : it["hint"];
+            if(registry.isCapturingKey())
+            {
+               if(helpTf != null) LoaderLocale.bind(helpTf,registry.keyCaptureStatus(row.settingsPageId),true,true);
+               return;
+            }
+            if(it.kind == "keybind")
+            {
+               var conflict:String = registry.keyConflict(row.settingsPageId,it.key,getItemVal(it));
+               hint += (hint == "" ? "" : "\n") + LoaderLocale.text("点击当前按键以修改；右侧清除可解除绑定");
+               if(conflict != "") hint += "\n" + conflict;
+            }
             if(helpTf != null) LoaderLocale.bind(helpTf,registry.text(pages()[selPage],it["label"]) + (hint != "" ? ":\n" + registry.text(pages()[selPage],hint) : ""),true,true);
          }
          catch(e:*)
@@ -1348,6 +1421,8 @@ package
             {
                var pg:Array = pages();
                var d:String = selPage < pg.length ? pg[selPage]["desc"] : null;
+               var keyNotice:String = selPage < pg.length ? registry.keyCaptureStatus(pg[selPage].modId) : "";
+               if(keyNotice != "") { LoaderLocale.bind(helpTf,keyNotice,true,true); return; }
                LoaderLocale.bind(helpTf,(d == null || d == "") ? LoaderLocale.text(HELP_DEFAULT) : registry.text(pg[selPage],d),true,true);
             }
          }
@@ -1446,6 +1521,7 @@ package
 
       private function close(pip:*):void
       {
+         registry.keyCaptureContext("");
          panelOpen = false;
          if(myBut != null) myButHi["visible"] = false;
          if(nativeButtonFrames != null)

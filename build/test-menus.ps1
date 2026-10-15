@@ -2,8 +2,10 @@ param([ValidateSet('all','without-msw')][string]$Scenario='all',
     [string]$AnimateRoot='D:\Program Files\Adobe Animate 2024',
     [switch]$InstalledHost, [switch]$SmokeOnly,
     [string]$MigrateFrom='',
-    [ValidateSet('MenuProbe','GroupProbe')][string]$Probe='MenuProbe',
+    [ValidateSet('MenuProbe','GroupProbe','KeybindProbe','IntegrationKeybindProbe')][string]$Probe='MenuProbe',
     [string]$MSWSwf='', [string]$HostSwf='',
+    [string]$CandidateManifest='',
+    [string]$HotkeyPages='msw-hotkeys,sandevistan-hotkeys,realisticvision-hotkeys,rconnect-hotkeys,randomrooms-hotkeys,firearmattachments-hotkeys,light-and-darkness-hotkeys',
     [ValidatePattern('^[a-z0-9-]*$')][string]$RunLabel='')
 $ErrorActionPreference='Stop'
 $label=if($RunLabel){$RunLabel}else{$Scenario}
@@ -17,11 +19,18 @@ $gameRoot=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
 $runtime=Join-Path $PSScriptRoot ('test-runtime\menus-'+$label)
 $out=Join-Path $PSScriptRoot ('out\menus\'+$label)
 New-Item -ItemType Directory -Force $runtime,$out | Out-Null
-$mapping=@{ModLoader='ModLoaderMod.swf';ModSettings='ModSettingsMod.swf';'MoreSkills&Weapons'='MoreSkillsWeaponsMod.swf';Sandevistan='SandevistanMod.swf';RealisticVision='RealisticVisionMod.swf';TDFC='TDFCMod.swf';RConnect='RConnectMod.swf';RandomRooms='RandomRoomsMod.swf'}
+$mapping=@{ModLoader='ModLoaderMod.swf';ModSettings='ModSettingsMod.swf';'MoreSkills&Weapons'='MoreSkillsWeaponsMod.swf';Sandevistan='SandevistanMod.swf';RealisticVision='RealisticVisionMod.swf';TDFC='TDFCMod.swf';RConnect='RConnectMod.swf';RandomRooms='RandomRoomsMod.swf';FirearmAttachments='FirearmAttachmentsMod.swf';LightAndDarkness='LightAndDarknessMod.swf';RModifier='LootEditorMod.swf';ContinuousScene='ContinuousSceneMod.swf';WallBlend='WallBlendMod.swf'}
 $candidates=@{}
 if(!$InstalledHost){$candidates.ModLoader=Join-Path $PSScriptRoot 'out\ModLoaderMod.swf'}
 if($MSWSwf){$candidates['MoreSkills&Weapons']=(Resolve-Path -LiteralPath $MSWSwf).Path}
 if($HostSwf){$candidates.ModLoader=(Resolve-Path -LiteralPath $HostSwf).Path}
+if($CandidateManifest){
+    $requested=Get-Content -LiteralPath $CandidateManifest -Raw | ConvertFrom-Json
+    foreach($property in $requested.PSObject.Properties){
+        if(!$mapping.ContainsKey($property.Name)){throw ('Unknown candidate mod: '+$property.Name)}
+        $candidates[$property.Name]=(Resolve-Path -LiteralPath $property.Value).Path
+    }
+}
 if($MigrateFrom){
     if($SmokeOnly -or $Scenario -ne 'all'){throw 'MigrateFrom requires full all scenario'}
     $candidates.ModSettings=(Resolve-Path -LiteralPath $MigrateFrom).Path
@@ -60,8 +69,9 @@ $descriptor=Join-Path $runtime 'app_modsettings_test.xml'
 </application>
 "@ | Set-Content -LiteralPath $descriptor -Encoding utf8
 $storage=Join-Path $env:APPDATA "$testId\Local Store"
-@{scenario=$Scenario;appId=$testId;storage=$storage;hashes=$hashes;installedClients=$true;installedHost=[bool]$InstalledHost;migration=[bool]$MigrateFrom} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $out 'run.json') -Encoding utf8
-$runs=if($SmokeOnly){@('smoke')}elseif($Scenario -eq 'without-msw'){@('first','reload')}else{@('first','reload','final')}
+[IO.File]::WriteAllText((Join-Path $runtime 'keybind-pages.txt'),$HotkeyPages)
+@{scenario=$Scenario;appId=$testId;storage=$storage;hashes=$hashes;candidateSources=$candidates;installedClients=($candidates.Count -le 1);installedHost=[bool]$InstalledHost;migration=[bool]$MigrateFrom} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $out 'run.json') -Encoding utf8
+$runs=if($Probe -in @('KeybindProbe','IntegrationKeybindProbe')){@('first','reload')}elseif($SmokeOnly){@('smoke')}elseif($Scenario -eq 'without-msw'){@('first','reload')}else{@('first','reload','final')}
 try {
     foreach($run in $runs){
         $legacy=$MigrateFrom -and $run -eq 'first'
@@ -70,7 +80,8 @@ try {
         [IO.File]::WriteAllText((Join-Path $runtime 'host-kind.txt'),$(if($legacy){'legacy'}else{'ModLoader'}))
         [IO.File]::WriteAllText((Join-Path $runtime 'scenario.txt'),$Scenario+':'+$run)
         $proc=Start-Process -FilePath (Join-Path $gameRoot 'adl64.exe') -ArgumentList @('-runtime',('"'+(Join-Path $gameRoot 'runtimes\air\win64')+'"'),('"'+$descriptor+'"')) -WindowStyle Hidden -RedirectStandardOutput (Join-Path $out ($run+'-stdout.log')) -RedirectStandardError (Join-Path $out ($run+'-stderr.log')) -PassThru
-        for($i=0;$i -lt 12;$i++){
+        $maxWaits=if($Probe -in @('KeybindProbe','IntegrationKeybindProbe')){30}else{12}
+        for($i=0;$i -lt $maxWaits;$i++){
             if($proc.WaitForExit(10000)){break}
             if(Test-Path -LiteralPath (Join-Path $storage 'heartbeat.txt')){Get-Content -LiteralPath (Join-Path $storage 'heartbeat.txt') -TotalCount 1}
         }
