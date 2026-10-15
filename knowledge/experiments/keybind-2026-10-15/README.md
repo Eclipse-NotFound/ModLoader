@@ -7,9 +7,12 @@
 | keybind-all-fit-20261015 | 公共BD71＋七客户端冻结候选，1.02原宿主及12活动模块 | 175 | 171 | 23项按钮录键、文本容纳、精确匹配、冲突、持久化、默认及选定实际动作 |
 | keybind-core-fit-20261015 | 公共BD71＋当时正式客户端 | 29 | 10 | 真实控件、捕获/释放/按住、取消/清空、默认与中英俄 |
 | keybind-installed-20261015 | 从正式ModLoader release读回BD71，与当时正式客户端 | 29 | 10 | 安装后再启隔离游戏，服务入口/功能与持久化复验 |
+| keybind-installed-all-20261015 | 用户批准六项安装后，从全部正式release读回，RR已补hotkeys=v1为3F8789 | 175 | 171 | 全部23项安装后菜单与重启保存/默认再次通过 |
 
 每份run.json含实际SHA、候选来源及唯一AIR应用ID。385项候选检查与39项安装复验分别保存，不把通过数当作所有玩法覆盖。程序化键盘事件通过实际舞台及模组监听；不是实体键盘、真人鼠标或DLC测试。
 
 两张截图已实际查看：RandomRooms八行绑定文本完整，俄文公共小按钮无裁切。其它候选单项动作的深入验证归对应客户端回执。
 
 deployment.json是公共ModLoader安装完成时的回执副本；若后来又部署，应以build/out/keybind-installation/deployment.json及state记录核对，不能用本归档覆盖后续状态。
+
+client-deployment.json是六客户端安装并复验的独立事务；recorded-commits.json记录各模组部署文档提交。统一回退仅在六个目标仍为该次指纹时执行，FA和公共服务由各自事务管理。安装后截图installed-randomrooms-hotkeys.png保留真实正式字节画面。

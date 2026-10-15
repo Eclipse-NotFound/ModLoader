@@ -1,6 +1,6 @@
 # ModLoader 外置记忆
 
-> 2026-10-15 菜单改键：ModLoader2.4.0/settings0.5.0已安装，24865B，SHA256 BD71B6F31774B97841D4C158451DA0353B53BC46AC72F8E2A7FE2C3F3F4908B1。用户在改装会话明确授权公共依赖部署；七客户端23项候选联合346项＋公共39项通过，正式文件回读再39项通过。FA由对应会话单独部署，其余六客户端仍是候选，不自动扩大安装范围。新增keybindVersion=1，保留现有接口版本；回滚、指纹及入口见[keybind-integration-2026-10-15.md](keybind-integration-2026-10-15.md)。下方旧版本记录保留历史。
+> 2026-10-15 菜单改键已全部安装：ModLoader2.4.0/settings0.5.0，24865B / BD71B6F31774B97841D4C158451DA0353B53BC46AC72F8E2A7FE2C3F3F4908B1；七模组23项均可在对应「快捷键」页即时修改。用户先在改装会话授权公共依赖与FA，再在主会话明确批准其余六项安装。最终正式组合重启前175＋重启后171项通过，公共独立39项与其正式回读39项也通过。新增keybindVersion=1，旧接口保留；六项统一备份before-keybind-clients-20261015-214440-393ca9a3。回滚、指纹及入口见[keybind-integration-2026-10-15.md](keybind-integration-2026-10-15.md)，下方旧版记录保留历史。
 
 > 2026-10-14 分发合集：按用户要求打包除RModifier外十个已验证部署组件，含ContinuousScene0.3/RV0.30.4/WB0.4.2配套宿主；RConnect保留0.2.22-dev预发布标记。包在build/out/Remains-AllMods-NoRModifier-2026-10-14.zip，82项安装/回退/扫描/隔离启动及最终ZIP回读通过。只生成包，未更改正式安装或上传。指纹与边界见[合集记录](collection-2026-10-14.md)。
 

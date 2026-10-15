@@ -1,0 +1,172 @@
+PASS msw-hotkeys publishes the expected action count
+PASS msw-hotkeys is inside its module shortcut menu
+PASS sandevistan-hotkeys publishes the expected action count
+PASS sandevistan-hotkeys is inside its module shortcut menu
+PASS realisticvision-hotkeys publishes the expected action count
+PASS realisticvision-hotkeys is inside its module shortcut menu
+PASS rconnect-hotkeys publishes the expected action count
+PASS rconnect-hotkeys is inside its module shortcut menu
+PASS randomrooms-hotkeys publishes the expected action count
+PASS randomrooms-hotkeys is inside its module shortcut menu
+PASS firearmattachments-hotkeys publishes the expected action count
+PASS firearmattachments-hotkeys is inside its module shortcut menu
+PASS light-and-darkness-hotkeys publishes the expected action count
+PASS light-and-darkness-hotkeys is inside its module shortcut menu
+PASS each shortcut has one authoritative item
+PASS msw-hotkeys opens through the native menu
+PASS msw-hotkeys/panel has a visible change button
+PASS msw-hotkeys/panel survives a fresh process
+PASS msw-hotkeys/panel matches exact modifiers
+PASS msw-hotkeys/aim has a visible change button
+PASS msw-hotkeys/aim survives a fresh process
+PASS msw-hotkeys/aim matches exact modifiers
+PASS msw-hotkeys/panel displays its current binding
+PASS msw-hotkeys/panel text fits its button (15.75/22, 58.1/202)
+PASS msw-hotkeys/aim displays its current binding
+PASS msw-hotkeys/aim text fits its button (15.75/22, 58.1/202)
+PASS sandevistan-hotkeys opens through the native menu
+PASS sandevistan-hotkeys/activate has a visible change button
+PASS sandevistan-hotkeys/activate survives a fresh process
+PASS sandevistan-hotkeys/activate matches exact modifiers
+PASS sandevistan-hotkeys/activate displays its current binding
+PASS sandevistan-hotkeys/activate text fits its button (15.75/22, 58.1/202)
+PASS realisticvision-hotkeys opens through the native menu
+PASS realisticvision-hotkeys/debug has a visible change button
+PASS realisticvision-hotkeys/debug survives a fresh process
+PASS realisticvision-hotkeys/debug matches exact modifiers
+PASS realisticvision-hotkeys/toggle has a visible change button
+PASS realisticvision-hotkeys/toggle survives a fresh process
+PASS realisticvision-hotkeys/toggle matches exact modifiers
+PASS realisticvision-hotkeys/mode has a visible change button
+PASS realisticvision-hotkeys/mode survives a fresh process
+PASS realisticvision-hotkeys/mode matches exact modifiers
+PASS realisticvision-hotkeys/debug displays its current binding
+PASS realisticvision-hotkeys/debug text fits its button (15.75/22, 58.1/202)
+PASS realisticvision-hotkeys/toggle displays its current binding
+PASS realisticvision-hotkeys/toggle text fits its button (15.75/22, 58.1/202)
+PASS realisticvision-hotkeys/mode displays its current binding
+PASS realisticvision-hotkeys/mode text fits its button (15.75/22, 56.9/202)
+PASS rconnect-hotkeys opens through the native menu
+PASS rconnect-hotkeys/panel has a visible change button
+PASS rconnect-hotkeys/panel survives a fresh process
+PASS rconnect-hotkeys/panel matches exact modifiers
+PASS rconnect-hotkeys/chat has a visible change button
+PASS rconnect-hotkeys/chat survives a fresh process
+PASS rconnect-hotkeys/chat matches exact modifiers
+PASS rconnect-hotkeys/panel displays its current binding
+PASS rconnect-hotkeys/panel text fits its button (15.75/22, 59.3/202)
+PASS rconnect-hotkeys/chat displays its current binding
+PASS rconnect-hotkeys/chat text fits its button (15.75/22, 58.1/202)
+PASS randomrooms-hotkeys opens through the native menu
+PASS randomrooms-hotkeys/explore has a visible change button
+PASS randomrooms-hotkeys/explore survives a fresh process
+PASS randomrooms-hotkeys/explore matches exact modifiers
+PASS randomrooms-hotkeys/home has a visible change button
+PASS randomrooms-hotkeys/home survives a fresh process
+PASS randomrooms-hotkeys/home matches exact modifiers
+PASS randomrooms-hotkeys/test has a visible change button
+PASS randomrooms-hotkeys/test survives a fresh process
+PASS randomrooms-hotkeys/test matches exact modifiers
+PASS randomrooms-hotkeys/next has a visible change button
+PASS randomrooms-hotkeys/next survives a fresh process
+PASS randomrooms-hotkeys/next matches exact modifiers
+PASS randomrooms-hotkeys/showcase has a visible change button
+PASS randomrooms-hotkeys/showcase survives a fresh process
+PASS randomrooms-hotkeys/showcase matches exact modifiers
+PASS randomrooms-hotkeys/jump has a visible change button
+PASS randomrooms-hotkeys/jump survives a fresh process
+PASS randomrooms-hotkeys/jump matches exact modifiers
+PASS randomrooms-hotkeys/debug has a visible change button
+PASS randomrooms-hotkeys/debug survives a fresh process
+PASS randomrooms-hotkeys/debug matches exact modifiers
+PASS randomrooms-hotkeys/export has a visible change button
+PASS randomrooms-hotkeys/export survives a fresh process
+PASS randomrooms-hotkeys/export matches exact modifiers
+PASS randomrooms-hotkeys/explore displays its current binding
+PASS randomrooms-hotkeys/explore text fits its button (15.75/22, 53.25/202)
+PASS randomrooms-hotkeys/home displays its current binding
+PASS randomrooms-hotkeys/home text fits its button (15.75/22, 55.65/202)
+PASS randomrooms-hotkeys/test displays its current binding
+PASS randomrooms-hotkeys/test text fits its button (15.75/22, 58.1/202)
+PASS randomrooms-hotkeys/next displays its current binding
+PASS randomrooms-hotkeys/next text fits its button (15.75/22, 56.9/202)
+PASS randomrooms-hotkeys/showcase displays its current binding
+PASS randomrooms-hotkeys/showcase text fits its button (15.75/22, 60.5/202)
+PASS randomrooms-hotkeys/jump displays its current binding
+PASS randomrooms-hotkeys/jump text fits its button (15.75/22, 58.1/202)
+PASS randomrooms-hotkeys/debug displays its current binding
+PASS randomrooms-hotkeys/debug text fits its button (15.75/22, 59.3/202)
+PASS randomrooms-hotkeys/export displays its current binding
+PASS randomrooms-hotkeys/export text fits its button (15.75/22, 58.1/202)
+PASS firearmattachments-hotkeys opens through the native menu
+PASS firearmattachments-hotkeys/workbench has a visible change button
+PASS firearmattachments-hotkeys/workbench survives a fresh process
+PASS firearmattachments-hotkeys/workbench matches exact modifiers
+PASS firearmattachments-hotkeys/bayonet has a visible change button
+PASS firearmattachments-hotkeys/bayonet survives a fresh process
+PASS firearmattachments-hotkeys/bayonet matches exact modifiers
+PASS firearmattachments-hotkeys/bipod has a visible change button
+PASS firearmattachments-hotkeys/bipod survives a fresh process
+PASS firearmattachments-hotkeys/bipod matches exact modifiers
+PASS firearmattachments-hotkeys/optic has a visible change button
+PASS firearmattachments-hotkeys/optic survives a fresh process
+PASS firearmattachments-hotkeys/optic matches exact modifiers
+PASS firearmattachments-hotkeys/grenade has a visible change button
+PASS firearmattachments-hotkeys/grenade survives a fresh process
+PASS firearmattachments-hotkeys/grenade matches exact modifiers
+PASS firearmattachments-hotkeys/workbench displays its current binding
+PASS firearmattachments-hotkeys/workbench text fits its button (15.75/22, 59.3/202)
+PASS firearmattachments-hotkeys/bayonet displays its current binding
+PASS firearmattachments-hotkeys/bayonet text fits its button (15.75/22, 58.1/202)
+PASS firearmattachments-hotkeys/bipod displays its current binding
+PASS firearmattachments-hotkeys/bipod text fits its button (15.75/22, 58.1/202)
+PASS firearmattachments-hotkeys/optic displays its current binding
+PASS firearmattachments-hotkeys/optic text fits its button (15.75/22, 58.1/202)
+PASS firearmattachments-hotkeys/grenade displays its current binding
+PASS firearmattachments-hotkeys/grenade text fits its button (15.75/22, 58.1/202)
+PASS light-and-darkness-hotkeys opens through the native menu
+PASS light-and-darkness-hotkeys/headlamp has a visible change button
+PASS light-and-darkness-hotkeys/headlamp survives a fresh process
+PASS light-and-darkness-hotkeys/headlamp matches exact modifiers
+PASS light-and-darkness-hotkeys/fixture has a visible change button
+PASS light-and-darkness-hotkeys/fixture survives a fresh process
+PASS light-and-darkness-hotkeys/fixture matches exact modifiers
+PASS light-and-darkness-hotkeys/headlamp displays its current binding
+PASS light-and-darkness-hotkeys/headlamp text fits its button (15.75/22, 58.1/202)
+PASS light-and-darkness-hotkeys/fixture displays its current binding
+PASS light-and-darkness-hotkeys/fixture text fits its button (15.75/22, 60.5/202)
+PASS old F11 no longer toggles vision
+PASS extra modifier does not toggle vision
+PASS the rebound vision toggle executes the real action
+PASS the rebound vision mode executes the real action
+PASS the real co-op panel is present
+PASS old F10 no longer toggles the co-op panel
+PASS extra modifier does not toggle the co-op panel
+PASS the rebound panel action runs
+PASS system repeat does not toggle the panel again
+PASS release and repress toggles the panel again
+PASS the rebound chat action opens the actual chat page
+PASS rconnect-hotkeys/panel restores its own default
+PASS rconnect-hotkeys/chat restores its own default
+PASS randomrooms-hotkeys/explore restores its own default
+PASS randomrooms-hotkeys/home restores its own default
+PASS randomrooms-hotkeys/test restores its own default
+PASS randomrooms-hotkeys/next restores its own default
+PASS randomrooms-hotkeys/showcase restores its own default
+PASS randomrooms-hotkeys/jump restores its own default
+PASS randomrooms-hotkeys/debug restores its own default
+PASS randomrooms-hotkeys/export restores its own default
+PASS msw-hotkeys/panel restores its own default
+PASS msw-hotkeys/aim restores its own default
+PASS realisticvision-hotkeys/debug restores its own default
+PASS realisticvision-hotkeys/toggle restores its own default
+PASS realisticvision-hotkeys/mode restores its own default
+PASS light-and-darkness-hotkeys/headlamp restores its own default
+PASS light-and-darkness-hotkeys/fixture restores its own default
+PASS sandevistan-hotkeys/activate restores its own default
+PASS firearmattachments-hotkeys/workbench restores its own default
+PASS firearmattachments-hotkeys/bayonet restores its own default
+PASS firearmattachments-hotkeys/bipod restores its own default
+PASS firearmattachments-hotkeys/optic restores its own default
+PASS firearmattachments-hotkeys/grenade restores its own default
+PASS 171 assertions

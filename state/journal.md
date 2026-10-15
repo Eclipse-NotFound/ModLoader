@@ -1,5 +1,11 @@
 # ModLoader 开发日志（journal）
 
+## 2026-10-15 六客户端统一安装完成
+
+- 用户在主会话明确选择“安装剩余六个”，统一备份并安装MSW、Sandy、RV、RConnect、RR及LAD。六项旧/新指纹逐一检查；RR仅补启动日志hotkeys=v1的新3F8789候选已先实测122项。
+- 正式12活动模组原字节共同复制到唯一AIR应用，23项菜单录键/显示容纳/精确匹配/新动作/重启保存/默认恢复175＋171通过，事务Verify再次比对全部正式/实际测试字节及本体/清单/配置/其它模块无变。回执installed-and-verified。
+- 六模组各自提交部署记录、记忆/日志指针；现有WIP保留。统一回退先查build/out/keybind-client-installation/deployment.json并使用build/deploy-keybind-clients.ps1 -Action Rollback，防止覆盖后续发布。玩家保存重启后生效，未关闭用户实例或改真实存档。
+
 ## 2026-10-15 各模组菜单改键与公共依赖安装
 
 - 新增keybind控件、精确组合匹配、跨模组/原版占用校验、持续按住与捕获释放屏障；七模组23项接入，默认值和各自配置所有权保留。真实GUI访问及字体裁切问题已修复并保留失败证据。

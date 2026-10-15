@@ -1,0 +1,84 @@
+{
+  "protected": {
+    "mods\\loader-manifest.txt": "35A1A1764B730C6DA1899EB9B2D622916E98FCBA27BD4FB0D973C3B67109E1F2",
+    "mods\\WallBlend\\release\\WallBlendMod.swf": "8EAC7B08BABF2631A1897C988C36416BA8B6CF204788256B46F436CACB319BB3",
+    "mods\\ContinuousScene\\release\\ContinuousSceneMod.swf": "E977168ED9F1B21FA27A01361E18483D83AAF0808B1A657838F06F6284A81928",
+    "mods\\WallBlend\\release\\config.json": "16BB3A56A74195DE6D4589CEBDE88E80C378956C776FFCDE1C848F0ED7D48A89",
+    "application.xml": "70DD3B085E5F6C66C03693CF68CE5E93A4E4136DD745D40D1A5B2A49863BA236",
+    "mods\\TDFC\\release\\TDFCMod.swf": "99BFBAA68229635FBAA496EF9287A94BB9EA7C65D71339CEF3FDE65F47E30275",
+    "mods\\RModifier\\release\\LootEditorMod.swf": "4F1D6CF19979F4EA4960F8CCD8377C1D3CAC490BED9949866885357D073C8625",
+    "DLC\\pfeUI.swf": "0BD5D24381B5AAEA50E40B2F95A9E54DFE4A7911AAFBA27AFF06961C82F350C7",
+    "DLC\\pfe.swf": "90DEC445E60E352DCAD06B3171A3AE7B588DBF1FE6C8FB452FCEEC392AA9DB02",
+    "mods\\ModLoader\\release\\ModLoaderMod.swf": "BD71B6F31774B97841D4C158451DA0353B53BC46AC72F8E2A7FE2C3F3F4908B1",
+    "mods\\FirearmAttachments\\release\\FirearmAttachmentsMod.swf": "B3304596EB7E08796F9DE2CF02E1E7CCCFF10E188D26FEDFA960AA6370D2A4B9",
+    "mods\\ModSettings\\release\\ModSettingsMod.swf": "C2BC2CCE45A9B7125D8CF048B352E059EC6DDF466F8625CA77BCC4B3E6A4B451",
+    "pfe.swf": "9987C696BEBBEB0626D8F73DA775CF867B2CED4FF626137FD9F161264270F938",
+    "mods\\ModLoader\\supported-mods.txt": "88678D52DF036C1BF75FBB06B72BD2EDE8C6B576655EFCD308C5EAD142DFA814"
+  },
+  "installedAt": "2026-10-15T21:44:41.4244524+08:00",
+  "clients": [
+    {
+      "mod": "MoreSkills&Weapons",
+      "file": "MoreSkillsWeaponsMod.swf",
+      "candidate": "mods/MoreSkills&Weapons/build/out/keybind-20261015/candidate-final/MoreSkillsWeaponsMod.swf",
+      "before": "DDADA303CD78EF2EA46D0261055B77F48AD72EA99F722555ABCB329DCDE1F9CE",
+      "after": "B7A3C811D0A073F026A5E810386699C1059F99EF066012992CFDE605FF96E402",
+      "target": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\MoreSkills&Weapons\\release\\MoreSkillsWeaponsMod.swf",
+      "source": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\MoreSkills&Weapons\\build\\out\\keybind-20261015\\candidate-final\\MoreSkillsWeaponsMod.swf",
+      "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\backups\\before-keybind-clients-20261015-214440-393ca9a3\\MoreSkills&Weapons\\MoreSkillsWeaponsMod.swf"
+    },
+    {
+      "mod": "Sandevistan",
+      "file": "SandevistanMod.swf",
+      "candidate": "mods/Sandevistan/build/out/keybind-20261015-006/SandevistanMod.swf",
+      "before": "A6E706F0AF8CC912A600D3B2262D3AAE1CCFFB7A9DD18B6B45F354FA860272E4",
+      "after": "CEC6A3061CB90380579D8A95AA1254E0328BD0DAE6E239FC4CA5205D6CCCF942",
+      "target": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\Sandevistan\\release\\SandevistanMod.swf",
+      "source": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\Sandevistan\\build\\out\\keybind-20261015-006\\SandevistanMod.swf",
+      "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\backups\\before-keybind-clients-20261015-214440-393ca9a3\\Sandevistan\\SandevistanMod.swf"
+    },
+    {
+      "mod": "RealisticVision",
+      "file": "RealisticVisionMod.swf",
+      "candidate": "mods/RealisticVision/build/keybind-output/candidate/RealisticVisionMod.swf",
+      "before": "B7695DF82AA45FDB783C4EB88AFFCB0C34A7674E3A052D2FD128867172A83A49",
+      "after": "E99608088A8B00B4442BC3AEF52D8035336F0123EA5A96D55503C90B1F6E0808",
+      "target": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RealisticVision\\release\\RealisticVisionMod.swf",
+      "source": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RealisticVision\\build\\keybind-output\\candidate\\RealisticVisionMod.swf",
+      "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\backups\\before-keybind-clients-20261015-214440-393ca9a3\\RealisticVision\\RealisticVisionMod.swf"
+    },
+    {
+      "mod": "RConnect",
+      "file": "RConnectMod.swf",
+      "candidate": "mods/RConnect/build/keybind-output/candidate/RConnectMod.swf",
+      "before": "07B76ED8082462C43EAE7048AF041370FE315A5B6B23CCDF4E600E02ECD443A4",
+      "after": "B2ED7F3A9B1D176DFFB2B912D69DA8084982906FF71D6FBA8367BD36514E84F8",
+      "target": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RConnect\\release\\RConnectMod.swf",
+      "source": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RConnect\\build\\keybind-output\\candidate\\RConnectMod.swf",
+      "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\backups\\before-keybind-clients-20261015-214440-393ca9a3\\RConnect\\RConnectMod.swf"
+    },
+    {
+      "mod": "RandomRooms",
+      "file": "RandomRoomsMod.swf",
+      "candidate": "mods/RandomRooms/build/RandomRooms-keybind-v1-marked-dev.swf",
+      "before": "2698952775FE609F7B57857D482F637EA0C5441EA08A0464CC16469AC3FCE2AB",
+      "after": "3F8789C62F9B2EF8EFC082597F672A2FEA230A0D7FCE3BE90C04EFD9582E5145",
+      "target": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RandomRooms\\release\\RandomRoomsMod.swf",
+      "source": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RandomRooms\\build\\RandomRooms-keybind-v1-marked-dev.swf",
+      "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\backups\\before-keybind-clients-20261015-214440-393ca9a3\\RandomRooms\\RandomRoomsMod.swf"
+    },
+    {
+      "mod": "LightAndDarkness",
+      "file": "LightAndDarknessMod.swf",
+      "candidate": "mods/LightAndDarkness/build/generated/keybind-worktree/build/out/LightAndDarknessMod.swf",
+      "before": "01767319A54AC88961B2BA40391F0FA79359486EE5591E6A22D90AD49F84537C",
+      "after": "D8666B4ACD9E98BC73785402F9A9A771DA5F54CC742C4D69664824ADAD1857A3",
+      "target": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\LightAndDarkness\\release\\LightAndDarknessMod.swf",
+      "source": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\LightAndDarkness\\build\\generated\\keybind-worktree\\build\\out\\LightAndDarknessMod.swf",
+      "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\backups\\before-keybind-clients-20261015-214440-393ca9a3\\LightAndDarkness\\LightAndDarknessMod.swf"
+    }
+  ],
+  "authorization": "User in thread 01a13f40-6ca2-7872-9f9a-c1e453e80745 explicitly selected installation of all six remaining clients, 2026-10-15",
+  "status": "installed-and-verified",
+  "verification": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\menus\\keybind-installed-all-20261015"
+}

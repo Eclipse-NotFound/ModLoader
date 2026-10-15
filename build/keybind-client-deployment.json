@@ -1,0 +1,10 @@
+{
+  "clients": [
+    {"mod":"MoreSkills&Weapons","file":"MoreSkillsWeaponsMod.swf","candidate":"mods/MoreSkills&Weapons/build/out/keybind-20261015/candidate-final/MoreSkillsWeaponsMod.swf","before":"DDADA303CD78EF2EA46D0261055B77F48AD72EA99F722555ABCB329DCDE1F9CE","after":"B7A3C811D0A073F026A5E810386699C1059F99EF066012992CFDE605FF96E402"},
+    {"mod":"Sandevistan","file":"SandevistanMod.swf","candidate":"mods/Sandevistan/build/out/keybind-20261015-006/SandevistanMod.swf","before":"A6E706F0AF8CC912A600D3B2262D3AAE1CCFFB7A9DD18B6B45F354FA860272E4","after":"CEC6A3061CB90380579D8A95AA1254E0328BD0DAE6E239FC4CA5205D6CCCF942"},
+    {"mod":"RealisticVision","file":"RealisticVisionMod.swf","candidate":"mods/RealisticVision/build/keybind-output/candidate/RealisticVisionMod.swf","before":"B7695DF82AA45FDB783C4EB88AFFCB0C34A7674E3A052D2FD128867172A83A49","after":"E99608088A8B00B4442BC3AEF52D8035336F0123EA5A96D55503C90B1F6E0808"},
+    {"mod":"RConnect","file":"RConnectMod.swf","candidate":"mods/RConnect/build/keybind-output/candidate/RConnectMod.swf","before":"07B76ED8082462C43EAE7048AF041370FE315A5B6B23CCDF4E600E02ECD443A4","after":"B2ED7F3A9B1D176DFFB2B912D69DA8084982906FF71D6FBA8367BD36514E84F8"},
+    {"mod":"RandomRooms","file":"RandomRoomsMod.swf","candidate":"mods/RandomRooms/build/RandomRooms-keybind-v1-marked-dev.swf","before":"2698952775FE609F7B57857D482F637EA0C5441EA08A0464CC16469AC3FCE2AB","after":"3F8789C62F9B2EF8EFC082597F672A2FEA230A0D7FCE3BE90C04EFD9582E5145"},
+    {"mod":"LightAndDarkness","file":"LightAndDarknessMod.swf","candidate":"mods/LightAndDarkness/build/generated/keybind-worktree/build/out/LightAndDarknessMod.swf","before":"01767319A54AC88961B2BA40391F0FA79359486EE5591E6A22D90AD49F84537C","after":"D8666B4ACD9E98BC73785402F9A9A771DA5F54CC742C4D69664824ADAD1857A3"}
+  ]
+}

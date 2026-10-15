@@ -1,6 +1,6 @@
 # 各模组菜单改键
 
-状态：七客户端候选及最终公共服务组合验证通过。公共ModLoader已按用户在改装会话的明确授权安装，正式文件回读39项也通过；其余六客户端仍为候选。FA由其对应会话独立部署并负责复验。
+状态：七客户端与公共ModLoader均已安装并正式文件读回复验通过。用户在本主会话明确选择“安装剩余六个（推荐）”后，21:44:40统一安装六客户端；全部23项随后两进程175＋171项通过。FA由对应会话独立部署并已复验481项。
 
 用户在本会话要求“把快捷键更改加入对应模组菜单，若有需要可向对应模组发送消息”。公共服务由本会话实现；在已有模组会话协作客户端，不创建新任务。RConnect 的 UI 与 RealisticVision 输入接入由本会话直接完成。
 
@@ -30,14 +30,31 @@
 
 ## 安装边界
 
+2026-10-15 21:44:40 用户直接批准后，统一备份并安装了其余六个客户端。备份根目录 `build/backups/before-keybind-clients-20261015-214440-393ca9a3`；事务回执 `build/out/keybind-client-installation/deployment.json`，已标记installed-and-verified。正式路径复制而非候选覆盖的 `keybind-installed-all-20261015` 两进程175＋171项通过，并复核六个正式/实际测试SHA与配置、本体、清单、公共ModLoader和FA指纹。运行 `build/deploy-keybind-clients.ps1 -Action Rollback` 可在核对六个正式指纹未被更新后统一回退。公共ModLoader与FA各自的先前事务不被该回退覆盖。
+
+RR最终安装件为125194 B / `3F8789C62F9B2EF8EFC082597F672A2FEA230A0D7FCE3BE90C04EFD9582E5145`，比原2C4B88候选唯一生产差分是启动日志增加hotkeys=v1；生成器与rrRevision不变。已实际回读public-marked-final证据：complete/exit0、实际运行指纹匹配、122项公共服务检查passed且failures为空，日志出现新标记；安装后统一346项覆盖该新字节。原候选385项仍归其原始运行清单，不改写成3F8789的成绩。
+
+| 正式组件 | 当前安装SHA256前16位 | 部署记录/源码 |
+|---|---|---|
+| ModLoader | BD71B6F31774B978 | 公共事务55d789d |
+| MSW | B7A3C811D0A073F0 | 源码379effb，部署b1b4183 |
+| Sandevistan | CEC6A3061CB90380 | 单人冻结94edd＋改键7f1d248，部署aa75683 |
+| RealisticVision | E99608088A8B00B4 | 输入c86062b，生产线冻结见candidate.json，部署7ec1361 |
+| RConnect | B2ED7F3A9B1D176D | UI5fd2f13，70项实际冻结源指纹见build/keybind-output/candidate.json，部署f037e44 |
+| RandomRooms | 3F8789C62F9B2EF8 | 改键7565cdb、发布标记4b6b280，部署7f02514 |
+| FirearmAttachments | B3304596EB7E0879 | 由其会话独立部署fa2afee |
+| LightAndDarkness | D8666B4ACD9E98BC | 稳定线e21e914；主目录按键整合8d302fb，部署6d02b3f |
+
+各模组state/keybind-deployment-2026-10-15.md与MEMORY/journal均已保存本次安装指针并独立提交。已有B/墙面/灯光/曳光等未提交WIP保留，不纳入部署文档提交；已跟踪的MSW/Sandy正式SWF随部署提交保存，其他仓的忽略策略保持原样。
+
 2026-10-15 21:25:24 已仅替换正式 `mods/ModLoader/release/ModLoaderMod.swf` 为24865 B / BD71B6F3…F4908B1。授权来源已实际回读改装会话01a13b7b-fe67-7a00-a10f-dd2df045fad9的用户消息01a13fb7-9a82-7421-9c1f-831774bfc1a6“请部署”和01a13fb9-429b-7421-96c5-4080ba0a2efc“允许联系并协调依赖部署”；权限仅为FA改键所需公共菜单依赖，不扩展到其余六个客户端。
 
 回执：`build/out/keybind-installation/deployment.json`；已标记installed-and-verified。原版备份 `build/backups/before-keybinds-20261015-212524-00da1b79/ModLoaderMod.swf`，20032 B / 2D01241A…9816FD。回退 `build/deploy-keybinds.ps1 -Action Rollback` 会先确认当前仍为本轮BD71，避免覆盖别人后续部署。正式文件读回的唯一隔离应用 `keybind-installed-20261015` 两进程29＋10项通过，日志含runtime2.4.0/settings0.5.0，未关闭玩家游戏。安装脚本Verify已复核宿主/清单/其它模组及配置指纹；FA是另一授权事务，明确排除其同时更新。
 
-本会话没有替换其余客户端release、根/DLC游戏SWF、清单、原有配置或真实存档。FA拥有独立部署授权，由改装会话处理，不写FA文件。测试只终止各自启动的唯一测试进程。剩余六个快捷键页需要对应客户端候选也安装后才会出现在正式游戏中。
+前述公共依赖事务只替换ModLoader，六客户端在后续直接批准下统一替换。两次事务均未修改根/DLC游戏SWF、清单、原有配置或真实存档。FA拥有独立部署授权，由改装会话处理，不写FA文件。测试只终止各自启动的唯一测试进程；玩家保存并重启游戏后七个模组快捷键页生效。
 
-FA对应会话已实际安装0.3.5 / B3304596…D2A4B9，并从正式FA＋BD71公共服务读回再验481/481；主会话只读核对其正式SHA。详见[FA独立部署回执](../../FirearmAttachments/state/keybind-deployment-2026-10-15.md)，不把其权限扩大到其他模组。RConnect已协调：其fix24仍独立验证，我方不会在未授权时替换其fix15或覆盖后续修复。
+FA对应会话已实际安装0.3.5 / B3304596…D2A4B9，并从正式FA＋BD71公共服务读回再验481/481；主会话只读核对其正式SHA。详见[FA独立部署回执](../../FirearmAttachments/state/keybind-deployment-2026-10-15.md)。RConnect已收到后续直接授权与六项安装通知，确认尚未部署fix24，将保留改键UI再叠加其动作修复；该未来修复不在本轮验证之内。
 
-RealisticVision候选沿已安装0.30.5-scene生产线，RConnect沿A22 fix15，Sandevistan沿已安装单人线，排除各自HEAD的未发布实验。MSW保留主线已有B接口并逐方法合入正式A22智能目标保护，未提交Pointer实验不带入。光暗稳定线候选位于隔离分支，主工作目录性能WIP保留；源码整合另验，不能用主目录旧候选覆盖本轮绑定。
+RealisticVision安装沿此前0.30.5-scene生产线，RConnect沿A22 fix15，Sandevistan沿此前单人线，排除各自HEAD的未发布实验。MSW保留主线已有B接口并逐方法合入正式A22智能目标保护，未提交Pointer实验不带入。光暗安装使用隔离分支稳定线D866；主目录已逐处整合改键为8d302fb，含性能WIP的单独开发件115项通过且没有部署，不能用主目录旧候选覆盖当前绑定。
 
 安装前按工作区GOVERNANCE §6与发布门禁核对授权、当时正式文件指纹、备份和各客户端回执；有其它会话新部署时先协调，不能用本轮旧输入覆盖新功能。无需修改游戏loader。所有测试限1.02；不扩称DLC、真人硬件输入、全部联机战斗或长期性能验收。
