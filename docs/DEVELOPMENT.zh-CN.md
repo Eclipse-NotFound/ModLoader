@@ -4,6 +4,8 @@
 
 以下保留此前的开发文档。部署哈希、模组数量、测试结果与回滚路径是对应日期的本机记录；不要按其中历史回滚步骤处理今天的玩家安装。日常装卸以玩家指南为准。
 
+2026-10-18 新增独立 Windows 启动器与保留选择的扫描器。当前选择保存、命令行、构建和回归方式以 [启动器说明](LAUNCHER.zh-CN.md) 为准。下文扫描器“总按兼容表重建开关”的描述是旧版本行为；新版会读取名单内的 `# selection|...` 用户选择注释。
+
 ## 当前结构
 
 ModLoader 由三个部分组成：游戏 MainFE 内的清单引导代码、生成清单的 Windows 扫描器、提供设置界面的 `release/ModLoaderMod.swf`。设置源代码在 `src/settings/`，运行入口在 `src/runtime/`，构建不再读取独立 ModSettings 项目。安装本项目的运行文件与版本表后，其他模组可继续使用原有 `ModSettingsCarrier.modAPI`，不需另装 ModSettings。

@@ -1,6 +1,8 @@
+[CmdletBinding()]
+param([string]$ScannerPath = '')
 $ErrorActionPreference = 'Stop'
 $project = Split-Path -Parent $PSScriptRoot
-$scanner = Join-Path $project 'RemainsModScanner.exe'
+$scanner = if ($ScannerPath) { [IO.Path]::GetFullPath($ScannerPath) } else { Join-Path $project 'RemainsModScanner.exe' }
 if (-not (Test-Path -LiteralPath $scanner)) { throw '请先运行 tools/build_scanner.ps1。' }
 
 function Expect([bool]$condition, [string]$message) {

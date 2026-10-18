@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "expected": [
+    "ModLoaderMod"
+  ],
+  "duplicateBlocked": true,
+  "appId": "pfe-launcher-8f2b4f8f6518443788f125d52a2d3f93",
+  "failures": [],
+  "observations": [
+    "status file: C:\\Users\\hello\\AppData\\Roaming\\pfe-launcher-8f2b4f8f6518443788f125d52a2d3f93\\Local Store\\#SharedObjects\\ModLoader.sol",
+    "ModLoaderMod : fresh log at 2026-10-18T14:10:02.4036868Z"
+  ],
+  "selection": "ModLoaderMod"
+}

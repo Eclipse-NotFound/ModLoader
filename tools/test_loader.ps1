@@ -47,12 +47,6 @@ $brokenV2 = $legacySource.Replace('      internal var mainMenu:MainMenu;',
     '      internal var mainMenu:MainMenu;' + [Environment]::NewLine + '      internal var modLoaderStatusReady:Boolean;')
 Expect-Throw { Transform-MainFe $brokenV2 'pfe.swf' } 'marker alone must not skip validation'
 
-$manifest = Join-Path $GameRoot 'mods\loader-manifest.txt'
-Assert-Manifest $manifest
-$plan = Get-ManifestPlan $manifest 'DLC/pfeUI.swf'
-Expect ($plan.Enabled.Count -eq 2 -and $plan.Disabled -contains 'ModSettingsMod') '1.04 matrix'
-Expect-Throw { Get-ManifestPlan $manifest 'unknown.swf' } 'unknown descriptor content'
-
 $testDir = Join-Path $WorkDir ('test-loader-' + [guid]::NewGuid().ToString('N'))
 $workFull = [IO.Path]::GetFullPath($WorkDir).TrimEnd([IO.Path]::DirectorySeparatorChar)
 $testFull = [IO.Path]::GetFullPath($testDir)
@@ -60,6 +54,14 @@ Expect ($testFull.StartsWith($workFull + [IO.Path]::DirectorySeparatorChar,
     [StringComparison]::OrdinalIgnoreCase)) 'test directory must stay inside work'
 New-Item -ItemType Directory -Force -Path (Join-Path $testDir '#SharedObjects') | Out-Null
 try {
+    # Stable fixture: installed packages and player choices must not define test expectations.
+    $manifest = Join-Path $testDir 'loader-manifest.txt'
+    [IO.File]::WriteAllLines($manifest, @('# selection|Rconnect|RConnectMod|1|1|1',
+        'ModSettings|ModSettingsMod|0|0|0', 'Sandevistan|SandevistanMod|1|1|1', 'Rconnect|RConnectMod|1|1|1'))
+    Assert-Manifest $manifest
+    $plan = Get-ManifestPlan $manifest 'DLC/pfeUI.swf'
+    Expect ($plan.Enabled.Count -eq 2 -and $plan.Disabled -contains 'ModSettingsMod') '1.04 fixture matrix'
+    Expect-Throw { Get-ManifestPlan $manifest 'unknown.swf' } 'unknown descriptor content'
     $started = [datetime]::UtcNow.AddSeconds(-10)
     $ended = [datetime]::UtcNow.AddSeconds(2)
     $runMs = ([DateTimeOffset][datetime]::UtcNow.AddSeconds(-5)).ToUnixTimeMilliseconds()

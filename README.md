@@ -6,6 +6,8 @@ Start here if you are new to modding Fallout Equestria: REMAINS. ModLoader lets 
 
 **[Open the step-by-step installation guide](docs/INSTALL.md)** · [All downloads and release notes](https://github.com/Eclipse-NotFound/ModLoader/releases)
 
+**New local launcher:** `RemainsModLauncher.exe` scans installed mods, saves per-version checkboxes and launches the game. It also supports exact mod isolation and a UTF-8 JSON command-line interface. [Launcher instructions (Chinese)](docs/LAUNCHER.zh-CN.md). This addition has not been uploaded to the older release packages linked below.
+
 ## Which files do I need?
 
 | File | Purpose |

@@ -1,0 +1,11 @@
+{
+  "appId": "pfe-launcher-25f0b524870e47c294e0caf047fd63bd",
+  "expected": [],
+  "failures": [],
+  "selection": "none",
+  "passed": true,
+  "duplicateBlocked": true,
+  "observations": [
+    "status file: C:\\Users\\hello\\AppData\\Roaming\\pfe-launcher-25f0b524870e47c294e0caf047fd63bd\\Local Store\\#SharedObjects\\ModLoader.sol"
+  ]
+}

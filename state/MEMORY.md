@@ -1,51 +1,50 @@
 # ModLoader 外置记忆
 
-> 2026-10-15 菜单改键已全部安装：ModLoader2.4.0/settings0.5.0，24865B / BD71B6F31774B97841D4C158451DA0353B53BC46AC72F8E2A7FE2C3F3F4908B1；七模组23项均可在对应「快捷键」页即时修改。用户先在改装会话授权公共依赖与FA，再在主会话明确批准其余六项安装。最终正式组合重启前175＋重启后171项通过，公共独立39项与其正式回读39项也通过。新增keybindVersion=1，旧接口保留；六项统一备份before-keybind-clients-20261015-214440-393ca9a3。回滚、指纹及入口见[keybind-integration-2026-10-15.md](keybind-integration-2026-10-15.md)，下方旧版记录保留历史。
-
-> 2026-10-14 分发合集：按用户要求打包除RModifier外十个已验证部署组件，含ContinuousScene0.3/RV0.30.4/WB0.4.2配套宿主；RConnect保留0.2.22-dev预发布标记。包在build/out/Remains-AllMods-NoRModifier-2026-10-14.zip，82项安装/回退/扫描/隔离启动及最终ZIP回读通过。只生成包，未更改正式安装或上传。指纹与边界见[合集记录](collection-2026-10-14.md)。
-
-> 2026-10-08 玩家文档：按用户要求更新公开 GitHub 中英文首页、玩家指引、最新发布页说明与仓库简介，公开提交 94d419c。未发布本地开发代码或更换安装包。详见 [发布记录](github-player-guides-2026-10-08.md)。
-
-> 2026-10-03 当前安装：游戏内英文/俄文已安装，随原生语言入口切换。正式 SWF 20032 字节，SHA256 `2D01241A89FB25D608AC5138254E14DC3E5FB46E7120319A0D5922E4CF9816FD`。八模组安装前 4431、安装后 4432 项检查通过；中文保留，113 个设置值不变。当前语言发布与回滚以 [localization-2026-10-03.md](localization-2026-10-03.md) 为准；下方旧安装记录保留作历史基线。
-
-> 2026-09-24：v2.3.0（settings v0.4.0）通用可展开分组已安装，MSW v1.13.1首个接入；最终文件安装前后各65项通过。
+更新：2026-10-18。模组选择启动器1.0.0已放本目录；游戏运行模块仍为2.4.0/settings0.5.0。本轮未改正式名单、游戏SWF、描述符或其他模组。
 
 ## 1. 这个模组是什么
-三部分：MainFE清单引导v2、Windows扫描器v2.1、运行模块ModLoaderMod v2.3.0。设置源码src/settings，入口src/runtime与release/ModLoaderMod.swf；不再从旧ModSettings项目构建。设置值和保存仍归客户端，两级菜单、分组显示和位置记忆由宿主管理。
+
+MainFE清单引导v2、Windows扫描器/选择启动器、游戏内设置模块。新入口RemainsModLauncher.exe；源码src/ModLauncher.cs与src/ModScanner.cs。运行模块源码src/runtime、src/settings，部署点release/ModLoaderMod.swf；不从旧ModSettings项目构建。
 
 ## 2. 用户偏好与协作约定
-- 合并Q1–Q4确认A：内置设置、保留接口/记忆、仅支持1.02；不加模组管理，已完成。
-- 分组Q1–Q6均A并整体确认实现、验证、安装：大类逐行，子项下展；标题全选/清空，部分选中点击补全；最多展开一类或全部收起，跨重启记忆；只改Pip，F6平面列表保留。完整见design/grouped-settings.md。
-- 扫描器只更新名单，不启动游戏；未知模组默认三个版本全开，已知限制写supported-mods.txt。
-- 隔离测试使用唯一AIR应用ID、隐藏窗口、自有存储，只终止自己启动的进程。本环境启动AIR需正常桌面/提权环境；不操作用户游戏或存档。
-- 游戏SWF改动须独立走补丁门禁；本轮只安装已授权的ModLoader和MSW两包，受保护治理文件未改。
+
+- 2026-10-18用户要求简单界面扫描已安装包、选择加载并一键启动，兼顾玩家与agent排障；此前“不加模组管理”的历史范围被本次要求扩展。
+- 扫描器仍只更新名单；启动器提供保存/启动、精确仅选、全停/全开及CLI。扫描保留明确选择，未知新包沿用三版本默认开启，已知限制在supported-mods.txt。
+- 测试用唯一AIR应用ID、独立副本/存储，只停止本轮进程，不碰玩家存档。沙箱AIR存活不等于成功，本环境实机需正常Windows权限。
+- 设置值与保存归客户端；宿主管两级菜单、分组、位置记忆和录键。23项快捷键在对应模组菜单修改。
+- 不改受保护治理文件；本项目一直缺AGENT_SCOPE.md，权限以根GOVERNANCE为准。
 
 ## 3. 当前状态
-- 正式ModLoaderMod.swf：17282字节，SHA256 `375951AE86BCCD8886CDEAC8B479A339877CEE30F5D1B489C21FE06C736C0BF5`。
-- 同时安装MSW v1.13.1-settings-groups：54503字节，SHA256 `E1EA2AC2ACAA1F9F7D91DC9EFE72F07E782609EB1C8B4E5ED42072FB1C53FE28`，包含同期激光笔fa8c1ee；不能用旧B8EB/C233产物覆盖。
-- registerPage的navigation.groups可选；groupVersion=1，apiVersion/menuVersion仍1。getPages().items保持平面，重置含收起项；旧客户端/旧宿主兼容。展开ID存于原ModSettingsMenu（/）expandedGroups，不能迁到每次启动清空的ModLoader诊断存储。
-- 跨三进程62+6+4项、旧宿主8项、旧客户端及新组合各50项；最终精确宿主中文样式24项、安装前后各65项与frames=600通过。MSW准确生产字节规则1197项、豁免320项、多锁52项、激光真实存读档/开火通过。早期宿主与最终三角箭头版本的验证界限见实验记录。
-- 新入口1/0/0、旧ModSettings入口0/0/0，总数7/3/2。三份游戏SWF、清单/版本表、其他包与文本配置15个保护项哈希不变。build/out/groups-installation/deployment.json为installed-and-verified。
-- 首次内置v2.2的记忆迁移71、无MSW20、中文24、三版本故障94、前后50是历史证据，见settings-merge-2026-09-24.md。
+
+- 启动器1.0.0：C05B4C23…45F9590；配套扫描器：8FA18398…C0D33C1。完整指纹及工具备份见[安装回执](../knowledge/experiments/launcher-2026-10-18/installation.json)。两者都在本模组根目录可双击。
+- 选择与有效开关同存mods/loader-manifest.txt，选择用 `# selection|...` 注释。兼容限制与缺包只屏蔽实际加载。新版扫描器保留选择，旧版会重置。保存备份、检测外部变更、互斥写入。
+- 核心/真实控件38项、CLI23项、扫描器与加载器离线回归通过。1.02真实单开ModLoader、单开TDFC、全停三场景通过，禁用项无请求，重复启动拒绝。只读扫描15包、原名单启用14包。
+- 游戏内正式SWF仍24865B，SHA256 BD71B6F31774B97841D4C158451DA0353B53BC46AC72F8E2A7FE2C3F3F4908B1。keybindVersion=1，旧接口兼容。2026-10-15七客户端23项正式组合175＋171、公共独立及回读各39项通过，见[改键记录](keybind-integration-2026-10-15.md)。
+- master直提；任务前已有supported-mods.txt的PermanentInjury登记未提交，保留并排除本轮。EXE/build/out沿用忽略策略，源码与稳定证据入库。
 
 ## 4. 正在进行与卡点
-分组实现、验证和安装均完成，无待确认/安装步骤。设置后续只维护本项目；旧ModSettings保留历史。MSW仓他人的journal历史重排和新建测试文件未纳入本轮提交。
+
+本地启动器实现、验证和安装完成；未上传GitHub或更换公开ZIP，无待用户批准的部署步骤。
 
 ## 5. 已知边界
-- 设置仅1.02；本轮不认证DLC设置、全部联机/战斗、完整激光笔/炮塔/时停组合。保留MSW原已知玩法边界。
-- 清单顺序只决定发起请求先后，初始化异步；客户端继续重试。缺包/同步init失败不阻止其他请求，不保证任意后续异步错误隔离。
-- 禁止两个设置宿主同时启用；旧ModSettings包存在时必须保留禁用登记。扫描器不证明未知入口或跨版本兼容。
-- 根AGENTS和部分技能仍描述旧加载结构，本项目无AGENT_SCOPE，受保护资料由用户维护。
+
+- 新界面中文，已查看本机200% DPI默认/最小窗口；未验其他DPI、多显示器或真人完整操作。
+- 扫描只检顶层release包与文件头，不证明入口、依赖或跨版本兼容；未知包明确提示。三实机场景不等于全部玩法/组合认证。
+- “仅启用”严格只开所选项；需要统一设置菜单须同时选ModLoader。旧ModSettings保持禁用，禁止两宿主并开。
+- 导出选择/指纹不是运行成功证据，实际加载继续查本轮loader session的requested/ok/err。
+- 清单顺序只决定发起请求先后，初始化异步；同步失败不阻止其他请求，不保证任意异步错误隔离。
+- 设置模块和本轮实机只验证1.02；保留既有联机、战斗及各模组玩法边界。
 
 ## 6. 回滚与下一步
-- 当前成对回滚：work/backups/before-groups-20260924-075628/。保存退出游戏，分别恢复两个SWF到各自release，再重启；恢复ModLoader2.2/C970和含激光笔的MSW1.13.0/476430。无需改名单、版本表或配置。
-- 用户保存退出并重启后，在「模组→MSW→锁定豁免」使用类别批量按钮和展开箭头；原勾选保留，首次全部收起。
-- ./build/build.ps1只输出build/out，上线仍需备份与门禁。取当前正式客户端，不用旧冻结MSW覆盖新功能。
-- 如要撤回首次设置合并，按README的历史合并回滚段协调新旧入口与扫描；不是当前分组回滚。Steam更新按README恢复补丁，不为设置更新重打MainFE。
+
+- 双击RemainsModLauncher.exe → 勾选 → 保存并启动；先退出已有游戏。Agent参数见[说明](../docs/LAUNCHER.zh-CN.md)。
+- 工具回退备份work/backups/before-launcher-20261018-2216/RemainsModScanner.exe。恢复旧工具前保留名单，旧扫描器会重置选择。组合回退用work/manifest-backups/。
+- tools/build_launcher.ps1只输出build/out/launcher；UI/core、CLI、scanner、loader、runtime检查入口见说明。SWF仍用build/build.ps1构建，上线另走门禁。
+- 公共改键与六客户端回退用[2026-10-15记录](keybind-integration-2026-10-15.md)，不要用旧分组备份覆盖较新功能。
 
 ## 7. 深入了解
-- docs/settings-interface.md：完整分组API、兼容与记忆契约；design/grouped-settings.md：确认方案。
-- knowledge/experiments/grouped-settings-2026-09-24.md：行为、精确产物对应测试、失败探针修正、安装与回滚；state/journal.md：近期实施。
-- build/test-menus.ps1 -Probe GroupProbe：分组三进程测试；-MSWSwf/-HostSwf测试候选与兼容；-InstalledHost -SmokeOnly复验正式文件。MenuProbe保留原菜单回归。
-- build/test-button-style.ps1：中文像素和页面切换；test-startup.ps1：三版本及故障；tools/test_loader.ps1/test_scanner.ps1：离线回归；smoke_test.ps1：加载冒烟。
-- knowledge/experiments/settings-merge-2026-09-24.md：首次合并；knowledge/discoveries/loader-review-2026-09-23.md：v2引导修复；tools/patch_game_swfs.ps1：补丁；src/ModScanner.cs：扫描器。
+
+- [启动器证据与失败记录](../knowledge/experiments/launcher-2026-10-18/README.md)、[使用与CLI](../docs/LAUNCHER.zh-CN.md)。
+- [菜单改键接入](keybind-integration-2026-10-15.md)、docs/keybind-interface-v1.md。
+- docs/settings-interface.md、design/grouped-settings.md；历史knowledge/experiments/grouped-settings-2026-09-24.md及settings-merge-2026-09-24.md。
+- [10-14合集](collection-2026-10-14.md)、[10-08公开玩家文档](github-player-guides-2026-10-08.md)、[10-03多语言](localization-2026-10-03.md)。

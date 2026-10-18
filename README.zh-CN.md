@@ -6,6 +6,8 @@
 
 **[打开完整安装指南](docs/INSTALL.zh-CN.md)** · [全部下载与更新记录](https://github.com/Eclipse-NotFound/ModLoader/releases)
 
+**本地新增：** 双击 `RemainsModLauncher.exe` 可扫描、勾选模组并一键启动，也支持单模组排障及 agent 命令行。[启动器用法](docs/LAUNCHER.zh-CN.md)。启动器尚未上传到下方旧发布包；旧包的安装步骤仍保留。
+
 ## 先下载哪几个文件？
 
 | 文件 | 用途 |

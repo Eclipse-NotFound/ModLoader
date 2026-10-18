@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "expected": [
+    "TDFCMod"
+  ],
+  "duplicateBlocked": true,
+  "appId": "pfe-launcher-7e3819aa4a97472db508fdb9b8567e24",
+  "failures": [],
+  "observations": [
+    "status file: C:\\Users\\hello\\AppData\\Roaming\\pfe-launcher-7e3819aa4a97472db508fdb9b8567e24\\Local Store\\#SharedObjects\\ModLoader.sol",
+    "TDFCMod : fresh log at 2026-10-18T14:10:20.3503940Z"
+  ],
+  "selection": "TDFCMod"
+}

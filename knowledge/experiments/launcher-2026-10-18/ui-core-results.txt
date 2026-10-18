@@ -1,0 +1,39 @@
+PASS 1: opening does not create manifest
+PASS 2: known and discovered entries scanned
+PASS 3: missing package marked unavailable
+PASS 4: legacy settings cannot auto-enable
+PASS 5: blocked package cannot enable
+PASS 6: incompatible version cannot enable
+PASS 7: unknown name rejects entire operation
+PASS 8: invalid operation has no partial selection effects
+PASS 9: exact one-mod isolation
+PASS 10: other versions retain choices
+PASS 11: scanner retains launcher selection
+PASS 12: save is idempotent
+PASS 13: unchanged save makes no backup
+PASS 14: missing selected package skipped
+PASS 15: selection restored after package returns
+PASS 16: disabled package stays disabled after return
+PASS 17: stale manifest cannot overwrite another writer
+PASS 18: concurrent edit retained
+PASS 19: new package requires rescan before save
+PASS 20: malformed manifest fails without overwrite
+PASS 21: malformed manifest preserved
+PASS 22: descriptor routes DLC correctly
+PASS 23: descriptor cannot escape root
+PASS 24: missing game files block launch
+PASS 25: external XML entities rejected
+PASS 26: report contains package fingerprints
+PASS 27: export cannot overwrite manifest
+PASS 28: export cannot overwrite existing file
+PASS 29: real WinForms grid populated
+PASS 30: blocked checkbox is read-only
+PASS 31: all button selects eligible packages
+PASS 32: none button clears eligible packages
+PASS 33: only-selected button isolates one package
+PASS 34: rescan preserves unsaved choice
+PASS 35: save button writes effective selection
+PASS 36: switching version updates availability
+PASS 37: launch button fits minimum window
+PASS 38: installed preview leaves real manifest unchanged
+PASS 38 assertions

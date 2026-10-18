@@ -1,0 +1,48 @@
+{
+  "status": "installed-and-readback-verified",
+  "version": "1.0.0",
+  "date": "2026-10-18",
+  "backup": "work/backups/before-launcher-20261018-2216",
+  "files": [
+    {
+      "name": "RemainsModLauncher.exe",
+      "before": null,
+      "after": "C05B4C231A97EBD740DCE64D642F994EDBFFBC14B74723AB40A1F27FA45F9590"
+    },
+    {
+      "name": "RemainsModScanner.exe",
+      "before": "5753A0A6824B47F9146B9C2D2A0F7C19EA60FA15E9F2C72E510D11AAC1E5A727",
+      "after": "8FA1839893B85085B788B65CCF1884495A4CAB7BFC473E20FED80E894C0D33C1"
+    }
+  ],
+  "unchangedInputs": [
+    {
+      "Path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\pfe.swf",
+      "Hash": "2A4662488BA3B690EB23ACFE4B79ACA3F0D9AE114E5E2DEE7595AF3CABFFB3EA"
+    },
+    {
+      "Path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\DLC\\pfe.swf",
+      "Hash": "90DEC445E60E352DCAD06B3171A3AE7B588DBF1FE6C8FB452FCEEC392AA9DB02"
+    },
+    {
+      "Path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\DLC\\pfeUI.swf",
+      "Hash": "0BD5D24381B5AAEA50E40B2F95A9E54DFE4A7911AAFBA27AFF06961C82F350C7"
+    },
+    {
+      "Path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\application.xml",
+      "Hash": "70DD3B085E5F6C66C03693CF68CE5E93A4E4136DD745D40D1A5B2A49863BA236"
+    },
+    {
+      "Path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\loader-manifest.txt",
+      "Hash": "8A6D36E3429F7247655B800CB8348506CF5521AD9AC763C3501A097F5AEEE82F"
+    },
+    {
+      "Path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\supported-mods.txt",
+      "Hash": "490F8E934D673A969F9E0DC322132AB6FE5A69940E101BB7D151DDBBBA312E5C"
+    },
+    {
+      "Path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\release\\ModLoaderMod.swf",
+      "Hash": "BD71B6F31774B97841D4C158451DA0353B53BC46AC72F8E2A7FE2C3F3F4908B1"
+    }
+  ]
+}
