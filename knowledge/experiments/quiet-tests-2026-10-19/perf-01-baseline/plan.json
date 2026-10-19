@@ -1,0 +1,18 @@
+{
+  "id": "perf-01-baseline",
+  "mode": "perf",
+  "repeat": 1,
+  "name": "baseline",
+  "enabled": [
+    "AgentDebugProbeMod"
+  ],
+  "protocol": 1,
+  "runId": "3cd6617ba9da4f65adf098ec9dfbc399",
+  "appId": "pfe-agentdebug-826bacce8cbb43748c60b1640f78a8af",
+  "scenario": "new-game",
+  "slot": 0,
+  "warmupMs": 1000,
+  "measureMs": 2000,
+  "store": "C:\\Users\\hello\\AppData\\Roaming\\pfe-agentdebug-826bacce8cbb43748c60b1640f78a8af\\Local Store",
+  "exportSave": false
+}

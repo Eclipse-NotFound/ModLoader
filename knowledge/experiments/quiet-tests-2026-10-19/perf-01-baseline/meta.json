@@ -1,0 +1,22 @@
+{
+  "id": "perf-01-baseline",
+  "mode": "perf",
+  "repeat": 1,
+  "name": "baseline",
+  "enabled": [],
+  "protocol": 1,
+  "runId": "3cd6617ba9da4f65adf098ec9dfbc399",
+  "appId": "pfe-agentdebug-826bacce8cbb43748c60b1640f78a8af",
+  "scenario": "new-game",
+  "slot": 0,
+  "warmupMs": 1000,
+  "measureMs": 2000,
+  "store": "C:\\Users\\hello\\AppData\\Roaming\\pfe-agentdebug-826bacce8cbb43748c60b1640f78a8af\\Local Store",
+  "exportSave": false,
+  "startedMs": 1792398670160,
+  "desktopMode": "isolated",
+  "desktopName": "RemainsTest-3113bd24bf73481cacd8f9948eefee4a",
+  "pid": 19900,
+  "exitCode": 0,
+  "endedMs": 1792398686985
+}

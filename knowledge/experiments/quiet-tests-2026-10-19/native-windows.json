@@ -1,0 +1,162 @@
+[
+  {
+    "pid": 19900,
+    "desktop": "RemainsTest-3113bd24bf73481cacd8f9948eefee4a",
+    "inputBefore": "Default",
+    "windows": [
+      {
+        "hwnd": 77735250,
+        "class": "Messaging",
+        "desktop": "RemainsTest-3113bd24bf73481cacd8f9948eefee4a",
+        "visible": false
+      },
+      {
+        "hwnd": 63319694,
+        "class": "IME",
+        "desktop": "RemainsTest-3113bd24bf73481cacd8f9948eefee4a",
+        "visible": false
+      },
+      {
+        "hwnd": 21506610,
+        "class": "AIR_Splash",
+        "desktop": "RemainsTest-3113bd24bf73481cacd8f9948eefee4a",
+        "visible": true
+      },
+      {
+        "hwnd": 11670800,
+        "class": "MSCTFIME UI",
+        "desktop": "RemainsTest-3113bd24bf73481cacd8f9948eefee4a",
+        "visible": false
+      },
+      {
+        "hwnd": 33103184,
+        "class": "ApolloRuntimeContentWindow",
+        "desktop": "RemainsTest-3113bd24bf73481cacd8f9948eefee4a",
+        "visible": false
+      },
+      {
+        "hwnd": 7803750,
+        "class": "CicLoaderWndClass",
+        "desktop": "RemainsTest-3113bd24bf73481cacd8f9948eefee4a",
+        "visible": false
+      },
+      {
+        "hwnd": 3867532,
+        "class": "CiceroUIWndFrame",
+        "desktop": "RemainsTest-3113bd24bf73481cacd8f9948eefee4a",
+        "visible": false
+      },
+      {
+        "hwnd": 2883794,
+        "class": "CiceroUIWndFrame",
+        "desktop": "RemainsTest-3113bd24bf73481cacd8f9948eefee4a",
+        "visible": false
+      },
+      {
+        "hwnd": 6960262,
+        "class": "UAC Input Indicator",
+        "desktop": "RemainsTest-3113bd24bf73481cacd8f9948eefee4a",
+        "visible": false
+      },
+      {
+        "hwnd": 19936788,
+        "class": "Touch Tooltip Window",
+        "desktop": "RemainsTest-3113bd24bf73481cacd8f9948eefee4a",
+        "visible": false
+      },
+      {
+        "hwnd": 3146388,
+        "class": "UAC_InputIndicatorOverlayWnd",
+        "desktop": "RemainsTest-3113bd24bf73481cacd8f9948eefee4a",
+        "visible": true
+      },
+      {
+        "hwnd": 6960262,
+        "class": "UAC Input Indicator",
+        "desktop": "RemainsTest-3113bd24bf73481cacd8f9948eefee4a",
+        "visible": true
+      }
+    ],
+    "inputAfter": "Default"
+  },
+  {
+    "pid": 98208,
+    "desktop": "RemainsTest-897c9640f2904ab6bcd3a9a812ab3512",
+    "inputBefore": "Default",
+    "windows": [
+      {
+        "hwnd": 77800786,
+        "class": "Messaging",
+        "desktop": "RemainsTest-897c9640f2904ab6bcd3a9a812ab3512",
+        "visible": false
+      },
+      {
+        "hwnd": 63385230,
+        "class": "IME",
+        "desktop": "RemainsTest-897c9640f2904ab6bcd3a9a812ab3512",
+        "visible": false
+      },
+      {
+        "hwnd": 69996844,
+        "class": "AIR_Splash",
+        "desktop": "RemainsTest-897c9640f2904ab6bcd3a9a812ab3512",
+        "visible": true
+      },
+      {
+        "hwnd": 7869286,
+        "class": "MSCTFIME UI",
+        "desktop": "RemainsTest-897c9640f2904ab6bcd3a9a812ab3512",
+        "visible": false
+      },
+      {
+        "hwnd": 3933068,
+        "class": "ApolloRuntimeContentWindow",
+        "desktop": "RemainsTest-897c9640f2904ab6bcd3a9a812ab3512",
+        "visible": false
+      },
+      {
+        "hwnd": 12068464,
+        "class": "CicLoaderWndClass",
+        "desktop": "RemainsTest-897c9640f2904ab6bcd3a9a812ab3512",
+        "visible": false
+      },
+      {
+        "hwnd": 3211924,
+        "class": "CiceroUIWndFrame",
+        "desktop": "RemainsTest-897c9640f2904ab6bcd3a9a812ab3512",
+        "visible": false
+      },
+      {
+        "hwnd": 9776954,
+        "class": "CiceroUIWndFrame",
+        "desktop": "RemainsTest-897c9640f2904ab6bcd3a9a812ab3512",
+        "visible": false
+      },
+      {
+        "hwnd": 51850236,
+        "class": "UAC Input Indicator",
+        "desktop": "RemainsTest-897c9640f2904ab6bcd3a9a812ab3512",
+        "visible": false
+      },
+      {
+        "hwnd": 11736336,
+        "class": "Touch Tooltip Window",
+        "desktop": "RemainsTest-897c9640f2904ab6bcd3a9a812ab3512",
+        "visible": false
+      },
+      {
+        "hwnd": 3211430,
+        "class": "UAC_InputIndicatorOverlayWnd",
+        "desktop": "RemainsTest-897c9640f2904ab6bcd3a9a812ab3512",
+        "visible": true
+      },
+      {
+        "hwnd": 51850236,
+        "class": "UAC Input Indicator",
+        "desktop": "RemainsTest-897c9640f2904ab6bcd3a9a812ab3512",
+        "visible": true
+      }
+    ],
+    "inputAfter": "Default"
+  }
+]

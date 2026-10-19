@@ -1,12 +1,14 @@
 # ModLoader 外置记忆
 
-更新：2026-10-19。新增agent归因调试器1.0.0并接入两项现有调试技能；启动器仍1.0.0，游戏运行模块仍2.4.0/settings0.5.0。随后已统一本机验证后直接部署规则，并按用户补充要求归档移除旧ModSettings项目及本机加载登记；现用设置组件与二进制版本不变。
+更新：2026-10-19。agent归因调试器1.0.1默认使用独立Windows桌面，测试启动图不再弹到用户桌面；启动器仍1.0.0，游戏运行模块仍2.4.0/settings0.5.0。已统一本机验证后直接部署规则，并归档移除旧ModSettings项目及本机加载登记。
 
 ## 1. 这个模组是什么
 
 MainFE清单引导v2、Windows扫描器/选择启动器、游戏内设置模块。新入口RemainsModLauncher.exe；源码src/ModLauncher.cs与src/ModScanner.cs。运行模块源码src/runtime、src/settings，部署点release/ModLoaderMod.swf；不从旧ModSettings项目构建。
 
 ## 2. 用户偏好与协作约定
+
+- 2026-10-19用户要求测试启动不显示HARMAN/AIR标识。默认后台测试用独立桌面；需要原生画面或操作时才显式可见测试。创建桌面失败须报错，不自动回退前台。具体入口见docs/AGENT-DEBUGGING.md。
 
 - 2026-10-19 用户持续授权：本任务新版通过本机验证与门禁后直接部署，无需再次询问；以根 `GOVERNANCE.md` §6 为准。历史记录的未部署状态保留，不据此批量安装旧候选。
 
@@ -19,6 +21,8 @@ MainFE清单引导v2、Windows扫描器/选择启动器、游戏内设置模块�
 - 本次用户明确授权修改工作区所有文件以统一部署规则；本项目一直缺AGENT_SCOPE.md，权限以根GOVERNANCE为准。
 
 ## 3. 当前状态
+
+- 后台桌面修复：tools/air_test_process.py；归因工具已默认接入，桌面策略写入计划/回执，旧计划需重新prepare。24项离线、3项原生进程及2项真实游戏采样/截图通过；确认AIR_Splash只在私有桌面，用户输入桌面未切换。证据见[后台启动验证](../knowledge/experiments/quiet-tests-2026-10-19/README.md)。两项调试技能路由2026-10-19.2已同步；其他旧驱动仍须按说明接入。
 
 - 调试器入口tools/agent-debug.ps1，Python标准库＋src/debugger/AgentDebugProbeMod.as；仅在独立app ID及匹配计划下启动。精确选组全经启动器；冻结副本、固定依赖、基线/完整/逐个排除/可选单开、反序重复。性能与视觉分进程，输出帧间隔、内存、加载证据、截图和有上限的显示树。只支持1.02。
 - 离线23项通过；两轮合成卡顿/色块12/12有效，排除后P95下降66/72ms，4张图实际复核；实际宿主/基线新档2/2、最终快照1/1、模板读档3/3通过。当前探针3999B、SHA3563828F…A3699A，未部署进正式release。证据与已修正失败见[本轮记录](../knowledge/experiments/debugger-2026-10-19/README.md)。

@@ -2,8 +2,10 @@ import importlib.util
 from pathlib import Path
 import tempfile
 import unittest
+import sys
 from unittest.mock import patch, MagicMock
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
 spec = importlib.util.spec_from_file_location("debugger", Path(__file__).resolve().parents[2] / "tools/mod_debugger.py")
 d = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(d)
@@ -130,20 +132,30 @@ class DebuggerTests(unittest.TestCase):
             root = Path(tmp); game = root / "game"; (game / "mods").mkdir(parents=True)
             (game / "mods/loader-manifest.txt").write_text("fixture")
             config = {"scenario": "menu", "slot": 0, "warmupMs": 1, "measureMs": 1000,
-                      "visible": False, "seedSource": None, "timeout": .01}
+                      "visible": False, "desktopMode": "isolated", "seedSource": None, "timeout": .01}
             trial = {"id": "perf-01-test", "mode": "perf", "repeat": 1, "name": "test", "enabled": ["A"]}
             process = MagicMock(pid=123)
+            process.desktop = "RemainsTest-fixture"
             process.wait.side_effect = [d.subprocess.TimeoutExpired("owned", .01), 0]
             process.poll.return_value = None
             with patch.object(d, "verify_inputs"), patch.object(d, "descriptor_for_trial"), \
                  patch.object(d, "launcher", return_value=d.json.dumps({"selected": ["A", d.PROBE]})), \
-                 patch.object(d.subprocess, "Popen", return_value=process), \
+                 patch.object(d, "HiddenProcess", return_value=process), \
                  patch.dict(d.os.environ, {"APPDATA": str(root / "appdata")}):
                 result = d.execute_trial(root, config, trial)
             process.kill.assert_called_once_with()
+            process.close.assert_called_once_with()
             self.assertFalse(result["valid"])
             self.assertTrue(any("watchdog timeout" in e for e in result["errors"]))
             self.assertTrue((root / "trials/perf-01-test/meta.json").exists())
+
+    def test_old_or_changed_desktop_policy_rejected_before_launch(self):
+        with patch.object(d, "HiddenProcess") as hidden, patch.object(d.subprocess, "Popen") as visible:
+            for config in ({"visible": False}, {"visible": True, "desktopMode": "isolated"}):
+                with self.assertRaisesRegex(ValueError, "prepare a new session"):
+                    d.execute_trial(Path("unused"), config, {})
+            hidden.assert_not_called()
+            visible.assert_not_called()
 
 
 if __name__ == "__main__":

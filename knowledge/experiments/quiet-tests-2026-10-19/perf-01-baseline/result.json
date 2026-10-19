@@ -1,0 +1,34 @@
+{
+  "id": "perf-01-baseline",
+  "mode": "perf",
+  "repeat": 1,
+  "name": "baseline",
+  "enabled": [],
+  "valid": true,
+  "errors": [],
+  "scene": {
+    "loc": "loc0_0",
+    "playerY": 640,
+    "frameRate": 30,
+    "land": "begin",
+    "scenario": "new-game",
+    "locClass": "fe.loc::Location",
+    "stageWidth": 1084,
+    "menuLoaded": true,
+    "menu": false,
+    "playerX": 326.00000000000006,
+    "stageHeight": 661
+  },
+  "memoryDelta": 28082176,
+  "metrics": {
+    "samples": 60,
+    "seconds": 2.0,
+    "meanMs": 33.333333333333336,
+    "p50Ms": 33,
+    "p95Ms": 36,
+    "maxMs": 45,
+    "over50": 0,
+    "over100": 0,
+    "over50PerSecond": 0.0
+  }
+}

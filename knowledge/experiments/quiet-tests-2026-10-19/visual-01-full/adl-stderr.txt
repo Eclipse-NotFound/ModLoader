@@ -1,0 +1,13 @@
+ModLoader[boot_start] v2 run=run_1792398693138_562753
+ModLoader[requested_ModLoaderMod] line 8
+ModLoader[requested_AgentDebugProbeMod] line 17
+ModLoader[boot] v2 col=2 requested=2
+ModLoader[ok_ModLoaderMod] init
+ModLoader[ok_AgentDebugProbeMod] init
+747 Интерфейс
+1444 Game init
+1031 Персонаж
+1 Местность
+954 Создание местности
+false
+389 Вход в местность

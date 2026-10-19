@@ -1,0 +1,26 @@
+{
+  "status": "installed-and-readback-verified",
+  "yaml": "manual review, no PyYAML",
+  "files": [
+    {
+      "path": ".agents/skills/remains-auto-testing/SKILL.md",
+      "before": "2b4c0eb3a1c6ea4b79764592a1e51484fab61cfe52ad38bb9ad82cb51656a5c2",
+      "after": "40774e4edf3beff5ff5de8412b525e7ebd3e71aaac88ebfa78b3d414d4d6c8eb"
+    },
+    {
+      "path": ".agents/skills/remains-auto-testing/references/实战验证.md",
+      "before": "b49e3f611d1cc7842127dc7f9be7b928e1b82e0bfab0f4ed5e4a5d0fb6adca77",
+      "after": "4e91c74df0d2e853abef88e5099b6b612369cfbe616be84ff004e0a906b86ac8"
+    },
+    {
+      "path": ".agents/skills/remains-runtime-debug/SKILL.md",
+      "before": "5ff26d51c00a14fc4331f6a04a5c1ee2b03ccbd8bd37dd8124c145ad8e8a95b0",
+      "after": "9bbeba3324a3eaa6fadc672c782bfb8576c4350ed1443f2469d7f71b2c91eca7"
+    },
+    {
+      "path": ".agents/skills/remains-runtime-debug/references/实战验证.md",
+      "before": "4594d293916a03bc19a1c9ca17243d71d56e2c05d14f0f2a3ff3e2ce8e75378e",
+      "after": "b9b733fee0bb68aa816d10f1485067f4a8ff19ae4ad525d96c7867c14b919d85"
+    }
+  ]
+}

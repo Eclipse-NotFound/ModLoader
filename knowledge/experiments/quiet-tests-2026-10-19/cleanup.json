@@ -1,0 +1,10 @@
+{
+  "userProcessesStopped": 0,
+  "preservedEvidence": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\knowledge\\experiments\\quiet-tests-2026-10-19",
+  "sessionRemoved": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261019-162847-377bbcf0",
+  "storesRemoved": [
+    "C:\\Users\\hello\\AppData\\Roaming\\pfe-agentdebug-826bacce8cbb43748c60b1640f78a8af",
+    "C:\\Users\\hello\\AppData\\Roaming\\pfe-agentdebug-9cd7b1bc4d8f44c69826821187580b65",
+    "C:\\Users\\hello\\AppData\\Roaming\\pfe-agentdebug-fdff99f32ffa45fab139087a0dfe11e6"
+  ]
+}

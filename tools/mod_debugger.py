@@ -20,12 +20,13 @@ import sys
 import time
 import uuid
 import xml.etree.ElementTree as ET
+from air_test_process import HiddenProcess
 
 PROJECT = Path(__file__).resolve().parents[1]
 GAME = PROJECT.parents[1]
 SESSIONS = PROJECT / "build/out/debugger"
 PROBE = "AgentDebugProbeMod"
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 
 
 def read(path):
@@ -176,6 +177,7 @@ def prepare(args):
               "targets": targets, "fixed": fixed, "scenario": args.scenario, "slot": args.slot,
               "warmupMs": round(args.warmup * 1000), "measureMs": round(args.seconds * 1000),
               "timeout": args.timeout, "visible": args.visible, "repeats": args.repeats,
+              "desktopMode": "interactive" if args.visible else "isolated",
               "seedSource": args.seed_store, "seedHashes": file_hashes(session / "seed") if args.seed_store else {},
               "exportSave": args.export_save,
               "snapshotHashes": file_hashes(game), "descriptorHash": sha(session / "descriptor-source.xml"),
@@ -275,6 +277,9 @@ def metrics(frames):
 
 
 def execute_trial(session, config, trial):
+    expected_desktop = "interactive" if config["visible"] else "isolated"
+    if config.get("desktopMode") != expected_desktop:
+        raise ValueError("Test desktop policy changed or predates isolation; prepare a new session")
     output = session / "trials" / trial["id"]
     output.mkdir(parents=True, exist_ok=False)
     game = session / "game"
@@ -295,7 +300,7 @@ def execute_trial(session, config, trial):
     actual = json.loads(launcher(game, "--list", "--json"))
     if set(actual["selected"]) != set(selected):
         raise ValueError("Exact selected set changed")
-    meta = {**trial, "protocol": 1, "runId": uuid.uuid4().hex, "appId": app_id,
+    meta = {**trial, "protocol": 1, "runnerVersion": VERSION, "runId": uuid.uuid4().hex, "appId": app_id,
             "scenario": config["scenario"], "slot": config["slot"],
             "warmupMs": config["warmupMs"], "measureMs": config["measureMs"], "store": str(store)}
     meta["exportSave"] = config.get("exportSave", False)
@@ -308,9 +313,16 @@ def execute_trial(session, config, trial):
     try:
         with (output / "adl-stdout.txt").open("wb") as stdout, (output / "adl-stderr.txt").open("wb") as stderr:
             # Own the handle directly for a watchdog. Selection is ALWAYS through the launcher.
-            process = subprocess.Popen([str(game / "adl64.exe"), "-runtime", str(game / "runtimes/air/win64"),
-                                        str(game / "agent-debug.xml")], cwd=game, stdout=stdout, stderr=stderr,
-                                       creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+            command = [str(game / "adl64.exe"), "-runtime", str(game / "runtimes/air/win64"),
+                       str(game / "agent-debug.xml")]
+            if config["visible"]:
+                process = subprocess.Popen(command, cwd=game, stdout=stdout, stderr=stderr,
+                                           creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+                meta["desktopMode"] = "interactive"
+            else:
+                process = HiddenProcess(command, cwd=game, stdout=stdout, stderr=stderr)
+                meta["desktopMode"] = "isolated"
+                meta["desktopName"] = process.desktop
             meta["pid"] = process.pid
             write(output / "meta.json", meta)
             try:
@@ -323,6 +335,8 @@ def execute_trial(session, config, trial):
         if process is not None and process.poll() is None:
             process.kill()
             process.wait(timeout=15)
+        if process is not None and not config["visible"]:
+            process.close()
         meta["endedMs"] = int(time.time() * 1000)
         write(output / "meta.json", meta)
         if store.exists():

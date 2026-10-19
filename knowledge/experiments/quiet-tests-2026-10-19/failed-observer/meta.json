@@ -1,0 +1,23 @@
+{
+  "id": "perf-01-full",
+  "mode": "perf",
+  "repeat": 1,
+  "name": "full",
+  "enabled": [
+    "ModLoaderMod"
+  ],
+  "protocol": 1,
+  "runId": "30c7aa2a54614c9abbc34d7a010cce78",
+  "appId": "pfe-agentdebug-9cd7b1bc4d8f44c69826821187580b65",
+  "scenario": "new-game",
+  "slot": 0,
+  "warmupMs": 1000,
+  "measureMs": 2000,
+  "store": "C:\\Users\\hello\\AppData\\Roaming\\pfe-agentdebug-9cd7b1bc4d8f44c69826821187580b65\\Local Store",
+  "exportSave": false,
+  "startedMs": 1792398620683,
+  "desktopMode": "isolated",
+  "desktopName": "RemainsTest-7302f52787154ce3b070c90bfc423974",
+  "pid": 38068,
+  "endedMs": 1792398624899
+}

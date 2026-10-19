@@ -35,7 +35,17 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/agent-debug.ps1 run --
 
 `--mods current`（默认）使用当前启用组合；全部模组逐项排除耗时较长，已有嫌疑时优先小范围。`--singles` 加入“固定依赖＋单个待测模组”，用于区分单开与组合故障。`--fixed` 始终开启，基线也包含它们；探针始终开启用于测量。
 
-`--mode perf|visual|both` 默认 both。性能与截图使用不同进程；默认预热 8 秒、测量 15 秒、3 轮，每轮交替正反顺序。`--warmup`、`--seconds`、`--timeout` 可按场景调整；卡死由外部看门狗结束自己持有的进程。默认隐藏窗口；需要原生画面或玩家操作时 `--visible`，保持所有对照同样设置。不要在测量中切换焦点、截屏或同时跑其他性能试验。工具不会修改系统电源计划、进程优先级或其他游戏进程。
+`--mode perf|visual|both` 默认 both。性能与截图使用不同进程；默认预热 8 秒、测量 15 秒、3 轮，每轮交替正反顺序。`--warmup`、`--seconds`、`--timeout` 可按场景调整；卡死由外部看门狗结束自己持有的进程。1.0.1 起，默认把整个 AIR 测试进程放到独立 Windows 桌面，游戏窗口及 HARMAN/AIR 启动图均不会出现在用户桌面；测试结束关闭进程句柄与临时桌面，不切换用户桌面。需要原生画面或玩家操作时显式使用 `--visible`，该模式仍会显示运行时启动图，所有对照必须保持同样设置。旧计划须重新 prepare，避免把不同桌面策略的性能数据混用。不要在测量中切换焦点、截屏或同时跑其他性能试验。
+
+独立桌面创建失败会报错，绝不自动改用前台启动。Codex 受限环境可能拒绝创建桌面，应通过当前客户端正常权限流程运行本机测试。隔离桌面影响窗口焦点与调度，结果不代表玩家前台帧率；软件截图仍由游戏探针生成，原生显卡画面需可见模式另验。工具不修改 AIR DLL、许可、游戏 SWF、系统电源计划或其他游戏进程。
+
+专用 Python 驱动可从 `tools/air_test_process.py` 导入 `HiddenProcess`，沿用 `poll/wait/kill/close` 管理自己的进程；先停止并等待退出，再 `close()`。其他驱动可直接使用以下入口，**前提仍是独立游戏副本、唯一 AIR ID 和已选好的模组组合**：
+
+```powershell
+python tools/air_test_process.py --cwd "<隔离游戏目录>" --timeout 120 -- "<隔离游戏目录>/adl64.exe" -runtime "<隔离游戏目录>/runtimes/air/win64" "<隔离游戏目录>/application-test.xml"
+```
+
+该入口只隔离窗口，不创建游戏副本或隔离存档，也不会自动改造旧脚本。旧驱动直接运行 ADL 或调用启动器 `--launch` 仍可能弹出启动图，后台验证前应接入本入口。实际窗口归属、帧采样与截图证据见[后台启动验证](../knowledge/experiments/quiet-tests-2026-10-19/README.md)。
 
 ### 从存档复现
 
@@ -64,7 +74,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/agent-debug.ps1 report
 会话在 `build/out/debugger/<时间-随机号>/`，`report.md` 供阅读，`summary.json` 供 agent 处理。每条试验保存：
 
 - `selection.json`：启动器导出的选择及包指纹；**不是加载成功证明**。
-- `meta.json` / `plan.json`：PID、唯一应用ID、时间、场景和所选组合。
+- `meta.json` / `plan.json`：PID、唯一应用ID、时间、场景和所选组合；meta 另记运行器版本、桌面策略与本轮桌面名称。
 - `storage/agent-debug/result.json`：本轮 loader session、requested/ok/err、场景、内存和原始帧间隔。
 - `frames.csv`：性能样本；报告含均值、P50/P95/最大值、>50/100ms 次数及 >50ms/秒。
 - `storage/agent-debug/frame.png`、`tree.json`：独立视觉试验截图与有数量上限的显示树；`comparisons/` 保存变化路径、类名、位置、透明度、遮罩等线索。
