@@ -1,0 +1,62 @@
+{
+  "version": "1.0.0",
+  "planned": 12,
+  "completed": 12,
+  "valid": 12,
+  "performance": [
+    {
+      "mod": "DebugFaultMod",
+      "pairs": [
+        {
+          "repeat": 1,
+          "p95ReductionMs": 66,
+          "relative": 0.6226415094339622,
+          "meanReductionMs": 66.66004962779157
+        },
+        {
+          "repeat": 2,
+          "p95ReductionMs": 72,
+          "relative": 0.6486486486486487,
+          "meanReductionMs": 66.43424317617865
+        }
+      ],
+      "excludedRepeats": [],
+      "medianP95ReductionMs": 69.0,
+      "status": "repeated-removal-association",
+      "meaning": "组合中移除此模组后帧间隔下降；仍需单开/组合与症状复核，不是独占CPU归因"
+    }
+  ],
+  "visual": [
+    {
+      "mod": "DebugFaultMod",
+      "symptomDisappearedRepeats": [
+        1,
+        2
+      ],
+      "status": "reviewed-removal-association"
+    }
+  ],
+  "visualEvidence": [
+    {
+      "mod": "DebugFaultMod",
+      "repeat": 1,
+      "full": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261019-104958-d7b2409d\\trials\\visual-01-full\\storage\\agent-debug\\frame.png",
+      "without": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261019-104958-d7b2409d\\trials\\visual-01-without-DebugFaultMod\\storage\\agent-debug\\frame.png",
+      "treeDiff": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261019-104958-d7b2409d\\comparisons\\01-DebugFaultMod-tree.json"
+    },
+    {
+      "mod": "DebugFaultMod",
+      "repeat": 2,
+      "full": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261019-104958-d7b2409d\\trials\\visual-02-full\\storage\\agent-debug\\frame.png",
+      "without": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261019-104958-d7b2409d\\trials\\visual-02-without-DebugFaultMod\\storage\\agent-debug\\frame.png",
+      "treeDiff": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261019-104958-d7b2409d\\comparisons\\02-DebugFaultMod-tree.json"
+    }
+  ],
+  "limitations": [
+    "stage ENTER_FRAME intervals, not per-mod CPU or GPU presentation",
+    "scene signature does not prove identical RNG/AI/input; fresh games are exploratory",
+    "background QoS, other processes and missing dependencies can confound results",
+    "screenshots use BitmapData.draw and may omit GPU/native overlays",
+    "load success is initialization evidence, not asynchronous behavior correctness"
+  ]
+}

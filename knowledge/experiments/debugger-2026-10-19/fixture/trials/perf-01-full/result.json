@@ -1,0 +1,36 @@
+{
+  "id": "perf-01-full",
+  "mode": "perf",
+  "repeat": 1,
+  "name": "full",
+  "enabled": [
+    "DebugFaultMod"
+  ],
+  "valid": true,
+  "errors": [],
+  "scene": {
+    "playerY": null,
+    "scenario": "menu",
+    "frameRate": 30,
+    "locClass": null,
+    "land": null,
+    "playerX": null,
+    "stageWidth": 1084,
+    "menuLoaded": true,
+    "menu": true,
+    "stageHeight": 661,
+    "loc": null
+  },
+  "memoryDelta": 12120064,
+  "metrics": {
+    "samples": 31,
+    "seconds": 3.099,
+    "meanMs": 99.96774193548387,
+    "p50Ms": 99,
+    "p95Ms": 106,
+    "maxMs": 110,
+    "over50": 31,
+    "over100": 11,
+    "over50PerSecond": 10.003226847370119
+  }
+}

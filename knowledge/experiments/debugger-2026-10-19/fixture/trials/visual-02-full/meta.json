@@ -1,0 +1,22 @@
+{
+  "id": "visual-02-full",
+  "mode": "visual",
+  "repeat": 2,
+  "name": "full",
+  "enabled": [
+    "DebugFaultMod"
+  ],
+  "protocol": 1,
+  "runId": "eab1707bfeef4ea1a7b4a7d1d6401a47",
+  "appId": "pfe-agentdebug-b1c9a434f2d243d1a4f25a5a2d18c39e",
+  "scenario": "menu",
+  "slot": 0,
+  "warmupMs": 2000,
+  "measureMs": 3000,
+  "store": "C:\\Users\\hello\\AppData\\Roaming\\pfe-agentdebug-b1c9a434f2d243d1a4f25a5a2d18c39e\\Local Store",
+  "exportSave": false,
+  "startedMs": 1792378425746,
+  "pid": 30940,
+  "exitCode": 0,
+  "endedMs": 1792378446811
+}

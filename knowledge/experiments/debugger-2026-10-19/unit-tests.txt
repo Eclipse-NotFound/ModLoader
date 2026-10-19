@@ -1,0 +1,6 @@
+{"trial": "perf-01-test", "valid": false, "errors": ["watchdog timeout; only this owned process was stopped", "no probe result; inspect ADL output, heartbeat, and loader log"]}
+.......................
+----------------------------------------------------------------------
+Ran 23 tests in 0.034s
+
+OK

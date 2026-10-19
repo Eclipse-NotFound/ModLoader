@@ -1,0 +1,24 @@
+{
+  "id": "visual-01-without-DebugFaultMod",
+  "mode": "visual",
+  "repeat": 1,
+  "name": "without-DebugFaultMod",
+  "enabled": [],
+  "valid": true,
+  "errors": [],
+  "scene": {
+    "scenario": "menu",
+    "locClass": null,
+    "frameRate": 30,
+    "menuLoaded": true,
+    "land": null,
+    "stageWidth": 1084,
+    "playerY": null,
+    "menu": true,
+    "playerX": null,
+    "stageHeight": 661,
+    "loc": null
+  },
+  "memoryDelta": 73728,
+  "metrics": null
+}

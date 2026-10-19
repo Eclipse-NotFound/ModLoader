@@ -1,0 +1,26 @@
+{
+  "id": "visual-02-full",
+  "mode": "visual",
+  "repeat": 2,
+  "name": "full",
+  "enabled": [
+    "DebugFaultMod"
+  ],
+  "valid": true,
+  "errors": [],
+  "scene": {
+    "scenario": "menu",
+    "playerY": null,
+    "menu": true,
+    "frameRate": 30,
+    "loc": null,
+    "locClass": null,
+    "stageWidth": 1084,
+    "menuLoaded": true,
+    "playerX": null,
+    "stageHeight": 661,
+    "land": null
+  },
+  "memoryDelta": 16384,
+  "metrics": null
+}

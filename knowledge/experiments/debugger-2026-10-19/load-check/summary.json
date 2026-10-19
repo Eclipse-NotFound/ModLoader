@@ -1,0 +1,39 @@
+{
+  "version": "1.0.0",
+  "planned": 3,
+  "completed": 3,
+  "valid": 3,
+  "performance": [
+    {
+      "mod": "DebugFaultMod",
+      "pairs": [],
+      "excludedRepeats": [],
+      "medianP95ReductionMs": null,
+      "status": "insufficient-or-inconsistent",
+      "meaning": "组合中移除此模组后帧间隔下降；仍需单开/组合与症状复核，不是独占CPU归因"
+    }
+  ],
+  "visual": [
+    {
+      "mod": "DebugFaultMod",
+      "symptomDisappearedRepeats": [],
+      "status": "needs-symptom-review"
+    }
+  ],
+  "visualEvidence": [
+    {
+      "mod": "DebugFaultMod",
+      "repeat": 1,
+      "full": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261019-110447-0ceb9a76\\trials\\visual-01-full\\storage\\agent-debug\\frame.png",
+      "without": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261019-110447-0ceb9a76\\trials\\visual-01-without-DebugFaultMod\\storage\\agent-debug\\frame.png",
+      "treeDiff": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261019-110447-0ceb9a76\\comparisons\\01-DebugFaultMod-tree.json"
+    }
+  ],
+  "limitations": [
+    "stage ENTER_FRAME intervals, not per-mod CPU or GPU presentation",
+    "scene signature does not prove identical RNG/AI/input; fresh games are exploratory",
+    "background QoS, other processes and missing dependencies can confound results",
+    "screenshots use BitmapData.draw and may omit GPU/native overlays",
+    "load success is initialization evidence, not asynchronous behavior correctness"
+  ]
+}

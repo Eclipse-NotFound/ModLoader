@@ -1,0 +1,7 @@
+{
+  "manualFrontmatter": "reviewed two unique plain scalar fields with delimiters, nonempty name/description",
+  "automatedReadbackAndAddedReferences": "passed",
+  "selfcheck": "exit 2: PyYAML unavailable; NOT counted as passing",
+  "currentDiscovery": "both pre-existing skills were supplied in the current session skill list",
+  "newSessionAutomaticRouting": "untested"
+}

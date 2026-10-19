@@ -1,0 +1,34 @@
+{
+  "id": "perf-02-baseline",
+  "mode": "perf",
+  "repeat": 2,
+  "name": "baseline",
+  "enabled": [],
+  "valid": true,
+  "errors": [],
+  "scene": {
+    "locClass": null,
+    "frameRate": 30,
+    "scenario": "menu",
+    "loc": null,
+    "stageWidth": 1084,
+    "playerX": null,
+    "menuLoaded": true,
+    "menu": true,
+    "land": null,
+    "stageHeight": 661,
+    "playerY": null
+  },
+  "memoryDelta": 35647488,
+  "metrics": {
+    "samples": 90,
+    "seconds": 3.001,
+    "meanMs": 33.34444444444444,
+    "p50Ms": 33,
+    "p95Ms": 37,
+    "maxMs": 54,
+    "over50": 1,
+    "over100": 0,
+    "over50PerSecond": 0.33322225924691773
+  }
+}

@@ -1,0 +1,20 @@
+[
+    {
+        "version":  "2026-10-19.1",
+        "skill":  "remains-auto-testing",
+        "staticCheck":  "manual frontmatter + reference checks; selfcheck blocked by missing PyYAML",
+        "discovery":  "existing skill listed in current session; new routing in independent session untested",
+        "after":  "2B4C0EB3A1C6EA4B79764592A1E51484FAB61CFE52AD38BB9AD82CB51656A5C2",
+        "before":  "AB251815064B98C355BE1349FD079EAF8EF4458C3ACD4BF43853E8F1A6639D0C",
+        "backup":  "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\work\\debug-workflow-backup-20261019\\remains-auto-testing.md"
+    },
+    {
+        "version":  "2026-10-19.1",
+        "skill":  "remains-runtime-debug",
+        "staticCheck":  "manual frontmatter + reference checks; selfcheck blocked by missing PyYAML",
+        "discovery":  "existing skill listed in current session; new routing in independent session untested",
+        "after":  "5FF26D51C00A14FC4331F6A04A5C1EE2B03CCBD8BD37DD8124C145AD8E8A95B0",
+        "before":  "68E12632ABF9E2FD6F6949B6ADB3F918B7A8567DD8805106242E7AC0A20C5740",
+        "backup":  "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\work\\debug-workflow-backup-20261019\\remains-runtime-debug.md"
+    }
+]

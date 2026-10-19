@@ -1,0 +1,24 @@
+{
+  "id": "visual-01-without-DebugFaultMod",
+  "mode": "visual",
+  "repeat": 1,
+  "name": "without-DebugFaultMod",
+  "enabled": [],
+  "valid": true,
+  "errors": [],
+  "scene": {
+    "scenario": "load",
+    "playerY": 640,
+    "frameRate": 30,
+    "loc": "loc0_0",
+    "land": "begin",
+    "stageWidth": 1084,
+    "playerX": 326.00000000000006,
+    "menu": false,
+    "locClass": "fe.loc::Location",
+    "stageHeight": 661,
+    "menuLoaded": true
+  },
+  "memoryDelta": 40960,
+  "metrics": null
+}

@@ -10,6 +10,8 @@
 
 ## 先下载哪几个文件？
 
+Agent 排查卡顿和视觉异常可用 [隔离对照调试器](docs/AGENT-DEBUGGING.md)（本地工具，支持 1.02）。
+
 | 文件 | 用途 |
 |---|---|
 | [Remains-GamePatch-v2.3.0.zip](https://github.com/Eclipse-NotFound/ModLoader/releases/download/v2.3.0/Remains-GamePatch-v2.3.0.zip) | 第一次安装：让游戏能加载模组，解压后运行 Patch-Game.bat |

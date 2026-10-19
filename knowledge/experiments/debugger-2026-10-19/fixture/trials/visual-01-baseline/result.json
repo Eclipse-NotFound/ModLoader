@@ -1,0 +1,24 @@
+{
+  "id": "visual-01-baseline",
+  "mode": "visual",
+  "repeat": 1,
+  "name": "baseline",
+  "enabled": [],
+  "valid": true,
+  "errors": [],
+  "scene": {
+    "locClass": null,
+    "frameRate": 30,
+    "menuLoaded": true,
+    "land": null,
+    "scenario": "menu",
+    "stageWidth": 1084,
+    "playerY": null,
+    "menu": true,
+    "playerX": null,
+    "stageHeight": 661,
+    "loc": null
+  },
+  "memoryDelta": 81920,
+  "metrics": null
+}

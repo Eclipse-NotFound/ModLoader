@@ -1,6 +1,6 @@
 # ModLoader 外置记忆
 
-更新：2026-10-18。模组选择启动器1.0.0已放本目录；游戏运行模块仍为2.4.0/settings0.5.0。本轮未改正式名单、游戏SWF、描述符或其他模组。
+更新：2026-10-19。新增agent归因调试器1.0.0并接入两项现有调试技能；启动器仍1.0.0，游戏运行模块仍2.4.0/settings0.5.0。本轮未改正式名单、游戏SWF、描述符或其他模组。
 
 ## 1. 这个模组是什么
 
@@ -9,12 +9,17 @@ MainFE清单引导v2、Windows扫描器/选择启动器、游戏内设置模块�
 ## 2. 用户偏好与协作约定
 
 - 2026-10-18用户要求简单界面扫描已安装包、选择加载并一键启动，兼顾玩家与agent排障；此前“不加模组管理”的历史范围被本次要求扩展。
+- 2026-10-19用户要求给agent用的卡顿/视觉异常归因调试器，并把RemainsModLauncher.exe固化进调试流程；两项工作区技能本次获明确修改授权，原版已备份。
 - 扫描器仍只更新名单；启动器提供保存/启动、精确仅选、全停/全开及CLI。扫描保留明确选择，未知新包沿用三版本默认开启，已知限制在supported-mods.txt。
 - 测试用唯一AIR应用ID、独立副本/存储，只停止本轮进程，不碰玩家存档。沙箱AIR存活不等于成功，本环境实机需正常Windows权限。
 - 设置值与保存归客户端；宿主管两级菜单、分组、位置记忆和录键。23项快捷键在对应模组菜单修改。
 - 不改受保护治理文件；本项目一直缺AGENT_SCOPE.md，权限以根GOVERNANCE为准。
 
 ## 3. 当前状态
+
+- 调试器入口tools/agent-debug.ps1，Python标准库＋src/debugger/AgentDebugProbeMod.as；仅在独立app ID及匹配计划下启动。精确选组全经启动器；冻结副本、固定依赖、基线/完整/逐个排除/可选单开、反序重复。性能与视觉分进程，输出帧间隔、内存、加载证据、截图和有上限的显示树。只支持1.02。
+- 离线23项通过；两轮合成卡顿/色块12/12有效，排除后P95下降66/72ms，4张图实际复核；实际宿主/基线新档2/2、最终快照1/1、模板读档3/3通过。当前探针3999B、SHA3563828F…A3699A，未部署进正式release。证据与已修正失败见[本轮记录](../knowledge/experiments/debugger-2026-10-19/README.md)。
+- remains-runtime-debug及remains-auto-testing已接入启动器/调试器路由，版本2026-10-19.1；手工前言审查、引用和指纹回读通过（selfcheck缺PyYAML，不报自动静态通过）。独立新会话自动选用待验；未改AGENTS/GOVERNANCE。
 
 - 启动器1.0.0：C05B4C23…45F9590；配套扫描器：8FA18398…C0D33C1。完整指纹及工具备份见[安装回执](../knowledge/experiments/launcher-2026-10-18/installation.json)。两者都在本模组根目录可双击。
 - 选择与有效开关同存mods/loader-manifest.txt，选择用 `# selection|...` 注释。兼容限制与缺包只屏蔽实际加载。新版扫描器保留选择，旧版会重置。保存备份、检测外部变更、互斥写入。
@@ -24,7 +29,7 @@ MainFE清单引导v2、Windows扫描器/选择启动器、游戏内设置模块�
 
 ## 4. 正在进行与卡点
 
-本地启动器实现、验证和安装完成；未上传GitHub或更换公开ZIP，无待用户批准的部署步骤。
+本地启动器与调试器完成；未上传GitHub或更换公开ZIP，无待用户批准步骤。后续遇真实问题先明确症状与场景，通过完整组合复现后再跑候选，不把合成夹具成功当真实故障已归因。
 
 ## 5. 已知边界
 
@@ -34,12 +39,16 @@ MainFE清单引导v2、Windows扫描器/选择启动器、游戏内设置模块�
 - 导出选择/指纹不是运行成功证据，实际加载继续查本轮loader session的requested/ok/err。
 - 清单顺序只决定发起请求先后，初始化异步；同步失败不阻止其他请求，不保证任意异步错误隔离。
 - 设置模块和本轮实机只验证1.02；保留既有联机、战斗及各模组玩法边界。
+- 调试器测stage帧事件间隔而非每模组独占CPU/显示器呈现帧；差异排名仅相关性。场景签名不固定RNG/AI/输入，GPU画面可能不进入软件截图；树有截断标记。后台调度与依赖缺失需另排除。
+- 可选--export-save用公开saveGame(-2)写隔离槽位0诊断快照；从菜单用newGame(slot)读档，getSave检查空槽，禁止访问internal saveArr。示例模板在开场字幕，不是战斗场景认证。
 
 ## 6. 回滚与下一步
 
 - 双击RemainsModLauncher.exe → 勾选 → 保存并启动；先退出已有游戏。Agent参数见[说明](../docs/LAUNCHER.zh-CN.md)。
 - 工具回退备份work/backups/before-launcher-20261018-2216/RemainsModScanner.exe。恢复旧工具前保留名单，旧扫描器会重置选择。组合回退用work/manifest-backups/。
 - tools/build_launcher.ps1只输出build/out/launcher；UI/core、CLI、scanner、loader、runtime检查入口见说明。SWF仍用build/build.ps1构建，上线另走门禁。
+- Agent先看[归因操作说明](../docs/AGENT-DEBUGGING.md)，用inventory→prepare→先run完整组合→其余对照→report/verdict。首次/源码变化先tools/build_debugger.ps1。运行证据不覆盖，改输入重新prepare；任务结束保留证据后按准确路径清理自己的副本/存储。
+- 技能回退先核对当前内容，再参考knowledge/experiments/debugger-2026-10-19/workflow-install.json与work/debug-workflow-backup-20261019，勿覆盖后续版本。
 - 公共改键与六客户端回退用[2026-10-15记录](keybind-integration-2026-10-15.md)，不要用旧分组备份覆盖较新功能。
 
 ## 7. 深入了解

@@ -1,0 +1,18 @@
+{
+  "id": "visual-01-without-DebugFaultMod",
+  "mode": "visual",
+  "repeat": 1,
+  "name": "without-DebugFaultMod",
+  "enabled": [
+    "AgentDebugProbeMod"
+  ],
+  "protocol": 1,
+  "runId": "9378c5abd8944083af4103bbf94a816e",
+  "appId": "pfe-agentdebug-db85773fa0004f7e8d79803b273d0cb5",
+  "scenario": "menu",
+  "slot": 0,
+  "warmupMs": 2000,
+  "measureMs": 3000,
+  "store": "C:\\Users\\hello\\AppData\\Roaming\\pfe-agentdebug-db85773fa0004f7e8d79803b273d0cb5\\Local Store",
+  "exportSave": false
+}

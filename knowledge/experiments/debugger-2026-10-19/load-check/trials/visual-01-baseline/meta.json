@@ -1,0 +1,20 @@
+{
+  "id": "visual-01-baseline",
+  "mode": "visual",
+  "repeat": 1,
+  "name": "baseline",
+  "enabled": [],
+  "protocol": 1,
+  "runId": "aa43ff43a77f4ccea7af9e61e3b08153",
+  "appId": "pfe-agentdebug-9396291dedb444d7ab6015fb27adba36",
+  "scenario": "load",
+  "slot": 0,
+  "warmupMs": 2000,
+  "measureMs": 3000,
+  "store": "C:\\Users\\hello\\AppData\\Roaming\\pfe-agentdebug-9396291dedb444d7ab6015fb27adba36\\Local Store",
+  "exportSave": false,
+  "startedMs": 1792379116414,
+  "pid": 77496,
+  "exitCode": 0,
+  "endedMs": 1792379132364
+}

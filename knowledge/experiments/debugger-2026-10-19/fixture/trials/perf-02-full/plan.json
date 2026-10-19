@@ -1,0 +1,19 @@
+{
+  "id": "perf-02-full",
+  "mode": "perf",
+  "repeat": 2,
+  "name": "full",
+  "enabled": [
+    "DebugFaultMod",
+    "AgentDebugProbeMod"
+  ],
+  "protocol": 1,
+  "runId": "ce0112cbcbc046ecad2f5baa324d67ec",
+  "appId": "pfe-agentdebug-4274398f3fd14415b1ef942e0a8f8ca9",
+  "scenario": "menu",
+  "slot": 0,
+  "warmupMs": 2000,
+  "measureMs": 3000,
+  "store": "C:\\Users\\hello\\AppData\\Roaming\\pfe-agentdebug-4274398f3fd14415b1ef942e0a8f8ca9\\Local Store",
+  "exportSave": false
+}

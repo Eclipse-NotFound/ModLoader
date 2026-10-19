@@ -12,3 +12,4 @@ release/*.swf
 
 # Isolated localization candidates and runtime evidence
 build/localization/
+__pycache__/

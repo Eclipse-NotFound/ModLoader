@@ -10,6 +10,8 @@ Start here if you are new to modding Fallout Equestria: REMAINS. ModLoader lets 
 
 ## Which files do I need?
 
+For agents investigating stutter or visual defects: [isolated comparison debugger](docs/AGENT-DEBUGGING.md) (local tool, 1.02).
+
 | File | Purpose |
 |---|---|
 | [Remains-GamePatch-v2.3.0.zip](https://github.com/Eclipse-NotFound/ModLoader/releases/download/v2.3.0/Remains-GamePatch-v2.3.0.zip) | First installation: enables mod loading; extract and run Patch-Game.bat |

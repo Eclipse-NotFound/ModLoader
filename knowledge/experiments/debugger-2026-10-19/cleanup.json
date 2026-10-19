@@ -1,0 +1,18 @@
+{
+    "processesStopped":  0,
+    "retained":  "all trial evidence, descriptors, plans, source fingerprints and summary reports",
+    "removed":  "private game/seed copies and matching unique AIR storage",
+    "sessions":  [
+                     "20261019-103555-01754178",
+                     "20261019-104449-8baca7c7",
+                     "20261019-104554-639e8182",
+                     "20261019-104748-5241ff31",
+                     "20261019-104958-d7b2409d",
+                     "20261019-105122-dba7b5cf",
+                     "20261019-105645-de41ac8d",
+                     "20261019-105826-ba374e9e",
+                     "20261019-110004-0fe54773",
+                     "20261019-110121-31ccaf33",
+                     "20261019-110447-0ceb9a76"
+                 ]
+}

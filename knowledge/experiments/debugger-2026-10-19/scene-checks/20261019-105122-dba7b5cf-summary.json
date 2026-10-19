@@ -1,0 +1,33 @@
+{
+  "version": "1.0.0",
+  "planned": 3,
+  "completed": 2,
+  "valid": 2,
+  "performance": [
+    {
+      "mod": "ModLoaderMod",
+      "pairs": [],
+      "excludedRepeats": [
+        1
+      ],
+      "medianP95ReductionMs": null,
+      "status": "insufficient-or-inconsistent",
+      "meaning": "组合中移除此模组后帧间隔下降；仍需单开/组合与症状复核，不是独占CPU归因"
+    }
+  ],
+  "visual": [
+    {
+      "mod": "ModLoaderMod",
+      "symptomDisappearedRepeats": [],
+      "status": "needs-symptom-review"
+    }
+  ],
+  "visualEvidence": [],
+  "limitations": [
+    "stage ENTER_FRAME intervals, not per-mod CPU or GPU presentation",
+    "scene signature does not prove identical RNG/AI/input; fresh games are exploratory",
+    "background QoS, other processes and missing dependencies can confound results",
+    "screenshots use BitmapData.draw and may omit GPU/native overlays",
+    "load success is initialization evidence, not asynchronous behavior correctness"
+  ]
+}

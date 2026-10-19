@@ -1,0 +1,26 @@
+{
+  "id": "visual-01-full",
+  "mode": "visual",
+  "repeat": 1,
+  "name": "full",
+  "enabled": [
+    "DebugFaultMod"
+  ],
+  "valid": true,
+  "errors": [],
+  "scene": {
+    "playerX": 326.00000000000006,
+    "frameRate": 30,
+    "playerY": 640,
+    "land": "begin",
+    "stageWidth": 1084,
+    "locClass": "fe.loc::Location",
+    "scenario": "load",
+    "menu": false,
+    "menuLoaded": true,
+    "stageHeight": 661,
+    "loc": "loc0_0"
+  },
+  "memoryDelta": 40960,
+  "metrics": null
+}
