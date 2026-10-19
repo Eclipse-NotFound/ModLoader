@@ -55,7 +55,7 @@ Use **PipBuck → Settings → Mods (`模组`)** for mods that provide settings.
 - **Update:** save and exit → back up the old mod folder outside the game folder → merge the new package → keep your configuration (including the old co-op package’s `config.txt`) → scan → restart.
 - **Disable temporarily:** save and exit → move the mod folder outside `mods` → scan → restart. To restore it, put it back, scan and restart. Keep ModLoader installed when disabling an individual mod.
 - **RandomRooms:** return to town with F2 and save before removal. **RModifier:** use its recovery tools and keep projects, backups and installation records; do not apply the whole-folder removal method.
-- **Advanced switches:** the scanner rebuilds `loader-manifest.txt`, so editing that file alone may not survive a rescan. For a persistent manual disable, set the mod’s final three switches in `mods/ModLoader/supported-mods.txt` to `0|0|0`, then scan. Keep the old ModSettings entry disabled; do not enable both settings components.
+- **Advanced switches:** the scanner rebuilds `loader-manifest.txt`, so editing that file alone may not survive a rescan. For a persistent manual disable, set the mod’s final three switches in `mods/ModLoader/supported-mods.txt` to `0|0|0`, then scan. The legacy ModSettings project has been removed locally. Before restoring an old package, add `ModSettings|ModSettingsMod|0|0|0` to keep it disabled; do not enable both settings components.
 
 ## Steam updates and restoring vanilla
 

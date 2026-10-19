@@ -31,7 +31,9 @@ Expect ($rootFull.StartsWith($workFull + [IO.Path]::DirectorySeparatorChar,
 try {
     $testScanner = Join-Path $root 'mods\ModLoader'
     New-Item -ItemType Directory -Force -Path $testScanner | Out-Null
-    Copy-Item -LiteralPath (Join-Path $project 'supported-mods.txt') -Destination $testScanner
+    # Legacy compatibility cases use an explicit fixture catalog; the retired project is absent locally.
+    $fixtureCatalog = @(Get-Content -LiteralPath (Join-Path $project 'supported-mods.txt')) + @('ModSettings|ModSettingsMod|0|0|0')
+    [IO.File]::WriteAllLines((Join-Path $testScanner 'supported-mods.txt'), $fixtureCatalog, [Text.UTF8Encoding]::new($false))
     $manifest = Join-Path $root 'mods\loader-manifest.txt'
     Add-FakeSwf $root 'ModSettings' 'ModSettingsMod' $true
     Add-FakeSwf $root 'ModLoader' 'ModLoaderMod' $true
@@ -64,7 +66,7 @@ try {
     Set-Content -LiteralPath (Join-Path $testScanner 'supported-mods.txt') -Value 'Bad|BadMod|1|1' -Encoding UTF8
     Expect ((Run-Scanner $root @()) -ne 0) '目录格式错误应失败'
     Expect ((Get-FileHash -LiteralPath $manifest -Algorithm SHA256).Hash -eq $before) '失败不能破坏原名单'
-    $rollbackCatalog = @(Get-Content -LiteralPath (Join-Path $project 'supported-mods.txt') | ForEach-Object {
+    $rollbackCatalog = @($fixtureCatalog | ForEach-Object {
         $_ -replace '^ModLoader\|ModLoaderMod\|1\|0\|0$', 'ModLoader|ModLoaderMod|0|0|0' -replace '^ModSettings\|ModSettingsMod\|0\|0\|0$', 'ModSettings|ModSettingsMod|1|0|0'
     })
     [IO.File]::WriteAllLines((Join-Path $testScanner 'supported-mods.txt'), $rollbackCatalog, [Text.UTF8Encoding]::new($false))
@@ -73,7 +75,7 @@ try {
     $lines = Get-Content -LiteralPath $manifest
     Expect ($lines -contains 'ModLoader|ModLoaderMod|0|0|0') '回滚后新包仍在也不得自动复活'
     Expect ($lines -contains 'ModSettings|ModSettingsMod|1|0|0') '回滚后只启用原1.02设置入口'
-    Copy-Item -LiteralPath (Join-Path $project 'supported-mods.txt') -Destination $testScanner -Force
+    [IO.File]::WriteAllLines((Join-Path $testScanner 'supported-mods.txt'), $fixtureCatalog, [Text.UTF8Encoding]::new($false))
     Remove-Item -LiteralPath (Join-Path $root 'mods\ModSettings\release\ModSettingsMod.swf')
     Expect ((Run-Scanner $root @()) -eq 0) '旧包缺席时仍能扫描'
     Expect ((Get-Content -LiteralPath $manifest) -contains 'ModLoader|ModLoaderMod|1|0|0') '新宿主不依赖旧包'

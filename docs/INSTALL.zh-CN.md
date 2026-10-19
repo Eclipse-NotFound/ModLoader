@@ -55,7 +55,7 @@ RandomRooms 的 `optional-editor` 供地图编辑器用户使用，普通游玩�
 - **更新模组**：保存退出 → 将旧模组文件夹复制到游戏目录外作备份 → 合并新包 → 保留自己的配置（包括联机包内的旧 `config.txt`）→ 扫描 → 重启。
 - **临时停用**：保存退出 → 把对应模组文件夹移到 `mods` 之外 → 扫描 → 重启。想恢复时放回原位置、再扫描重启。不要为停用单个模组移走 ModLoader。
 - **RandomRooms**：停用前 F2 返回城镇并正常保存。**RModifier**：使用工具自带恢复功能并保留作品、备份与安装记录，不套用整目录移走的方法。
-- **高级手动开关**：扫描器会重建 `loader-manifest.txt`；只改该文件，下次扫描可能恢复。确需长期禁用，修改 `mods/ModLoader/supported-mods.txt` 中该模组行最后三个开关为 `0|0|0`，再扫描。保留旧 ModSettings 的禁用登记，不要让两个设置组件同时启用。
+- **高级手动开关**：扫描器会重建 `loader-manifest.txt`；只改该文件，下次扫描可能恢复。确需长期禁用，修改 `mods/ModLoader/supported-mods.txt` 中该模组行最后三个开关为 `0|0|0`，再扫描。本机旧 ModSettings 项目已移除。若自行恢复旧包，先补上 `ModSettings|ModSettingsMod|0|0|0` 禁用登记，不要同时启用两个设置组件。
 
 ## Steam 更新与恢复原版
 

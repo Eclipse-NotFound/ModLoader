@@ -41,7 +41,7 @@ ModLoader 由三个部分组成：游戏 MainFE 内的清单引导代码、生�
 
 ## 日常维护
 
-合并后的版本表固定登记 `ModLoader|ModLoaderMod|1|0|0` 与 `ModSettings|ModSettingsMod|0|0|0`。旧包可留作回滚，但不要删除它的禁用登记，否则扫描器会将旧包当作新模组启用。新包缺失时不会自动复活旧入口。两个设置宿主不可同时启用；不靠异步加载时谁先发布载体来选择版本。
+当前本机版本表登记 `ModLoader|ModLoaderMod|1|0|0`。2026-10-19 已按用户要求归档并移除旧 `mods/ModSettings` 项目及本机登记；现用设置实现、兼容接口与存储名称不变。若以后从历史归档恢复旧包，必须同时恢复其 `0|0|0` 禁用登记，避免扫描器将它当作新包启用。详见[移除回执](../state/modsettings-retirement-2026-10-19.md)。
 
 清单每个非注释行必须恰有五列：`目录名|入口类名|1.02开关|1.03开关|1.04开关`。开关只能是 `0` 或 `1`。目录是 `mods/` 下的单个路径段；入口类名也是 `release/<入口类名>.swf` 的文件名。入口类必须能以 `public static function init(main)` 调用，参数类型只需能接收 MainFE 实例；现有模组既有 `main:*` 也有 `main:Object`。
 
@@ -95,9 +95,9 @@ v2.2.0 首次合并历史验证为旧记忆迁移 71 项、无 MSW 20 项、中�
 
 ## 设置合并的回滚
 
-本次备份位于 `work/backups/before-settings-merge-20260924-064730/`，包含旧 `ModSettingsMod.swf`、合并前 `supported-mods.txt` 和生成的 `loader-manifest.txt`。先退出游戏，核对旧正式包为 v0.3.1（`C2BC2CCE...`），必要时恢复备份。版本表将旧入口恢复为 `ModSettings|ModSettingsMod|1|0|0`，同时保留 `ModLoader|ModLoaderMod|0|0|0`，再运行扫描器生成名单。新运行文件可保留；必须留下它的禁用登记，否则扫描器会把它重新发现并启用。若使用备份旧版本表，应先补入这条新入口禁用行，再扫描。后续新增模组的条目应合并保留。重启验证旧入口。详细指纹与安装回执见 `build/out/installation/deployment.json`。
+以下仅是 2026-09-24 合并时的历史回退配方；当前旧项目已移除，恢复前先读[移除回执](../state/modsettings-retirement-2026-10-19.md)，不要直接执行。原备份位于 `work/backups/before-settings-merge-20260924-064730/`，包含旧 `ModSettingsMod.swf`、合并前 `supported-mods.txt` 和生成的 `loader-manifest.txt`。先退出游戏，核对旧正式包为 v0.3.1（`C2BC2CCE...`），必要时恢复备份。版本表将旧入口恢复为 `ModSettings|ModSettingsMod|1|0|0`，同时保留 `ModLoader|ModLoaderMod|0|0|0`，再运行扫描器生成名单。新运行文件可保留；必须留下它的禁用登记，否则扫描器会把它重新发现并启用。若使用备份旧版本表，应先补入这条新入口禁用行，再扫描。后续新增模组的条目应合并保留。重启验证旧入口。详细指纹与安装回执见 `build/out/installation/deployment.json`。
 
-旧版目录与源代码为历史资料，设置后续只在本项目维护。游戏 SWF 本轮未改，不要为回滚设置而使用下面历史游戏补丁备份。
+旧版目录与源代码已于 2026-10-19 移入可恢复归档，设置后续只在本项目维护。游戏 SWF 本轮未改，不要为回滚设置而使用下面历史游戏补丁备份。
 
 ## Steam 更新后的补丁恢复
 
