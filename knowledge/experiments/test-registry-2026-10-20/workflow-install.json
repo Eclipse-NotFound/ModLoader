@@ -1,0 +1,35 @@
+{
+  "installed": [
+    {
+      "path": "AGENTS.md",
+      "before": "318ea853b3121754fd82f2ed072ab2aab2daa6b70d3f67407dd0aa374b53dafd",
+      "after": "e1a53fe12f9e1b4d50d9a3b05d73e18ce5ab5da7bd6ab919e646a8b794b2ba30"
+    },
+    {
+      "path": "GOVERNANCE.md",
+      "before": "beb0558fd71e7f7ec6d6e4154ebca8205a8327fbbe50a2cddea48fb4b108867e",
+      "after": "14c10c5e0f37ea45514cdc77d350b3107eb47ba254c9e293e39d16eb76538452"
+    },
+    {
+      "path": ".agents/skills/remains-auto-testing/SKILL.md",
+      "before": "40774e4edf3beff5ff5de8412b525e7ebd3e71aaac88ebfa78b3d414d4d6c8eb",
+      "after": "d6c2efbb03c2d5431c438b4626b83ae00c36e2904b91dba10c4d4a2b06a4dc89"
+    },
+    {
+      "path": ".agents/skills/remains-auto-testing/references/实战验证.md",
+      "before": "4e91c74df0d2e853abef88e5099b6b612369cfbe616be84ff004e0a906b86ac8",
+      "after": "ad46ed7055cc6c545052b48433ce4c3ee454a39d53d8f486019f16bc953eb185"
+    },
+    {
+      "path": ".agents/skills/remains-runtime-debug/SKILL.md",
+      "before": "9bbeba3324a3eaa6fadc672c782bfb8576c4350ed1443f2469d7f71b2c91eca7",
+      "after": "6017fbd0d89c8aa08f31c3b8474f7feca6f901c483f0fe08f10178e1246f6eb7"
+    },
+    {
+      "path": ".agents/skills/remains-runtime-debug/references/实战验证.md",
+      "before": "b9b733fee0bb68aa816d10f1485067f4a8ff19ae4ad525d96c7867c14b919d85",
+      "after": "c16596b38e125767651a7d0d84bd066b75604d689775b059a04c53a48417eee5"
+    }
+  ],
+  "validation": "manual scalar frontmatter check; relative links and exact hashes; independent selection pending"
+}

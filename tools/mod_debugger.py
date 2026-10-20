@@ -21,12 +21,13 @@ import time
 import uuid
 import xml.etree.ElementTree as ET
 from air_test_process import HiddenProcess
+from test_registry import Registry, Registration
 
 PROJECT = Path(__file__).resolve().parents[1]
 GAME = PROJECT.parents[1]
 SESSIONS = PROJECT / "build/out/debugger"
 PROBE = "AgentDebugProbeMod"
-VERSION = "1.0.1"
+VERSION = "1.0.2"
 
 
 def read(path):
@@ -276,7 +277,7 @@ def metrics(frames):
             "over50PerSecond": sum(x > 50 for x in frames) / max(sum(frames) / 1000, .001)}
 
 
-def execute_trial(session, config, trial):
+def execute_trial(session, config, trial, registration=None):
     expected_desktop = "interactive" if config["visible"] else "isolated"
     if config.get("desktopMode") != expected_desktop:
         raise ValueError("Test desktop policy changed or predates isolation; prepare a new session")
@@ -315,6 +316,8 @@ def execute_trial(session, config, trial):
             # Own the handle directly for a watchdog. Selection is ALWAYS through the launcher.
             command = [str(game / "adl64.exe"), "-runtime", str(game / "runtimes/air/win64"),
                        str(game / "agent-debug.xml")]
+            if registration:
+                registration.before_launch(trial["id"] + " / " + app_id + " / " + ",".join(selected))
             if config["visible"]:
                 process = subprocess.Popen(command, cwd=game, stdout=stdout, stderr=stderr,
                                            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
@@ -324,6 +327,9 @@ def execute_trial(session, config, trial):
                 meta["desktopMode"] = "isolated"
                 meta["desktopName"] = process.desktop
             meta["pid"] = process.pid
+            if registration:
+                registration.child(process.pid)
+                meta["registrationId"] = registration.id
             write(output / "meta.json", meta)
             try:
                 meta["exitCode"] = process.wait(timeout=config["timeout"])
@@ -337,6 +343,8 @@ def execute_trial(session, config, trial):
             process.wait(timeout=15)
         if process is not None and not config["visible"]:
             process.close()
+        if registration:
+            registration.child_stopped()
         meta["endedMs"] = int(time.time() * 1000)
         write(output / "meta.json", meta)
         if store.exists():
@@ -481,6 +489,13 @@ def report(session):
 
 def run(args):
     session = owned_session(args.session)
+    with Registration(purpose="模组归因：" + (args.trial or "剩余对照"), run_dir=session,
+                      evidence=session / "report.md", owner=args.owner, wait=args.wait) as registration:
+        return run_registered(args, registration)
+
+
+def run_registered(args, registration):
+    session = owned_session(args.session)
     config = read(session / "session.json")
     if args.trial and args.trial not in [t["id"] for t in config["trials"]]:
         raise ValueError("Unknown trial ID; read session.json")
@@ -501,7 +516,7 @@ def run(args):
                 if (session / "trials" / trial["id"]).exists():
                     continue  # Evidence is immutable; a fresh prepare reruns failures.
                 try:
-                    execute_trial(session, config, trial)
+                    execute_trial(session, config, trial, registration)
                 except (ValueError, OSError, RuntimeError, subprocess.SubprocessError) as error:
                     write(session / "trials" / trial["id"] / "result.json",
                           {**trial, "valid": False, "errors": [str(error)], "scene": None, "metrics": None})
@@ -514,6 +529,8 @@ def run(args):
         finally:
             handle.close(); lock.unlink()
     summary = report(session)
+    registration.outcome = ("passed" if summary["valid"] == summary["completed"] else "failed") if count else "completed"
+    registration.note = (f"本轮运行{count}项；试验有效性见报告，不等同模组故障已归因" if count else "没有待运行的新试验；保留原报告")
     print(json.dumps({"report": str(session / "report.md"), "completed": summary["completed"],
                       "valid": summary["valid"]}, ensure_ascii=False))
     return 0 if summary["valid"] == summary["completed"] else 2
@@ -539,12 +556,22 @@ def main(argv=None):
     p.add_argument("--timeout", type=float, default=150); p.add_argument("--visible", action="store_true")
     r = commands.add_parser("run", help="execute or resume an existing plan")
     r.add_argument("--session", required=True); r.add_argument("--trial"); r.add_argument("--limit", type=int)
+    r.add_argument("--owner", help="module/task name; defaults to CODEX_THREAD_ID when available")
+    r.add_argument("--wait", type=float, default=300, help="seconds to wait for another registered game test; 0 defers immediately")
+    t = commands.add_parser("tests", help="refresh shared test register")
+    t.add_argument("--json", action="store_true")
     q = commands.add_parser("report"); q.add_argument("--session", required=True)
     v = commands.add_parser("verdict", help="record observed visual symptom; never infer a defect from image differences")
     v.add_argument("--session", required=True); v.add_argument("--trial", required=True)
     v.add_argument("--value", choices=["good", "bad", "unknown"], required=True); v.add_argument("--note", required=True)
     args = parser.parse_args(argv)
     try:
+        if args.command == "tests":
+            registry = Registry()
+            rows = registry.status()
+            print(json.dumps(rows, ensure_ascii=False, indent=2) if args.json else
+                  registry.path.with_suffix(".md").read_text(encoding="utf-8"))
+            return 0
         if args.command == "inventory":
             print(launcher(Path(args.root).resolve(), "--list", "--json")); return 0
         if args.command == "prepare":

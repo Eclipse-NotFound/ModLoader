@@ -142,12 +142,17 @@ class DebuggerTests(unittest.TestCase):
                  patch.object(d, "launcher", return_value=d.json.dumps({"selected": ["A", d.PROBE]})), \
                  patch.object(d, "HiddenProcess", return_value=process), \
                  patch.dict(d.os.environ, {"APPDATA": str(root / "appdata")}):
-                result = d.execute_trial(root, config, trial)
+                registration = MagicMock(id="test-registration")
+                result = d.execute_trial(root, config, trial, registration)
             process.kill.assert_called_once_with()
             process.close.assert_called_once_with()
             self.assertFalse(result["valid"])
             self.assertTrue(any("watchdog timeout" in e for e in result["errors"]))
             self.assertTrue((root / "trials/perf-01-test/meta.json").exists())
+            registration.before_launch.assert_called_once()
+            registration.child.assert_called_once_with(123)
+            registration.child_stopped.assert_called_once_with()
+            self.assertEqual(d.read(root / "trials/perf-01-test/meta.json")["registrationId"], "test-registration")
 
     def test_old_or_changed_desktop_policy_rejected_before_launch(self):
         with patch.object(d, "HiddenProcess") as hidden, patch.object(d.subprocess, "Popen") as visible:

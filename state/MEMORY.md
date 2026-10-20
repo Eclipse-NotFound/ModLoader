@@ -1,12 +1,14 @@
 # ModLoader 外置记忆
 
-更新：2026-10-19。agent归因调试器1.0.1默认使用独立Windows桌面，测试启动图不再弹到用户桌面；启动器仍1.0.0，游戏运行模块仍2.4.0/settings0.5.0。已统一本机验证后直接部署规则，并归档移除旧ModSettings项目及本机加载登记。
+更新：2026-10-20。agent归因调试器1.0.2新增共享测试登记与自动占用协调，继续默认使用独立Windows桌面；启动器仍1.0.0，游戏运行模块仍2.4.0/settings0.5.0。已统一本机验证后直接部署规则，并归档移除旧ModSettings项目及本机加载登记。
 
 ## 1. 这个模组是什么
 
 MainFE清单引导v2、Windows扫描器/选择启动器、游戏内设置模块。新入口RemainsModLauncher.exe；源码src/ModLauncher.cs与src/ModScanner.cs。运行模块源码src/runtime、src/settings，部署点release/ModLoaderMod.swf；不从旧ModSettings项目构建。
 
 ## 2. 用户偏好与协作约定
+
+- 2026-10-20用户要求测试情况登记表，避免每次测试都打断别的对话确认。先用 `tools/agent-debug.ps1 tests` 刷新共享表；`run` 自动登记/等待/写回，专用驱动按[登记说明](../docs/TEST-REGISTRY.md)接入。正常占用等待或暂缓；中断按已有证据核对，无需逐次询问原会话。
 
 - 2026-10-19用户要求测试启动不显示HARMAN/AIR标识。默认后台测试用独立桌面；需要原生画面或操作时才显式可见测试。创建桌面失败须报错，不自动回退前台。具体入口见docs/AGENT-DEBUGGING.md。
 
@@ -21,6 +23,8 @@ MainFE清单引导v2、Windows扫描器/选择启动器、游戏内设置模块�
 - 本次用户明确授权修改工作区所有文件以统一部署规则；本项目一直缺AGENT_SCOPE.md，权限以根GOVERNANCE为准。
 
 ## 3. 当前状态
+
+- 测试登记：共享正本 `shared-knowledge/knowledge-validation/coordination/test-runs.sqlite3`（游戏根相对路径），同名md为自动生成阅读表；SQLite事务防双重放行，game组串行、offline可并行，默认等300秒后暂缓。记录会话/内容/时间/目录/结果/进程身份，中断保留占用并可核对恢复。10项登记检查＋24项调试器回归通过，实际本轮离线验证已登记；未运行AIR游戏。两项技能路由2026-10-20.1已安装、跨会话自动选用与其他驱动迁移待验，见[登记验证](../knowledge/experiments/test-registry-2026-10-20/README.md)。
 
 - 后台桌面修复：tools/air_test_process.py；归因工具已默认接入，桌面策略写入计划/回执，旧计划需重新prepare。24项离线、3项原生进程及2项真实游戏采样/截图通过；确认AIR_Splash只在私有桌面，用户输入桌面未切换。证据见[后台启动验证](../knowledge/experiments/quiet-tests-2026-10-19/README.md)。两项调试技能路由2026-10-19.2已同步；其他旧驱动仍须按说明接入。
 

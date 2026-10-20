@@ -1,0 +1,32 @@
+{
+  "registrationId": "c5b85f9523564d389030a9fffcc382e0",
+  "results": [
+    {
+      "command": [
+        "C:\\Users\\hello\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "build/tests",
+        "-p",
+        "test_test_registry.py",
+        "-v"
+      ],
+      "exitCode": 0,
+      "log": "registry-tests.txt"
+    },
+    {
+      "command": [
+        "C:\\Users\\hello\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+        "-X",
+        "utf8",
+        "build/tests/test_debugger.py"
+      ],
+      "exitCode": 0,
+      "log": "debugger-tests.txt"
+    }
+  ]
+}

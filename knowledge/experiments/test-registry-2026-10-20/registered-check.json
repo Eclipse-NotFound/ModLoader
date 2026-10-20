@@ -1,0 +1,30 @@
+{
+  "id": "c5b85f9523564d389030a9fffcc382e0",
+  "owner": "ModLoader / 测试登记表实现",
+  "purpose": "登记并发、中断恢复与调试器回归",
+  "resource": "offline",
+  "runDir": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\registry-tests",
+  "evidence": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\knowledge\\experiments\\test-registry-2026-10-20\\README.md",
+  "created": "2026-10-20T09:06:10+08:00",
+  "updated": "2026-10-20T09:06:21+08:00",
+  "state": "passed",
+  "runner": {
+    "pid": 88700,
+    "token": "134369319698758539"
+  },
+  "children": [
+    {
+      "pid": 32136,
+      "token": "134369319701031563"
+    },
+    {
+      "pid": 16648,
+      "token": "134369319811417804"
+    }
+  ],
+  "launching": false,
+  "detail": "debugger-tests.txt",
+  "note": "10项登记/并发/中断检查及24项调试器检查；未运行AIR游戏",
+  "ended": "2026-10-20T09:06:21+08:00",
+  "started": "2026-10-20T09:06:10+08:00"
+}
