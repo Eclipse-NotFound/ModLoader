@@ -60,6 +60,7 @@ package
                carrier["modAPI"] = settings;
                carrier["hostId"] = "ModLoader";
                carrier["hostVersion"] = ModLoaderMod.VERSION;
+               carrier["frameRecorder"] = {version:FrameRecorder.VERSION, status:FrameRecorder.readStatus, setSampling:FrameRecorder.setSampling, saveForExit:FrameRecorder.saveForExit};
                carrier.visible = false;
                main.addChild(carrier);
                diagnostics.diagSet("host", "published");

@@ -295,7 +295,7 @@ def execute_trial(session, config, trial, registration=None):
         stale = store / "agent-debug"
         if stale.exists():
             shutil.rmtree(stale)
-    descriptor_for_trial(session, app_id, config["visible"])
+    descriptor_for_trial(session, app_id, config.get("windowVisible", config["visible"]))
     selected = trial["enabled"] + [PROBE]
     launcher(game, "--only", ",".join(selected), "--report", str(output / "selection.json"))
     actual = json.loads(launcher(game, "--list", "--json"))
@@ -305,6 +305,10 @@ def execute_trial(session, config, trial, registration=None):
             "scenario": config["scenario"], "slot": config["slot"],
             "warmupMs": config["warmupMs"], "measureMs": config["measureMs"], "store": str(store)}
     meta["exportSave"] = config.get("exportSave", False)
+    meta["windowVisible"] = config.get("windowVisible", config["visible"])
+    meta["bootTimeoutMs"] = config.get("bootTimeoutMs", 60000)
+    meta["recorderExitCheck"] = config.get("recorderExitCheck", False)
+    meta["closeWindow"] = config.get("closeWindow", False)
     write(game / "agent-debug-plan.json", {**meta, "enabled": selected})
     shutil.copy2(game / "agent-debug-plan.json", output / "plan.json")
     shutil.copy2(game / "mods/loader-manifest.txt", output / "loader-manifest.txt")

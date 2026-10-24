@@ -1,0 +1,105 @@
+{
+  "blocks": [
+    {
+      "enabled": false,
+      "samples": 597,
+      "seconds": 19.995,
+      "meanMs": 33.49246231155779,
+      "p50Ms": 33,
+      "p95Ms": 42,
+      "maxMs": 73,
+      "over50": 9,
+      "over100": 0,
+      "over50PerSecond": 0.450112528132033
+    },
+    {
+      "enabled": true,
+      "samples": 600,
+      "seconds": 20.006,
+      "meanMs": 33.343333333333334,
+      "p50Ms": 33,
+      "p95Ms": 43,
+      "maxMs": 129,
+      "over50": 7,
+      "over100": 1,
+      "over50PerSecond": 0.34989503149055284
+    },
+    {
+      "enabled": true,
+      "samples": 592,
+      "seconds": 20.0,
+      "meanMs": 33.78378378378378,
+      "p50Ms": 33,
+      "p95Ms": 44,
+      "maxMs": 317,
+      "over50": 12,
+      "over100": 2,
+      "over50PerSecond": 0.6
+    },
+    {
+      "enabled": false,
+      "samples": 592,
+      "seconds": 19.999,
+      "meanMs": 33.7820945945946,
+      "p50Ms": 33,
+      "p95Ms": 41,
+      "maxMs": 214,
+      "over50": 11,
+      "over100": 2,
+      "over50PerSecond": 0.5500275013750688
+    },
+    {
+      "enabled": false,
+      "samples": 584,
+      "seconds": 19.995,
+      "meanMs": 34.238013698630134,
+      "p50Ms": 33,
+      "p95Ms": 42,
+      "maxMs": 408,
+      "over50": 10,
+      "over100": 2,
+      "over50PerSecond": 0.5001250312578144
+    },
+    {
+      "enabled": true,
+      "samples": 599,
+      "seconds": 19.968,
+      "meanMs": 33.335559265442406,
+      "p50Ms": 33,
+      "p95Ms": 39,
+      "maxMs": 82,
+      "over50": 4,
+      "over100": 0,
+      "over50PerSecond": 0.20032051282051283
+    },
+    {
+      "enabled": true,
+      "samples": 593,
+      "seconds": 20.0,
+      "meanMs": 33.72681281618887,
+      "p50Ms": 33,
+      "p95Ms": 42,
+      "maxMs": 225,
+      "over50": 8,
+      "over100": 1,
+      "over50PerSecond": 0.4
+    },
+    {
+      "enabled": false,
+      "samples": 600,
+      "seconds": 20.001,
+      "meanMs": 33.335,
+      "p50Ms": 33,
+      "p95Ms": 39,
+      "maxMs": 65,
+      "over50": 3,
+      "over100": 0,
+      "over50PerSecond": 0.14999250037498124
+    }
+  ],
+  "delta": {
+    "meanMs": -0.1645203515085285,
+    "p95Ms": 1,
+    "over50PerSecond": -0.025010504207207962
+  }
+}

@@ -68,7 +68,7 @@ class Registry:
 
     @contextmanager
     def transaction(self):
-        db = sqlite3.connect(self.path, timeout=15)
+        db = sqlite3.connect(self.path, timeout=60)
         try:
             db.execute("BEGIN IMMEDIATE")
             yield db
@@ -163,7 +163,14 @@ class Registry:
         temp = target.with_name(target.name + "." + uuid.uuid4().hex + ".tmp")
         try:
             temp.write_text("\n".join(lines), encoding="utf-8")
-            os.replace(temp, target)
+            try:
+                os.replace(temp, target)
+            except PermissionError:
+                # Windows readers may omit FILE_SHARE_DELETE. The Markdown view is
+                # disposable; never roll back a valid reservation because it is open.
+                if not getattr(self, "_view_warning", False):
+                    print("测试表暂时无法替换；数据库登记仍有效，下次查询会重试刷新。", file=sys.stderr)
+                    self._view_warning = True
         finally:
             temp.unlink(missing_ok=True)
 

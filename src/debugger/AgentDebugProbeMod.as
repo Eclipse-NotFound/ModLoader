@@ -22,6 +22,7 @@ package
       private var frames:Array = [], activity:Array = [];
       private var firstScene:Object, memoryStart:Number, targetRate:Number;
       private var rateChanged:Boolean = false, nodes:Array = [], truncated:Boolean = false;
+      private var lastBootReport:int = 0;
       public function AgentDebugProbeMod() {}
       public static function init(m:*):void
       {
@@ -72,7 +73,17 @@ package
                throw new Error("game error: " + field(w.verror.txt,"text"));
             if(phase == "boot")
             {
-               if(getTimer() - since > 60000) throw new Error("boot/loader timeout");
+               if(getTimer() - lastBootReport >= 5000)
+               {
+                  lastBootReport = getTimer();
+                  var bootRecorder:Object = null, bootHost:* = main.getChildByName("ModSettingsCarrier");
+                  if(bootHost != null && bootHost.frameRecorder != null) bootRecorder = bootHost.frameRecorder.status();
+                  write("agent-debug/heartbeat.json", JSON.stringify({runId:plan.runId,phase:phase,
+                     elapsedMs:getTimer()-since, scene:scene(), allLandsLoaded:field(w,"allLandsLoaded"),
+                     textLoaded:field(w,"textLoaded"), musicLoaded:field(w,"musicLoaded"),
+                     musicKol:field(w,"musicKol"), frameRecorder:bootRecorder}));
+               }
+               if(getTimer() - since > (plan.bootTimeoutMs > 0 ? plan.bootTimeoutMs : 60000)) throw new Error("boot/loader timeout");
                var data:Object = SharedObject.getLocal("ModLoader","/").data;
                if(data.boot == null || data.session == null || w == null) return;
                for each(var entry:String in plan.enabled) if(data["ok_" + entry] == null) return;
@@ -185,11 +196,49 @@ package
             }
             catch(saveError:*) { seedExport = "failed: " + String(saveError); }
          }
+         var recorder:Object = null, benchmark:Object = null, fault:Object = null;
+         try
+         {
+            var host:* = main.getChildByName("ModSettingsCarrier");
+            if(host != null && host.frameRecorder != null) recorder = host.frameRecorder.status();
+            if(host != null) { benchmark = host.recorderBenchmark; fault = host.recorderFault; }
+         }
+         catch(recorderError:*) { recorder = {error:String(recorderError)}; }
          write("agent-debug/result.json",JSON.stringify({protocol:1,runId:plan.runId,appId:plan.appId,
             mode:plan.mode,error:error,framesMs:frames,sceneStart:firstScene,sceneEnd:end,
             memoryStart:memoryStart,memoryEnd:mem,rateChanged:rateChanged,activity:activity,seedExport:seedExport,
+            frameRecorder:recorder,
+            recorderBenchmark:benchmark, recorderFault:fault,
             loader:SharedObject.getLocal("ModLoader","/").data}));
-         getDefinitionByName("flash.desktop.NativeApplication")["nativeApplication"].exit(error == null ? 0 : 1);
+         var application:* = getDefinitionByName("flash.desktop.NativeApplication")["nativeApplication"];
+         if(plan.recorderExitCheck)
+         {
+            var observeExit:Function = function(event:Event):void
+            {
+               if(event.isDefaultPrevented()) return;
+               write("agent-debug/recorder-exit.json", JSON.stringify({event:event.type, status:host.frameRecorder.status()}));
+            };
+            Object(main.stage)["nativeWindow"].addEventListener("closing", observeExit, false, -20000);
+            Object(main.stage)["nativeWindow"].addEventListener(Event.CLOSE, observeExit, false, -20000);
+            application.addEventListener("exiting", observeExit, false, -20000);
+         }
+         if(plan.closeWindow) Object(main.stage)["nativeWindow"].close();
+         else
+         {
+            // AIR on this host did not dispatch the documented closing event for exit().
+            // Sampling has ended; explicitly preserve memory telemetry before programmatic exit.
+            try
+            {
+               if(host != null && host.frameRecorder != null && host.frameRecorder.saveForExit != null)
+               {
+                  var saved:Object = host.frameRecorder.saveForExit();
+                  if(plan.recorderExitCheck)
+                     write("agent-debug/recorder-exit.json", JSON.stringify({event:"explicit save before exit",status:saved}));
+               }
+            }
+            catch(saveRecorderError:*) {}
+            application.exit(error == null ? 0 : 1);
+         }
       }
    }
 }

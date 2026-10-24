@@ -1,0 +1,59 @@
+Observed local validation 2026-10-24T12:36:58.119460
+test_clues_gaps_and_source_immutable (test_frame_recorder.Reports.test_clues_gaps_and_source_immutable) ... ok
+test_empty (test_frame_recorder.Reports.test_empty) ... ok
+test_existing_evidence_is_not_overwritten (test_frame_recorder.Reports.test_existing_evidence_is_not_overwritten) ... ok
+test_exit_export_and_uncommitted_file (test_frame_recorder.Reports.test_exit_export_and_uncommitted_file) ... ok
+test_exit_export_bounded_to_sixty_batches (test_frame_recorder.Reports.test_exit_export_bounded_to_sixty_batches) ... ok
+test_invalid_sample_rejected (test_frame_recorder.Reports.test_invalid_sample_rejected) ... ok
+test_large_or_unknown_input_is_rejected (test_frame_recorder.Reports.test_large_or_unknown_input_is_rejected) ... ok
+test_locked_markdown_does_not_undo_reservation (test_frame_recorder.Reports.test_locked_markdown_does_not_undo_reservation) ... 测试表暂时无法替换；数据库登记仍有效，下次查询会重试刷新。
+ok
+test_only_fixed_sixty_names_are_read (test_frame_recorder.Reports.test_only_fixed_sixty_names_are_read) ... ok
+test_partial_chunk_keeps_complete_evidence_with_warning (test_frame_recorder.Reports.test_partial_chunk_keeps_complete_evidence_with_warning) ... ok
+test_ring_commits_and_incomplete_slot (test_frame_recorder.Reports.test_ring_commits_and_incomplete_slot) ... ok
+test_ring_does_not_read_outside_capacity (test_frame_recorder.Reports.test_ring_does_not_read_outside_capacity) ... ok
+test_ring_uses_latest_session_and_deduplicates (test_frame_recorder.Reports.test_ring_uses_latest_session_and_deduplicates) ... ok
+test_async_error_rejected (test_debugger.DebuggerTests.test_async_error_rejected) ... ok
+test_boot_focus_ignored (test_debugger.DebuggerTests.test_boot_focus_ignored) ... ok
+test_current_run_exact_set (test_debugger.DebuggerTests.test_current_run_exact_set) ... ok
+test_different_scenes_not_compared (test_debugger.DebuggerTests.test_different_scenes_not_compared) ... ok
+test_disabled_mod_rejected (test_debugger.DebuggerTests.test_disabled_mod_rejected) ... ok
+test_fixed_mod_never_removed (test_debugger.DebuggerTests.test_fixed_mod_never_removed) ... ok
+test_focus_change_rejected (test_debugger.DebuggerTests.test_focus_change_rejected) ... ok
+test_foreign_session_refused (test_debugger.DebuggerTests.test_foreign_session_refused) ... ok
+test_invalid_trial_not_ranked (test_debugger.DebuggerTests.test_invalid_trial_not_ranked) ... ok
+test_metrics (test_debugger.DebuggerTests.test_metrics) ... ok
+test_missing_initialization_rejected (test_debugger.DebuggerTests.test_missing_initialization_rejected) ... ok
+test_old_or_changed_desktop_policy_rejected_before_launch (test_debugger.DebuggerTests.test_old_or_changed_desktop_policy_rejected_before_launch) ... ok
+test_repeated_association (test_debugger.DebuggerTests.test_repeated_association) ... ok
+test_resource_boot_incomplete_rejected (test_debugger.DebuggerTests.test_resource_boot_incomplete_rejected) ... ok
+test_reverse_alternating_order (test_debugger.DebuggerTests.test_reverse_alternating_order) ... ok
+test_scene_change_rejected (test_debugger.DebuggerTests.test_scene_change_rejected) ... ok
+test_short_sample_rejected (test_debugger.DebuggerTests.test_short_sample_rejected) ... ok
+test_single_pair_not_causal (test_debugger.DebuggerTests.test_single_pair_not_causal) ... ok
+test_snapshot_detects_changed_config (test_debugger.DebuggerTests.test_snapshot_detects_changed_config) ... ok
+test_stale_evidence (test_debugger.DebuggerTests.test_stale_evidence) ... ok
+test_tree_diff_prioritizes_added_overlay_before_animation (test_debugger.DebuggerTests.test_tree_diff_prioritizes_added_overlay_before_animation) ... ok
+test_tree_diff_records_truncation_and_overlay (test_debugger.DebuggerTests.test_tree_diff_records_truncation_and_overlay) ... ok
+test_watchdog_kills_owned_handle_and_preserves_failure (test_debugger.DebuggerTests.test_watchdog_kills_owned_handle_and_preserves_failure) ... {"trial": "perf-01-test", "valid": false, "errors": ["watchdog timeout; only this owned process was stopped", "no probe result; inspect ADL output, heartbeat, and loader log"]}
+ok
+test_wrong_run_rejected (test_debugger.DebuggerTests.test_wrong_run_rejected) ... ok
+test_conflict_defers_but_offline_can_run (test_test_registry.RegistryTests.test_conflict_defers_but_offline_can_run) ... 测试占用，自动等待：563c126ae32e4981b544ee4f2e72200a
+ok
+test_crashed_runner_child_prevents_recovery_until_exit (test_test_registry.RegistryTests.test_crashed_runner_child_prevents_recovery_until_exit) ... ok
+test_debugger_run_registers_result_and_noop_is_not_passed (test_test_registry.RegistryTests.test_debugger_run_registers_result_and_noop_is_not_passed) ... {"report": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\registry-tests\\tmpxb2sjrvr\\session\\report.md", "completed": 1, "valid": 1}
+{"report": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\registry-tests\\tmpxb2sjrvr\\session\\report.md", "completed": 1, "valid": 1}
+ok
+test_failure_kept_and_does_not_block_next_test (test_test_registry.RegistryTests.test_failure_kept_and_does_not_block_next_test) ... ok
+test_invalid_wait_creates_no_record (test_test_registry.RegistryTests.test_invalid_wait_creates_no_record) ... ok
+test_launch_interruption_keeps_reservation (test_test_registry.RegistryTests.test_launch_interruption_keeps_reservation) ... ok
+test_table_escapes_cells_and_preserves_report_path (test_test_registry.RegistryTests.test_table_escapes_cells_and_preserves_report_path) ... ok
+test_two_real_processes_cannot_claim_together (test_test_registry.RegistryTests.test_two_real_processes_cannot_claim_together) ... ok
+test_waiter_proceeds_after_first_finishes (test_test_registry.RegistryTests.test_waiter_proceeds_after_first_finishes) ... 测试占用，自动等待：ee5d21b1e9f74ab086c89bfe5c385c62
+ok
+test_windows_identity_stable_and_pid_reuse_not_alive (test_test_registry.RegistryTests.test_windows_identity_stable_and_pid_reuse_not_alive) ... ok
+
+----------------------------------------------------------------------
+Ran 47 tests in 10.883s
+
+OK

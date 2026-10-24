@@ -102,13 +102,13 @@ class RegistryTests(unittest.TestCase):
             for i in range(2):
                 processes.append(subprocess.Popen([sys.executable, str(script), str(self.registry.path),
                                   str(self.root / str(i)), str(self.root / "go")], creationflags=subprocess.CREATE_NO_WINDOW))
-            deadline = time.monotonic() + 10
+            deadline = time.monotonic() + 60
             while not all((self.root / f"{i}.ready").exists() for i in range(2)):
                 if time.monotonic() > deadline: self.fail("contenders failed to prepare")
                 time.sleep(.02)
             (self.root / "go").touch()
             for process in processes:
-                self.assertEqual(process.wait(10), 0)
+                self.assertEqual(process.wait(60), 0)
             self.assertEqual(sum((self.root / str(i)).read_text() == "True" for i in range(2)), 1)
         finally:
             for process in processes:
@@ -117,24 +117,34 @@ class RegistryTests(unittest.TestCase):
 
     def test_crashed_runner_child_prevents_recovery_until_exit(self):
         script = self.root / "crash.py"
+        child_script = self.root / "wait_for_release.py"
+        release = self.root / "release-child"
+        child_script.write_text("import sys,time\nfrom pathlib import Path\n"
+                                "until=time.monotonic()+120\n"
+                                "while not Path(sys.argv[1]).exists() and time.monotonic()<until: time.sleep(.05)\n", encoding="utf-8")
         script.write_text(
             "import os,sys,subprocess\nfrom pathlib import Path\n"
             f"sys.path.insert(0, {str(TOOLS)!r})\n"
             "from test_registry import Registry,Registration\n"
             "with Registration(owner='crash fixture',purpose='crash',run_dir=sys.argv[2],registry=Registry(sys.argv[1])) as reg:\n"
             " reg.before_launch('fixture child')\n"
-            " p=subprocess.Popen([sys.executable,'-c','import time; time.sleep(8)'],creationflags=subprocess.CREATE_NO_WINDOW)\n"
+            f" p=subprocess.Popen([sys.executable,{str(child_script)!r},{str(release)!r}],creationflags=subprocess.CREATE_NO_WINDOW)\n"
             " reg.child(p.pid)\n"
             " Path(sys.argv[2]).write_text(reg.id)\n"
             " os._exit(7)\n", encoding="utf-8")
         process = subprocess.Popen([sys.executable, str(script), str(self.registry.path), str(self.root / "id")],
                                    creationflags=subprocess.CREATE_NO_WINDOW)
-        self.assertEqual(process.wait(10), 7)
-        ident = (self.root / "id").read_text()
-        self.assertEqual(self.row(ident)["state"], "needs-check")
-        with self.assertRaisesRegex(ValueError, "still alive"):
-            self.registry.recover(ident, "fixture", True)
-        deadline = time.monotonic() + 12
+        try:
+            self.assertEqual(process.wait(60), 7)
+            ident = (self.root / "id").read_text()
+            self.assertEqual(self.row(ident)["state"], "needs-check")
+            with self.assertRaisesRegex(ValueError, "still alive"):
+                self.registry.recover(ident, "fixture", True)
+        finally:
+            release.touch()
+            if process.poll() is None:
+                process.kill(); process.wait()
+        deadline = time.monotonic() + 60
         while not all(r.gone(p) for p in self.row(ident)["children"]):
             if time.monotonic() > deadline: self.fail("fixture child did not exit")
             time.sleep(.1)

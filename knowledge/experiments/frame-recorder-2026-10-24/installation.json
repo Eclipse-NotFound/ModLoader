@@ -1,0 +1,33 @@
+{
+  "target": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\release\\ModLoaderMod.swf",
+  "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\work\\backups\\before-frame-recorder-20261024-123652\\ModLoaderMod.swf",
+  "beforeSha256": "bd71b6f31774b97841d4c158451da0353b53bc46ac72f8e2a7fe2c3f3f4908b1",
+  "afterSha256": "2050e023205e87fdfdf7fba4b54b9bad7769868e51767d0bfbe1742cdc7542e2",
+  "status": "verified",
+  "frameRecorder": {
+    "mode": "memory-until-exit",
+    "droppedSamples": 0,
+    "reason": "",
+    "active": true,
+    "clockOriginMs": 23643,
+    "snapshotPeakMs": 0,
+    "writes": 0,
+    "samples": 22,
+    "version": "1.0.0",
+    "directory": "C:\\Users\\hello\\AppData\\Roaming\\pfe-agentdebug-f878df8b87bd478a9b303baef3176244\\Local Store\\frame-recorder",
+    "exportMs": 0,
+    "selfPeakMs": 0,
+    "overBudgetEvents": 0,
+    "bufferedSamples": 22,
+    "session": "1792816640308-5c5b",
+    "exportError": ""
+  },
+  "runtimeVersion": "2.5.0",
+  "settingsVersion": "0.5.0",
+  "recorderVersion": "1.0.0",
+  "bytes": 28418,
+  "hostSha256": "a796827173af7d6fab9885fb66ecc62182ab5335918a30c7cce4c44914a238b7",
+  "telemetrySha256": "a050ef06ea542b8fd8781f1e945f9adcd03c7ae5190719e66ba826e2059fce12",
+  "scope": "ModLoader runtime only; no host or player manifest change by this task",
+  "rollback": "Safely exit game, verify this version has not been superseded, then restore backup to target. Configuration false disables sampling after restart."
+}

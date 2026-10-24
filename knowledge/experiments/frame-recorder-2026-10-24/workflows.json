@@ -1,0 +1,33 @@
+{
+  "selection": "natural task use; no subagents",
+  "skills": [
+    {
+      "path": "D:/Program Files/Steam/steamapps/common/Remains/.agents/skills/remains-release-gate/SKILL.md",
+      "sha256": "2d6030bc3311400fdb4301e7708e45357ff7dd66f1c86c9298c3914100c6db02"
+    },
+    {
+      "path": "D:/Program Files/Steam/steamapps/common/Remains/.agents/skills/remains-auto-testing/SKILL.md",
+      "sha256": "d6c2efbb03c2d5431c438b4626b83ae00c36e2904b91dba10c4d4a2b06a4dc89"
+    },
+    {
+      "path": "D:/Program Files/Steam/steamapps/common/Remains/.agents/skills/remains-runtime-debug/SKILL.md",
+      "sha256": "6017fbd0d89c8aa08f31c3b8474f7feca6f901c483f0fe08f10178e1246f6eb7"
+    },
+    {
+      "path": "D:/Program Files/Steam/steamapps/common/Remains/.agents/skills/remains-mod-build/SKILL.md",
+      "sha256": "1907a013dc94d0848d88b1ccd163cf0045d65edebd49b33af8575bcb5ac6f88a"
+    },
+    {
+      "path": "D:/Program Files/Steam/steamapps/common/Remains/.agents/skills/remains-mod-memory/SKILL.md",
+      "sha256": "bf89d2ce22befe7deae310beb95f715e9fe9d0086dbefe2407d68ab8a2e1efbb"
+    },
+    {
+      "path": "D:/Program Files/Steam/steamapps/common/Remains/.agents/skills/remains-knowledge-contribution/SKILL.md",
+      "sha256": "1f92de4cc5ce5c79d814e9ed621c6d895a60fc946050fbb1e10514f8d6c21b97"
+    },
+    {
+      "path": "C:/Users/hello/.agents/skills/test-report/SKILL.md",
+      "sha256": "cde4695f98417768f2c11ea42f6ea1f4400ddecc5d00f5a224fcc988646febf5"
+    }
+  ]
+}
