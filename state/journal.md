@@ -1,5 +1,10 @@
 # ModLoader 开发日志（journal）
 
+## 2026-10-25 建立历史文件归档入口
+
+- 按用户要求接入 E:\RemainsTest 统一归档；本模组从 [archive-index.md](archive-index.md) 查候选和实际位置。
+- 本轮只建立导航、登记和经隔离样例验证的移动工具，正式文件仍在原处；后续登记须核对该组前置条件。统一实施记录见 [archive/state/implementation.md](../../../archive/state/implementation.md)。
+
 ## 2026-10-24 轻量帧记录器完成并部署2.5.0
 
 - 用户要求低干扰的帧率/游戏状况记录，已采用300窗内存环、正常退出保存，无截图/悬浮窗/额外常驻进程；agent入口和既有调试流程已接入。强退/崩溃丢本轮记录，不保证绝对零开销。
