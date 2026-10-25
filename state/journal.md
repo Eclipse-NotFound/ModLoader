@@ -1,5 +1,10 @@
 # ModLoader 开发日志（journal）
 
+## 2026-10-25 审核登记并转存历史资料
+
+- 已完成 A01、B04、B05：2,868 文件，原始显示 5.84 GiB；逐文件指纹核验后移出，完整失败/旧版本内容保留。
+- 位置、恢复限制与保留项见 [archive-index.md](archive-index.md) 和 [全批结果](../../../archive/migrations/2026-10-25-01/report.md)。历史引用先恢复原路径再重跑；正式运行包、源码和用户作品未移动。
+
 ## 2026-10-25 建立历史文件归档入口
 
 - 按用户要求接入 E:\RemainsTest 统一归档；本模组从 [archive-index.md](archive-index.md) 查候选和实际位置。
