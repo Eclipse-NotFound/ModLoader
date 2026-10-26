@@ -1,5 +1,7 @@
 # ModLoader 外置记忆
 
+2026-10-26必要共享登记器修复（ContinuousScene会话明确授权）：`tools/test_registry.py`在OpenProcess拒绝访问时只读CIM创建时间，处理旧PID被受保护系统进程复用；失败仍unknown、同一进程不误释放。15项完整回归通过，原占用在系统进程自行退出后由原recover释放；未改SWF/名单。详见[证据与回退](../knowledge/experiments/test-registry-2026-10-26/README.md)。
+
 > 2026-10-25 历史资料已核验转存：A01、B04、B05，共2,868文件、原始显示5.84 GiB。查找与恢复从 [archive-index.md](archive-index.md) 进入；[本次结果](../../../archive/migrations/2026-10-25-01/report.md)。当前正式包、源码、作品及保留证据未纳入。
 
 更新：2026-10-24。ModLoader运行模块2.5.0/settings0.5.0已部署，新增FrameRecorder1.0.0：300窗内存记录、正常退出保存及agent只读分析。启动器仍1.0.0、调试器沿用1.0.2入口并接入退出保存；本机验证后直接部署与共享测试登记流程不变。

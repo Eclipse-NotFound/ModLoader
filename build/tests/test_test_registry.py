@@ -44,6 +44,61 @@ class RegistryTests(unittest.TestCase):
         with patch.object(r, "process_token", return_value="unknown"):
             self.assertFalse(r.gone({"pid": 123, "token": "old"}))
 
+    def test_cim_and_native_precision_do_not_release_same_process(self):
+        original = "134374159796693439"
+        same = r.CIM_TOKEN_PREFIX + "13437415979669343"
+        reused = r.CIM_TOKEN_PREFIX + "13437416305432210"
+        with patch.object(r, "process_token", return_value=same):
+            self.assertFalse(r.gone({"pid": 123, "token": original}))
+        with patch.object(r, "process_token", return_value=original):
+            self.assertFalse(r.gone({"pid": 123, "token": same}))
+        with patch.object(r, "process_token", return_value=reused):
+            self.assertTrue(r.gone({"pid": 123, "token": original}))
+            self.assertFalse(r.gone({"pid": 123, "token": "unknown"}))
+        self.assertTrue(r.different_identity(original, "134374159796693438"))
+
+    def test_real_cim_creation_agrees_with_native(self):
+        native = r.process_token(os.getpid())
+        cim = r.cim_token(os.getpid())
+        self.assertNotIn(native, (None, "unknown"))
+        self.assertTrue(cim.startswith(r.CIM_TOKEN_PREFIX), cim)
+        self.assertFalse(r.different_identity(native, cim))
+
+    def test_cim_failure_or_invalid_identity_cannot_release(self):
+        errors = (OSError("denied"), subprocess.TimeoutExpired("cim", 15),
+                  subprocess.CalledProcessError(1, "cim"))
+        for error in errors:
+            with self.subTest(error=type(error).__name__), patch.object(r.subprocess, "run", side_effect=error):
+                self.assertEqual(r.cim_token(123), "unknown")
+        for value in ("", "0", "unexpected output", "123\n456"):
+            with self.subTest(value=value), patch.object(r.subprocess, "run", return_value=SimpleNamespace(stdout=value)):
+                self.assertEqual(r.cim_token(123), "unknown")
+        for token in ("unknown", r.CIM_TOKEN_PREFIX, r.CIM_TOKEN_PREFIX + "bad"):
+            with patch.object(r, "process_token", return_value=token):
+                self.assertFalse(r.gone({"pid": 123, "token": "134374159796693439"}))
+
+    def test_recovery_with_reused_cim_child_keeps_live_runner(self):
+        ident = self.registry.create("owner", "reused PID", "game", self.root, "")
+        self.registry.update(ident, state="needs-check", children=[{"pid": 123, "token": "134374159796693439"}])
+        current = r.process_token
+        def observe(pid):
+            return r.CIM_TOKEN_PREFIX + "13437416305432210" if pid == 123 else current(pid)
+        with patch.object(r, "process_token", side_effect=observe):
+            with self.assertRaisesRegex(ValueError, "still alive"):
+                self.registry.recover(ident, "reused child checked", True)
+        self.assertEqual(self.row(ident)["state"], "needs-check")
+
+    def test_recovery_releases_only_verified_reused_cim_identity(self):
+        ident = self.registry.create("owner", "reused PID", "game", self.root, "")
+        self.registry.update(ident, state="needs-check", runner={"pid": 124, "token": "134374159765200198"},
+                             children=[{"pid": 123, "token": "134374159796693439"}])
+        with patch.object(r, "process_token", side_effect=lambda pid: None if pid == 124 else "unknown"):
+            with self.assertRaisesRegex(ValueError, "still alive"):
+                self.registry.recover(ident, "unreadable child", True)
+        with patch.object(r, "process_token", side_effect=lambda pid: None if pid == 124 else r.CIM_TOKEN_PREFIX + "13437416305432210"):
+            self.registry.recover(ident, "different creation identity checked", True)
+        self.assertEqual(self.row(ident)["state"], "interrupted")
+
     def test_conflict_defers_but_offline_can_run(self):
         with self.registration() as first:
             with self.assertRaises(TimeoutError):

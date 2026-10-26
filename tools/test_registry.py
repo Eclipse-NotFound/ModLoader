@@ -15,6 +15,7 @@ import math
 import os
 from pathlib import Path
 import sqlite3
+import subprocess
 import sys
 import time
 import uuid
@@ -31,6 +32,49 @@ def now():
     return datetime.now(timezone(timedelta(hours=8))).isoformat(timespec="seconds")
 
 
+CIM_TOKEN_PREFIX = "cim-microseconds:"
+
+
+def cim_token(pid):
+    """Read a denied PID's creation identity. Failures never mean process exit."""
+    pid = int(pid)
+    if pid <= 0:
+        return "unknown"
+    command = (
+        "$ErrorActionPreference='Stop'; "
+        "$p=@(Get-CimInstance Win32_Process -Filter 'ProcessId=" + str(pid) + "'); "
+        "if($p.Count -ne 1 -or -not $p[0].CreationDate){throw 'No unique creation identity'}; "
+        "[string]$p[0].CreationDate.ToUniversalTime().ToFileTimeUtc()"
+    )
+    try:
+        result = subprocess.run(
+            ["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", command],
+            text=True, capture_output=True, timeout=15, check=True,
+            creationflags=subprocess.CREATE_NO_WINDOW)
+        value = result.stdout.strip()
+        if not value.isdecimal() or int(value) <= 0:
+            return "unknown"
+        # CIM reports microseconds; native FILETIME also has a final 100ns digit.
+        return CIM_TOKEN_PREFIX + str(int(value) // 10)
+    except (OSError, ValueError, subprocess.SubprocessError):
+        return "unknown"
+
+
+def different_identity(before, after):
+    if not isinstance(before, str) or not isinstance(after, str) or "unknown" in (before, after):
+        return False
+    if not (before.startswith(CIM_TOKEN_PREFIX) or after.startswith(CIM_TOKEN_PREFIX)):
+        return before != after  # Preserve full precision for two native tokens.
+    values = []
+    for token in (before, after):
+        is_cim = token.startswith(CIM_TOKEN_PREFIX)
+        value = token[len(CIM_TOKEN_PREFIX):] if is_cim else token
+        if not value.isdecimal() or int(value) <= 0:
+            return False
+        values.append(int(value) if is_cim else int(value) // 10)
+    return values[0] != values[1]
+
+
 def process_token(pid):
     """Creation time prevents PID reuse. None=exited, unknown=not readable."""
     if os.name != "nt":
@@ -42,7 +86,10 @@ def process_token(pid):
     k.GetProcessTimes.argtypes = [w.HANDLE] + [ctypes.POINTER(w.FILETIME)] * 4
     handle = k.OpenProcess(0x100000 | 0x1000, False, int(pid))
     if not handle:
-        return None if ctypes.get_last_error() == 87 else "unknown"
+        error = ctypes.get_last_error()
+        if error == 87:
+            return None
+        return cim_token(pid) if error == 5 else "unknown"
     try:
         if k.WaitForSingleObject(handle, 0) == 0:
             return None
@@ -56,7 +103,7 @@ def process_token(pid):
 
 def gone(process):
     token = process_token(process["pid"])
-    return token is None or (token != "unknown" and process["token"] != "unknown" and token != process["token"])
+    return token is None or different_identity(process["token"], token)
 
 
 class Registry:
