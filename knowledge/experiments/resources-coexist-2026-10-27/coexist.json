@@ -1,0 +1,367 @@
+{
+  "assertions": {
+    "bothValid": true,
+    "overlapAtLeast5s": true,
+    "peerContinuedAfterAgentExit": true,
+    "distinctIdsStoresDesktops": true,
+    "bothMutedAtSampleEnd": true,
+    "inputDesktopUnchanged": true,
+    "playerInstallUnchanged": true,
+    "agentPolicyConfirmed": true,
+    "playerPolicyUnmodified": true,
+    "parallelSamplesNotRanked": true,
+    "differentProcessIds": true,
+    "successfulExit": true
+  },
+  "overlapMs": 29350,
+  "meta": [
+    {
+      "id": "perf-01-full",
+      "mode": "perf",
+      "repeat": 1,
+      "name": "full",
+      "enabled": [
+        "ModLoaderMod"
+      ],
+      "protocol": 1,
+      "runnerVersion": "1.1.0",
+      "runId": "77942174f9bd4a73a754572934b5dc0c",
+      "appId": "pfe-agentdebug-7253467dd8d24589963724f3ea7fa13c",
+      "scenario": "new-game",
+      "slot": 0,
+      "warmupMs": 2000,
+      "measureMs": 5000,
+      "store": "C:\\Users\\hello\\AppData\\Roaming\\pfe-agentdebug-7253467dd8d24589963724f3ea7fa13c\\Local Store",
+      "exportSave": false,
+      "windowVisible": false,
+      "bootTimeoutMs": 60000,
+      "recorderExitCheck": false,
+      "closeWindow": false,
+      "muted": true,
+      "profile": "coexist",
+      "startedMs": 1793110997124,
+      "resourcesBefore": {
+        "atMs": 1793110997124,
+        "memory": {
+          "load": 60,
+          "totalPhysical": 33879638016,
+          "availablePhysical": 13361098752,
+          "commitLimit": 59628703744,
+          "availableCommit": 4749328384
+        },
+        "air": {
+          "processes": [],
+          "unreadableProcessCount": 174,
+          "scope": "endpoints only; absence is not proof of an idle computer"
+        },
+        "runner": {
+          "cpuPriorityClass": 32,
+          "errors": [],
+          "memoryPriority": 5,
+          "powerThrottling": {
+            "controlMask": 0,
+            "stateMask": 0,
+            "highQoS": false
+          },
+          "inJob": true,
+          "innermostJobLimits": {
+            "flags": 10240,
+            "processCommitCap": null,
+            "jobCommitCap": null,
+            "workingSetCap": null,
+            "boundary": "current innermost job only; nested ancestors may impose further limits"
+          }
+        },
+        "warnings": []
+      },
+      "desktopMode": "isolated",
+      "desktopName": "RemainsTest-74364e4426424638a2c52f9c9abd93df",
+      "resourcePolicy": {
+        "requested": "test",
+        "before": {
+          "cpuPriorityClass": 32,
+          "errors": [],
+          "memoryPriority": 5,
+          "powerThrottling": {
+            "controlMask": 0,
+            "stateMask": 0,
+            "highQoS": false
+          },
+          "inJob": true
+        },
+        "after": {
+          "cpuPriorityClass": 32,
+          "errors": [],
+          "memoryPriority": 5,
+          "powerThrottling": {
+            "controlMask": 1,
+            "stateMask": 0,
+            "highQoS": true
+          },
+          "inJob": true
+        },
+        "errors": []
+      },
+      "pid": 84416,
+      "exitCode": 0,
+      "endedMs": 1793111026474,
+      "resourcesAfter": {
+        "atMs": 1793111026476,
+        "memory": {
+          "load": 63,
+          "totalPhysical": 33879638016,
+          "availablePhysical": 12449533952,
+          "commitLimit": 59628703744,
+          "availableCommit": 4226777088
+        },
+        "air": {
+          "processes": [
+            {
+              "pid": 81316,
+              "exe": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261027-221338-8a3ae3f5\\game\\adl64.exe"
+            }
+          ],
+          "unreadableProcessCount": 178,
+          "scope": "endpoints only; absence is not proof of an idle computer"
+        },
+        "runner": {
+          "cpuPriorityClass": 32,
+          "errors": [],
+          "memoryPriority": 5,
+          "powerThrottling": {
+            "controlMask": 0,
+            "stateMask": 0,
+            "highQoS": false
+          },
+          "inJob": true,
+          "innermostJobLimits": {
+            "flags": 10240,
+            "processCommitCap": null,
+            "jobCommitCap": null,
+            "workingSetCap": null,
+            "boundary": "current innermost job only; nested ancestors may impose further limits"
+          }
+        },
+        "warnings": []
+      }
+    },
+    {
+      "id": "perf-01-full",
+      "mode": "perf",
+      "repeat": 1,
+      "name": "full",
+      "enabled": [
+        "ModLoaderMod"
+      ],
+      "protocol": 1,
+      "runnerVersion": "1.1.0",
+      "runId": "c45fa2cd53f84e3cb1e9510370e29a45",
+      "appId": "pfe-agentdebug-89dae43a62bf4b24b12b04ddbd6e9181",
+      "scenario": "new-game",
+      "slot": 0,
+      "warmupMs": 10000,
+      "measureMs": 15000,
+      "store": "C:\\Users\\hello\\AppData\\Roaming\\pfe-agentdebug-89dae43a62bf4b24b12b04ddbd6e9181\\Local Store",
+      "exportSave": false,
+      "windowVisible": false,
+      "bootTimeoutMs": 60000,
+      "recorderExitCheck": false,
+      "closeWindow": false,
+      "muted": true,
+      "profile": "coexist",
+      "startedMs": 1793110997106,
+      "resourcesBefore": {
+        "atMs": 1793110997107,
+        "memory": {
+          "load": 60,
+          "totalPhysical": 33879638016,
+          "availablePhysical": 13338484736,
+          "commitLimit": 59628703744,
+          "availableCommit": 4735516672
+        },
+        "air": {
+          "processes": [],
+          "unreadableProcessCount": 175,
+          "scope": "endpoints only; absence is not proof of an idle computer"
+        },
+        "runner": {
+          "cpuPriorityClass": 32,
+          "errors": [],
+          "memoryPriority": 5,
+          "powerThrottling": {
+            "controlMask": 0,
+            "stateMask": 0,
+            "highQoS": false
+          },
+          "inJob": true,
+          "innermostJobLimits": {
+            "flags": 10240,
+            "processCommitCap": null,
+            "jobCommitCap": null,
+            "workingSetCap": null,
+            "boundary": "current innermost job only; nested ancestors may impose further limits"
+          }
+        },
+        "warnings": []
+      },
+      "desktopMode": "isolated",
+      "desktopName": "RemainsTest-7367330426074de1bc5a4e6cf257de7d",
+      "resourcePolicy": {
+        "requested": "system",
+        "before": {
+          "cpuPriorityClass": 32,
+          "errors": [],
+          "memoryPriority": 5,
+          "powerThrottling": {
+            "controlMask": 0,
+            "stateMask": 0,
+            "highQoS": false
+          },
+          "inJob": true
+        },
+        "after": {
+          "cpuPriorityClass": 32,
+          "errors": [],
+          "memoryPriority": 5,
+          "powerThrottling": {
+            "controlMask": 0,
+            "stateMask": 0,
+            "highQoS": false
+          },
+          "inJob": true
+        },
+        "errors": []
+      },
+      "pid": 81316,
+      "exitCode": 0,
+      "endedMs": 1793111044551,
+      "resourcesAfter": {
+        "atMs": 1793111044552,
+        "memory": {
+          "load": 61,
+          "totalPhysical": 33879638016,
+          "availablePhysical": 13090693120,
+          "commitLimit": 59628703744,
+          "availableCommit": 4999970816
+        },
+        "air": {
+          "processes": [],
+          "unreadableProcessCount": 178,
+          "scope": "endpoints only; absence is not proof of an idle computer"
+        },
+        "runner": {
+          "cpuPriorityClass": 32,
+          "errors": [],
+          "memoryPriority": 5,
+          "powerThrottling": {
+            "controlMask": 0,
+            "stateMask": 0,
+            "highQoS": false
+          },
+          "inJob": true,
+          "innermostJobLimits": {
+            "flags": 10240,
+            "processCommitCap": null,
+            "jobCommitCap": null,
+            "workingSetCap": null,
+            "boundary": "current innermost job only; nested ancestors may impose further limits"
+          }
+        },
+        "warnings": []
+      }
+    }
+  ],
+  "results": [
+    {
+      "id": "perf-01-full",
+      "mode": "perf",
+      "repeat": 1,
+      "name": "full",
+      "enabled": [
+        "ModLoaderMod"
+      ],
+      "valid": true,
+      "errors": [],
+      "scene": {
+        "locClass": "fe.loc::Location",
+        "scenario": "new-game",
+        "frameRate": 30,
+        "playerY": 640,
+        "menuLoaded": true,
+        "playerX": 326.00000000000006,
+        "stageWidth": 1084,
+        "loc": "loc0_0",
+        "land": "begin",
+        "menu": false,
+        "stageHeight": 661
+      },
+      "environment": {
+        "profile": "coexist",
+        "performanceEligible": false,
+        "reasons": [
+          "coexist: functional/visual run; shared CPU/GPU, not a clean performance comparison",
+          "other AIR processes observed at trial endpoints: 81316"
+        ],
+        "boundary": "endpoint observations; background CPU/GPU, RNG and activity still require matched controls"
+      },
+      "memoryDelta": -18386944,
+      "metrics": {
+        "samples": 151,
+        "seconds": 5.033,
+        "meanMs": 33.33112582781457,
+        "p50Ms": 33,
+        "p95Ms": 39,
+        "maxMs": 67,
+        "over50": 1,
+        "over100": 0,
+        "over50PerSecond": 0.19868865487780646
+      }
+    },
+    {
+      "id": "perf-01-full",
+      "mode": "perf",
+      "repeat": 1,
+      "name": "full",
+      "enabled": [
+        "ModLoaderMod"
+      ],
+      "valid": true,
+      "errors": [],
+      "scene": {
+        "menuLoaded": true,
+        "land": "begin",
+        "playerX": 326.00000000000006,
+        "frameRate": 30,
+        "scenario": "new-game",
+        "stageWidth": 1084,
+        "loc": "loc0_0",
+        "playerY": 640,
+        "menu": false,
+        "stageHeight": 661,
+        "locClass": "fe.loc::Location"
+      },
+      "environment": {
+        "profile": "coexist",
+        "performanceEligible": false,
+        "reasons": [
+          "coexist: functional/visual run; shared CPU/GPU, not a clean performance comparison",
+          "test resource policy was not confirmed"
+        ],
+        "boundary": "endpoint observations; background CPU/GPU, RNG and activity still require matched controls"
+      },
+      "memoryDelta": -172032,
+      "metrics": {
+        "samples": 451,
+        "seconds": 15.035,
+        "meanMs": 33.3370288248337,
+        "p50Ms": 33,
+        "p95Ms": 39,
+        "maxMs": 77,
+        "over50": 3,
+        "over100": 0,
+        "over50PerSecond": 0.19953441968739608
+      }
+    }
+  ],
+  "scope": "two isolated surrogate instances; not a claim of zero CPU/GPU contention or physical user input testing"
+}

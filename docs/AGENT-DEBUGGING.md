@@ -1,6 +1,8 @@
 # Agent 模组归因调试器
 
-入口为 `tools/agent-debug.ps1`，使用现有 `RemainsModLauncher.exe` 扫描与选择。它会复制游戏资源与待测模组，冻结文件指纹，自动运行基线、完整组合、逐个排除的对照。正式名单、游戏 SWF 和玩家存档不被修改。当前支持根目录 `pfe.swf` 的 1.02。
+入口为 `tools/agent-debug.ps1`，使用现有 `RemainsModLauncher.exe` 扫描与选择。它会复制游戏资源与待测模组、冻结指纹。1.1.0 默认只跑完整组合一次；`--plan attribution` 再生成重复排除矩阵。正式名单、游戏 SWF 和玩家存档不被修改。当前支持根目录 `pfe.swf` 的 1.02。
+
+默认 `--profile coexist` 可与玩家同时运行，静音且不进入性能排名；自有测试进程使用正常内存优先级及 HighQoS。需要性能配对用 `--profile benchmark`。诊断入口 `resources` 只做前后快照，详情见 [资源与并行](TEST-RESOURCES.md)。
 
 ## Agent 从这里开始
 
@@ -27,7 +29,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/agent-debug.ps1 invent
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/build_debugger.ps1
 
 # 示例：把设置宿主固定，比较两个模组及它们的组合（替换为本次怀疑对象）
-powershell -NoProfile -ExecutionPolicy Bypass -File tools/agent-debug.ps1 prepare --mods RealisticVisionMod,TDFCMod --fixed ModLoaderMod --singles --repeats 3 --scenario new-game
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/agent-debug.ps1 prepare --mods RealisticVisionMod,TDFCMod --fixed ModLoaderMod --plan attribution --profile benchmark --mode both --singles --repeats 3 --scenario new-game
 
 # prepare 输出 session 路径。先跑一条或指定完整组合以检查是否复现
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/agent-debug.ps1 run --session "<session路径>" --trial perf-01-full
@@ -39,7 +41,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/agent-debug.ps1 run --
 
 `--mods current`（默认）使用当前启用组合；全部模组逐项排除耗时较长，已有嫌疑时优先小范围。`--singles` 加入“固定依赖＋单个待测模组”，用于区分单开与组合故障。`--fixed` 始终开启，基线也包含它们；探针始终开启用于测量。
 
-`--mode perf|visual|both` 默认 both。性能与截图使用不同进程；默认预热 8 秒、测量 15 秒、3 轮，每轮交替正反顺序。`--warmup`、`--seconds`、`--timeout` 可按场景调整；卡死由外部看门狗结束自己持有的进程。1.0.1 起，默认把整个 AIR 测试进程放到独立 Windows 桌面，游戏窗口及 HARMAN/AIR 启动图均不会出现在用户桌面；测试结束关闭进程句柄与临时桌面，不切换用户桌面。需要原生画面或玩家操作时显式使用 `--visible`，该模式仍会显示运行时启动图，所有对照必须保持同样设置。旧计划须重新 prepare，避免把不同桌面策略的性能数据混用。不要在测量中切换焦点、截屏或同时跑其他性能试验。
+`--mode perf|visual|both` 默认 perf。性能与截图使用不同进程；默认预热 8 秒、测量 15 秒。smoke 只跑完整组合一次；attribution 默认 3 轮，每轮交替正反顺序。`--warmup`、`--seconds`、`--timeout` 可按场景调整；卡死由外部看门狗结束自己持有的进程。1.0.1 起，默认把整个 AIR 测试进程放到独立 Windows 桌面，游戏窗口及 HARMAN/AIR 启动图均不会出现在用户桌面；测试结束关闭进程句柄与临时桌面，不切换用户桌面。需要原生画面或玩家操作时显式使用 `--visible`，该模式仍会显示运行时启动图，所有对照必须保持同样设置。旧计划须重新 prepare，避免把不同桌面策略的性能数据混用。不要在测量中切换焦点、截屏或同时跑其他性能试验。
 
 独立桌面创建失败会报错，绝不自动改用前台启动。Codex 受限环境可能拒绝创建桌面，应通过当前客户端正常权限流程运行本机测试。隔离桌面影响窗口焦点与调度，结果不代表玩家前台帧率；软件截图仍由游戏探针生成，原生显卡画面需可见模式另验。工具不修改 AIR DLL、许可、游戏 SWF、系统电源计划或其他游戏进程。
 

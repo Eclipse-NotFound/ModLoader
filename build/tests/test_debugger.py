@@ -53,6 +53,13 @@ class DebuggerTests(unittest.TestCase):
         self.raw["runId"] = "other"
         self.assertTrue(d.validate_result(self.raw, self.meta))
 
+    def test_muted_trial_requires_actual_zero_volume(self):
+        self.meta["muted"] = True
+        self.raw["audioVolume"] = 1
+        self.assertIn("test audio mute was not confirmed at sample end", d.validate_result(self.raw, self.meta))
+        self.raw["audioVolume"] = 0
+        self.assertEqual(d.validate_result(self.raw, self.meta), [])
+
     def test_scene_change_rejected(self):
         self.raw["sceneEnd"]["land"] = "other"
         self.assertTrue(d.validate_result(self.raw, self.meta))
@@ -79,6 +86,16 @@ class DebuggerTests(unittest.TestCase):
         plan = d.trial_plan(variants, 2, ["perf", "visual"])
         self.assertEqual([t["name"] for t in plan[:3]], [t["name"] for t in plan[3:6]][::-1])
         self.assertEqual(len({t["id"] for t in plan}), 12)
+
+    def test_smoke_only_runs_selected_combination_once(self):
+        rows = d.selected_plan(["A", "B"], ["Host"], True, 3, ["perf"], "smoke")
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["enabled"], ["Host", "A", "B"])
+        self.assertEqual(rows[0]["id"], "perf-01-full")
+
+    def test_attribution_keeps_repeated_removal_controls(self):
+        rows = d.selected_plan(["A"], ["Host"], False, 3, ["perf"], "attribution")
+        self.assertEqual(len(rows), 9)
 
     def pairs(self):
         return [{"mode": "perf", "valid": True, "name": name, "repeat": repeat, "scene": {"land": "test"},
@@ -131,11 +148,12 @@ class DebuggerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=TEMP) as tmp:
             root = Path(tmp); game = root / "game"; (game / "mods").mkdir(parents=True)
             (game / "mods/loader-manifest.txt").write_text("fixture")
-            config = {"scenario": "menu", "slot": 0, "warmupMs": 1, "measureMs": 1000,
+            config = {"version": d.VERSION, "scenario": "menu", "slot": 0, "warmupMs": 1, "measureMs": 1000,
                       "visible": False, "desktopMode": "isolated", "seedSource": None, "timeout": .01}
             trial = {"id": "perf-01-test", "mode": "perf", "repeat": 1, "name": "test", "enabled": ["A"]}
             process = MagicMock(pid=123)
             process.desktop = "RemainsTest-fixture"
+            process.resource_policy = {"requested": "test", "after": {}}
             process.wait.side_effect = [d.subprocess.TimeoutExpired("owned", .01), 0]
             process.poll.return_value = None
             with patch.object(d, "verify_inputs"), patch.object(d, "descriptor_for_trial"), \
@@ -156,11 +174,18 @@ class DebuggerTests(unittest.TestCase):
 
     def test_old_or_changed_desktop_policy_rejected_before_launch(self):
         with patch.object(d, "HiddenProcess") as hidden, patch.object(d.subprocess, "Popen") as visible:
-            for config in ({"visible": False}, {"visible": True, "desktopMode": "isolated"}):
+            for config in ({"visible": False}, {"visible": True, "desktopMode": "isolated"},
+                           {"visible": False, "desktopMode": "isolated", "version": "1.0.2"}):
                 with self.assertRaisesRegex(ValueError, "prepare a new session"):
                     d.execute_trial(Path("unused"), config, {})
             hidden.assert_not_called()
             visible.assert_not_called()
+
+    def test_parallel_play_samples_do_not_enter_attribution(self):
+        rows = self.pairs()
+        for row in rows:
+            row["environment"] = {"performanceEligible": False}
+        self.assertEqual(d.attribute(rows, ["A"])[0]["pairs"], [])
 
 
 if __name__ == "__main__":

@@ -4,13 +4,15 @@
 
 > 2026-10-25 历史资料已核验转存：A01、B04、B05，共2,868文件、原始显示5.84 GiB。查找与恢复从 [archive-index.md](archive-index.md) 进入；[本次结果](../../../archive/migrations/2026-10-25-01/report.md)。当前正式包、源码、作品及保留证据未纳入。
 
-更新：2026-10-24。ModLoader运行模块2.5.0/settings0.5.0已部署，新增FrameRecorder1.0.0：300窗内存记录、正常退出保存及agent只读分析。启动器仍1.0.0、调试器沿用1.0.2入口并接入退出保存；本机验证后直接部署与共享测试登记流程不变。
+更新：2026-10-27。运行模块仍2.5.0/settings0.5.0、FrameRecorder1.0.0、启动器1.0.0。调试器1.1.0已本机启用：自有测试内存优先级5＋HighQoS、静音、默认单次smoke与coexist；按需attribution/benchmark。50项定向检查、双实例12项断言和最终单条菜单冒烟通过。见[资源/并行/规则报告](../knowledge/experiments/resources-coexist-2026-10-27/README.md)。
 
 ## 1. 这个模组是什么
 
 MainFE清单引导v2、Windows扫描器/选择启动器、游戏内设置模块。新入口RemainsModLauncher.exe；源码src/ModLauncher.cs与src/ModScanner.cs。运行模块源码src/runtime、src/settings，部署点release/ModLoaderMod.swf；不从旧ModSettings项目构建。
 
 ## 2. 用户偏好与协作约定
+
+- 2026-10-27用户要求调查测试内存分配、允许玩家与agent并行，并纠正过严规则。本机公开最高内存优先级为默认5，无固定游戏配额；显式HighQoS只作用于自有测试。玩家无需退出或申请登记；仍共享CPU/GPU，并行数据不作性能排名。默认只跑完整组合一次；当前测试探针4793B，SHA256 CE82C8FF07DB8A1EBF1932127FE849FBA10C00B26ECD10D88377A4BE840DDBB9。旧1.0.2计划须重建探针/重新prepare。规则按风险验证，复用匹配证据，不要求全仓干净。见[使用入口](../docs/TEST-RESOURCES.md)。
 
 - 2026-10-20用户要求测试情况登记表，避免每次测试都打断别的对话确认。先用 `tools/agent-debug.ps1 tests` 刷新共享表；`run` 自动登记/等待/写回，专用驱动按[登记说明](../docs/TEST-REGISTRY.md)接入。正常占用等待或暂缓；中断按已有证据核对，无需逐次询问原会话。
 
@@ -36,7 +38,7 @@ MainFE清单引导v2、Windows扫描器/选择启动器、游戏内设置模块�
 - 后台桌面修复：tools/air_test_process.py；归因工具已默认接入，桌面策略写入计划/回执，旧计划需重新prepare。24项离线、3项原生进程及2项真实游戏采样/截图通过；确认AIR_Splash只在私有桌面，用户输入桌面未切换。证据见[后台启动验证](../knowledge/experiments/quiet-tests-2026-10-19/README.md)。两项调试技能路由2026-10-19.2已同步；其他旧驱动仍须按说明接入。
 
 - 调试器入口tools/agent-debug.ps1，Python标准库＋src/debugger/AgentDebugProbeMod.as；仅在独立app ID及匹配计划下启动。精确选组全经启动器；冻结副本、固定依赖、基线/完整/逐个排除/可选单开、反序重复。性能与视觉分进程，输出帧间隔、内存、加载证据、截图和有上限的显示树。只支持1.02。
-- 离线23项通过；两轮合成卡顿/色块12/12有效，排除后P95下降66/72ms，4张图实际复核；实际宿主/基线新档2/2、最终快照1/1、模板读档3/3通过。当前探针3999B、SHA3563828F…A3699A，未部署进正式release。证据与已修正失败见[本轮记录](../knowledge/experiments/debugger-2026-10-19/README.md)。
+- 离线23项通过；两轮合成卡顿/色块12/12有效，排除后P95下降66/72ms，4张图实际复核；实际宿主/基线新档2/2、最终快照1/1、模板读档3/3通过。当时探针3999B、SHA3563828F…A3699A，未部署进正式release。证据与已修正失败见[本轮记录](../knowledge/experiments/debugger-2026-10-19/README.md)。
 - remains-runtime-debug及remains-auto-testing已接入启动器/调试器路由，版本2026-10-19.1；手工前言审查、引用和指纹回读通过（selfcheck缺PyYAML，不报自动静态通过）。独立新会话自动选用待验；未改AGENTS/GOVERNANCE。
 
 - 启动器1.0.0：C05B4C23…45F9590；配套扫描器：8FA18398…C0D33C1。完整指纹及工具备份见[安装回执](../knowledge/experiments/launcher-2026-10-18/installation.json)。两者都在本模组根目录可双击。

@@ -22,12 +22,20 @@ import uuid
 import xml.etree.ElementTree as ET
 from air_test_process import HiddenProcess
 from test_registry import Registry, Registration
+from test_resources import snapshot, comparison_environment
 
 PROJECT = Path(__file__).resolve().parents[1]
 GAME = PROJECT.parents[1]
 SESSIONS = PROJECT / "build/out/debugger"
 PROBE = "AgentDebugProbeMod"
-VERSION = "1.0.2"
+VERSION = "1.1.0"
+
+
+def resource_snapshot():
+    try:
+        return snapshot()
+    except OSError as error:
+        return {"error": str(error)}  # Functional tests may still provide useful evidence.
 
 
 def read(path):
@@ -107,6 +115,12 @@ def trial_plan(variants, repeats, modes):
     return result
 
 
+def selected_plan(targets, fixed, singles, repeats, modes, plan):
+    if plan == "smoke":
+        return trial_plan([{"name": "full", "enabled": list(fixed) + list(targets)}], 1, modes)
+    return trial_plan(make_variants(targets, fixed, singles), repeats, modes)
+
+
 def prepare(args):
     root = Path(args.root).resolve()
     inventory = json.loads(launcher(root, "--list", "--json"))
@@ -164,6 +178,11 @@ def prepare(args):
     (game / "agent-debug.xml").rename(game / "application.xml")
     for entry in dict.fromkeys(targets + fixed):
         source = extras.get(entry, root / "mods" / mods[entry]["directory"])
+        network_config = source / "release/config.txt"
+        if entry == "RConnectMod" and network_config.is_file():
+            if read(network_config).get("autoRole") in ("host", "join"):
+                raise ValueError("RConnect autoRole requires a dedicated driver with isolated loopback ports; "
+                                 "refusing to connect this copy to a player's session")
         safe_tree(source / "release", game / "mods" / mods[entry]["directory"] / "release")
     host = game / "mods/ModLoader"
     host.mkdir(parents=True, exist_ok=True)
@@ -177,13 +196,15 @@ def prepare(args):
     config = {"protocol": 1, "version": VERSION, "sourceRoot": str(root), "inventory": inventory,
               "targets": targets, "fixed": fixed, "scenario": args.scenario, "slot": args.slot,
               "warmupMs": round(args.warmup * 1000), "measureMs": round(args.seconds * 1000),
-              "timeout": args.timeout, "visible": args.visible, "repeats": args.repeats,
+              "timeout": args.timeout, "visible": args.visible, "repeats": 1 if args.plan == "smoke" else args.repeats,
+              "plan": args.plan,
               "desktopMode": "interactive" if args.visible else "isolated",
+              "profile": args.profile, "muted": not args.audio, "resourcePolicy": args.resource_policy,
               "seedSource": args.seed_store, "seedHashes": file_hashes(session / "seed") if args.seed_store else {},
               "exportSave": args.export_save,
               "snapshotHashes": file_hashes(game), "descriptorHash": sha(session / "descriptor-source.xml"),
-              "trials": trial_plan(make_variants(targets, fixed, args.singles), args.repeats,
-                                   ["perf", "visual"] if args.mode == "both" else [args.mode])}
+              "trials": selected_plan(targets, fixed, args.singles, args.repeats,
+                                      ["perf", "visual"] if args.mode == "both" else [args.mode], args.plan)}
     # Validate exact selection and compatibility before spending time on any trial.
     selection = json.loads(launcher(game, "--only", ",".join(targets + fixed + [PROBE]), "--dry-run", "--json"))
     if set(selection["selected"]) != set(targets + fixed + [PROBE]):
@@ -250,6 +271,8 @@ def validate_result(raw, meta):
     errors.extend(k + ": " + str(v) for k, v in loader.items() if k.startswith("err_"))
     if raw.get("rateChanged"):
         errors.append("stage frameRate changed during sampling")
+    if meta.get("muted") and raw.get("audioVolume") != 0:
+        errors.append("test audio mute was not confirmed at sample end")
     start, end = raw.get("sceneStart"), raw.get("sceneEnd")
     if not start or start.get("menuLoaded") is not True:
         errors.append("game resource boot did not complete before sampling")
@@ -281,6 +304,8 @@ def execute_trial(session, config, trial, registration=None):
     expected_desktop = "interactive" if config["visible"] else "isolated"
     if config.get("desktopMode") != expected_desktop:
         raise ValueError("Test desktop policy changed or predates isolation; prepare a new session")
+    if config.get("version") != VERSION:
+        raise ValueError("Session predates the current audio/resource protocol; rebuild the probe and prepare a new session")
     output = session / "trials" / trial["id"]
     output.mkdir(parents=True, exist_ok=False)
     game = session / "game"
@@ -309,12 +334,15 @@ def execute_trial(session, config, trial, registration=None):
     meta["bootTimeoutMs"] = config.get("bootTimeoutMs", 60000)
     meta["recorderExitCheck"] = config.get("recorderExitCheck", False)
     meta["closeWindow"] = config.get("closeWindow", False)
+    meta["muted"] = config.get("muted", True)
+    meta["profile"] = config.get("profile", "coexist")
     write(game / "agent-debug-plan.json", {**meta, "enabled": selected})
     shutil.copy2(game / "agent-debug-plan.json", output / "plan.json")
     shutil.copy2(game / "mods/loader-manifest.txt", output / "loader-manifest.txt")
     meta["startedMs"] = int(time.time() * 1000)
     process = None
     errors = []
+    meta["resourcesBefore"] = resource_snapshot()
     try:
         with (output / "adl-stdout.txt").open("wb") as stdout, (output / "adl-stderr.txt").open("wb") as stderr:
             # Own the handle directly for a watchdog. Selection is ALWAYS through the launcher.
@@ -327,9 +355,11 @@ def execute_trial(session, config, trial, registration=None):
                                            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
                 meta["desktopMode"] = "interactive"
             else:
-                process = HiddenProcess(command, cwd=game, stdout=stdout, stderr=stderr)
+                process = HiddenProcess(command, cwd=game, stdout=stdout, stderr=stderr,
+                                        resource_policy=config.get("resourcePolicy", "test"))
                 meta["desktopMode"] = "isolated"
                 meta["desktopName"] = process.desktop
+                meta["resourcePolicy"] = process.resource_policy
             meta["pid"] = process.pid
             if registration:
                 registration.child(process.pid)
@@ -350,6 +380,7 @@ def execute_trial(session, config, trial, registration=None):
         if registration:
             registration.child_stopped()
         meta["endedMs"] = int(time.time() * 1000)
+        meta["resourcesAfter"] = resource_snapshot()
         write(output / "meta.json", meta)
         if store.exists():
             safe_tree(store, output / "storage")
@@ -366,6 +397,8 @@ def execute_trial(session, config, trial, registration=None):
     if trial["mode"] == "visual" and not all((output / "storage/agent-debug" / p).exists() for p in ("frame.png", "tree.json")):
         errors.append("missing visual evidence")
     result = {**trial, "valid": not errors, "errors": errors, "scene": raw.get("sceneStart"),
+              "environment": comparison_environment(meta["profile"], meta["resourcesBefore"],
+                  meta["resourcesAfter"], meta.get("resourcePolicy", {})),
               "memoryDelta": (raw.get("memoryEnd") or 0) - (raw.get("memoryStart") or 0) if raw else None,
               "metrics": metrics(raw["framesMs"]) if not errors and trial["mode"] == "perf" else None}
     if raw.get("framesMs"):
@@ -383,7 +416,8 @@ def scene_key(scene):
 
 
 def attribute(results, targets):
-    lookup = {(r["name"], r["repeat"]): r for r in results if r["mode"] == "perf" and r["valid"]}
+    lookup = {(r["name"], r["repeat"]): r for r in results if r["mode"] == "perf" and r["valid"]
+              and r.get("environment", {}).get("performanceEligible", True)}
     rows = []
     for target in targets:
         pairs, excluded = [], []
@@ -468,7 +502,8 @@ def report(session):
     write(session / "summary.json", summary)
     lines = ["# Remains 模组归因报告", "", f"完成 {len(results)}/{len(config['trials'])}；有效 {summary['valid']}。",
              "", "测量的是游戏帧事件间隔，不是每个模组的独占耗时。逐项排除只产生相关线索；单开、恢复原组合和相同症状复测后再判断。",
-             "", f"场景：{config['scenario']}；固定依赖：{', '.join(config['fixed']) or '无'}。未固定随机数/AI；隐藏窗口的后台调度仍可能影响结果。",
+             "", f"场景：{config['scenario']}；固定依赖：{', '.join(config['fixed']) or '无'}；运行方式：{config.get('profile', 'legacy')}。未固定随机数/AI。",
+             "", "coexist 可与玩家同时运行，帧数据只用于观察；benchmark 在已确认资源策略且未观察到其他 AIR 实例/内存压力时才进入性能配对。后台负载仍可能影响结果。",
              "", "| 排除模组 | 成对比较次数 | P95 中位下降(ms) | 结论 |", "|---|---:|---:|---|"]
     for row in associations:
         delta = row["medianP95ReductionMs"]
@@ -479,6 +514,9 @@ def report(session):
         m = r["metrics"] or {}
         lines.append(f"| {r['id']} | {r['valid']} | {m.get('p95Ms', '—')} | {m.get('over50PerSecond', '—')} | "
                      f"[原始记录](trials/{r['id']}/result.json) {'; '.join(r['errors']).replace('|', '/')} |")
+    for r in results:
+        if r.get("environment", {}).get("reasons"):
+            lines.append("\n" + r["id"] + " 未进入性能配对：" + "; ".join(r["environment"]["reasons"]))
     lines += ["", "## 视觉对照", "", "打开图片确认具体症状，再用 verdict 记录 good / bad / unknown 和依据。像素或显示树变化本身不等于异常。"]
     for item in visual_links:
         def link(key):
@@ -554,22 +592,32 @@ def main(argv=None):
     p.add_argument("--scenario", choices=["menu", "new-game", "load"], default="new-game")
     p.add_argument("--seed-store"); p.add_argument("--slot", type=int, choices=range(0, 10), default=0)
     p.add_argument("--export-save", action="store_true", help="save isolated new-game slot 0 AFTER sampling as a replay seed")
-    p.add_argument("--mode", choices=["perf", "visual", "both"], default="both")
+    p.add_argument("--mode", choices=["perf", "visual", "both"], default="perf")
+    p.add_argument("--plan", choices=["smoke", "attribution"], default="smoke",
+                   help="smoke: one selected-combination check; attribution: baseline/full/removal matrix")
     p.add_argument("--repeats", type=int, choices=range(1, 11), default=3)
     p.add_argument("--warmup", type=float, default=8); p.add_argument("--seconds", type=float, default=15)
     p.add_argument("--timeout", type=float, default=150); p.add_argument("--visible", action="store_true")
+    p.add_argument("--profile", choices=["coexist", "benchmark"], default="coexist",
+                   help="coexist: play alongside tests; benchmark: permit controlled performance pairing")
+    p.add_argument("--audio", action="store_true", help="explicitly allow test audio; muted by default")
+    p.add_argument("--resource-policy", choices=["test", "system"], default="test",
+                   help="test: normal memory priority and HighQoS; system: unmodified policy control")
     r = commands.add_parser("run", help="execute or resume an existing plan")
     r.add_argument("--session", required=True); r.add_argument("--trial"); r.add_argument("--limit", type=int)
     r.add_argument("--owner", help="module/task name; defaults to CODEX_THREAD_ID when available")
     r.add_argument("--wait", type=float, default=300, help="seconds to wait for another registered game test; 0 defers immediately")
     t = commands.add_parser("tests", help="refresh shared test register")
     t.add_argument("--json", action="store_true")
+    commands.add_parser("resources", help="one-shot system memory and AIR process audit; no settings changed")
     q = commands.add_parser("report"); q.add_argument("--session", required=True)
     v = commands.add_parser("verdict", help="record observed visual symptom; never infer a defect from image differences")
     v.add_argument("--session", required=True); v.add_argument("--trial", required=True)
     v.add_argument("--value", choices=["good", "bad", "unknown"], required=True); v.add_argument("--note", required=True)
     args = parser.parse_args(argv)
     try:
+        if args.command == "resources":
+            print(json.dumps(snapshot(), ensure_ascii=False, indent=2)); return 0
         if args.command == "tests":
             registry = Registry()
             rows = registry.status()

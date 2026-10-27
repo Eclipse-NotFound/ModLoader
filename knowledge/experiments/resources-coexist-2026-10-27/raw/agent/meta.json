@@ -1,0 +1,130 @@
+{
+  "id": "perf-01-full",
+  "mode": "perf",
+  "repeat": 1,
+  "name": "full",
+  "enabled": [
+    "ModLoaderMod"
+  ],
+  "protocol": 1,
+  "runnerVersion": "1.1.0",
+  "runId": "77942174f9bd4a73a754572934b5dc0c",
+  "appId": "pfe-agentdebug-7253467dd8d24589963724f3ea7fa13c",
+  "scenario": "new-game",
+  "slot": 0,
+  "warmupMs": 2000,
+  "measureMs": 5000,
+  "store": "C:\\Users\\hello\\AppData\\Roaming\\pfe-agentdebug-7253467dd8d24589963724f3ea7fa13c\\Local Store",
+  "exportSave": false,
+  "windowVisible": false,
+  "bootTimeoutMs": 60000,
+  "recorderExitCheck": false,
+  "closeWindow": false,
+  "muted": true,
+  "profile": "coexist",
+  "startedMs": 1793110997124,
+  "resourcesBefore": {
+    "atMs": 1793110997124,
+    "memory": {
+      "load": 60,
+      "totalPhysical": 33879638016,
+      "availablePhysical": 13361098752,
+      "commitLimit": 59628703744,
+      "availableCommit": 4749328384
+    },
+    "air": {
+      "processes": [],
+      "unreadableProcessCount": 174,
+      "scope": "endpoints only; absence is not proof of an idle computer"
+    },
+    "runner": {
+      "cpuPriorityClass": 32,
+      "errors": [],
+      "memoryPriority": 5,
+      "powerThrottling": {
+        "controlMask": 0,
+        "stateMask": 0,
+        "highQoS": false
+      },
+      "inJob": true,
+      "innermostJobLimits": {
+        "flags": 10240,
+        "processCommitCap": null,
+        "jobCommitCap": null,
+        "workingSetCap": null,
+        "boundary": "current innermost job only; nested ancestors may impose further limits"
+      }
+    },
+    "warnings": []
+  },
+  "desktopMode": "isolated",
+  "desktopName": "RemainsTest-74364e4426424638a2c52f9c9abd93df",
+  "resourcePolicy": {
+    "requested": "test",
+    "before": {
+      "cpuPriorityClass": 32,
+      "errors": [],
+      "memoryPriority": 5,
+      "powerThrottling": {
+        "controlMask": 0,
+        "stateMask": 0,
+        "highQoS": false
+      },
+      "inJob": true
+    },
+    "after": {
+      "cpuPriorityClass": 32,
+      "errors": [],
+      "memoryPriority": 5,
+      "powerThrottling": {
+        "controlMask": 1,
+        "stateMask": 0,
+        "highQoS": true
+      },
+      "inJob": true
+    },
+    "errors": []
+  },
+  "pid": 84416,
+  "exitCode": 0,
+  "endedMs": 1793111026474,
+  "resourcesAfter": {
+    "atMs": 1793111026476,
+    "memory": {
+      "load": 63,
+      "totalPhysical": 33879638016,
+      "availablePhysical": 12449533952,
+      "commitLimit": 59628703744,
+      "availableCommit": 4226777088
+    },
+    "air": {
+      "processes": [
+        {
+          "pid": 81316,
+          "exe": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261027-221338-8a3ae3f5\\game\\adl64.exe"
+        }
+      ],
+      "unreadableProcessCount": 178,
+      "scope": "endpoints only; absence is not proof of an idle computer"
+    },
+    "runner": {
+      "cpuPriorityClass": 32,
+      "errors": [],
+      "memoryPriority": 5,
+      "powerThrottling": {
+        "controlMask": 0,
+        "stateMask": 0,
+        "highQoS": false
+      },
+      "inJob": true,
+      "innermostJobLimits": {
+        "flags": 10240,
+        "processCommitCap": null,
+        "jobCommitCap": null,
+        "workingSetCap": null,
+        "boundary": "current innermost job only; nested ancestors may impose further limits"
+      }
+    },
+    "warnings": []
+  }
+}

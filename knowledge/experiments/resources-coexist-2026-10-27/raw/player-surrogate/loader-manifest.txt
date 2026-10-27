@@ -1,0 +1,17 @@
+# Remains 模组加载名单，由 ModLoaderScanner 自动生成。
+# 来源：mods/ModLoader/supported-mods.txt + 各模组顶层 release/*.swf。
+# 格式：目录名|入口类名|1.02|1.03|1.04；1=加载，0=跳过。
+# 新发现的模组默认三个版本都启用；实际兼容性仍需运行验证。
+# 使用 RemainsModLauncher 选择模组；重新扫描保留选择，重启游戏后生效。
+# selection|AgentDebugProbe|AgentDebugProbeMod|1|1|1
+# selection|ModLoader|ModLoaderMod|1|0|0
+ModLoader|ModLoaderMod|1|0|0
+Sandevistan|SandevistanMod|0|0|0
+Rconnect|RConnectMod|0|0|0
+RealisticVision|RealisticVisionMod|0|0|0
+MoreSkills&Weapons|MoreSkillsWeaponsMod|0|0|0
+TDFC|TDFCMod|0|0|0
+RandomRooms|RandomRoomsMod|0|0|0
+RModifier|LootEditorMod|0|0|0
+PermanentInjury|PermanentInjuryMod|0|0|0
+AgentDebugProbe|AgentDebugProbeMod|1|1|1

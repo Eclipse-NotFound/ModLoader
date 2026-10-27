@@ -4,6 +4,8 @@
 
 ## 常用入口
 
+玩家游戏不申请本表占用，可与 agent 测试同时运行。登记只协调 agent 测试组；每组仍用独立副本、随机 AIR ID、桌面与存储。默认静音及资源策略见 [TEST-RESOURCES.md](TEST-RESOURCES.md)。并行时帧率只作观察，不能作为干净的性能对照。
+
 从 `mods/ModLoader` 执行：
 
 ```powershell

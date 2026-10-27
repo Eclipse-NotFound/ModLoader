@@ -1,0 +1,448 @@
+{
+  "protocol": 1,
+  "version": "1.1.0",
+  "sourceRoot": "D:\\Program Files\\Steam\\steamapps\\common\\Remains",
+  "inventory": {
+    "formatVersion": 1,
+    "launcherVersion": "1.0.0",
+    "gameRoot": "D:\\Program Files\\Steam\\steamapps\\common\\Remains",
+    "gameVersion": "1.02",
+    "descriptor": "application.xml",
+    "manifest": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\loader-manifest.txt",
+    "selected": [
+      "ModLoaderMod",
+      "SandevistanMod",
+      "RConnectMod",
+      "RealisticVisionMod",
+      "MoreSkillsWeaponsMod",
+      "TDFCMod",
+      "RandomRoomsMod",
+      "LootEditorMod",
+      "PermanentInjuryMod",
+      "AddictionSystemMod",
+      "ContinuousSceneMod",
+      "FirearmAttachmentsMod",
+      "LightAndDarknessMod",
+      "WallBlendMod"
+    ],
+    "mods": [
+      {
+        "directory": "ModLoader",
+        "entry": "ModLoaderMod",
+        "installed": true,
+        "enabled": true,
+        "versions": [
+          1,
+          0,
+          0
+        ],
+        "supported": [
+          1,
+          0,
+          0
+        ],
+        "discovered": false,
+        "status": "将加载",
+        "sha256": null
+      },
+      {
+        "directory": "Sandevistan",
+        "entry": "SandevistanMod",
+        "installed": true,
+        "enabled": true,
+        "versions": [
+          1,
+          1,
+          1
+        ],
+        "supported": [
+          1,
+          1,
+          1
+        ],
+        "discovered": false,
+        "status": "将加载",
+        "sha256": null
+      },
+      {
+        "directory": "Rconnect",
+        "entry": "RConnectMod",
+        "installed": true,
+        "enabled": true,
+        "versions": [
+          1,
+          1,
+          1
+        ],
+        "supported": [
+          1,
+          1,
+          1
+        ],
+        "discovered": false,
+        "status": "将加载",
+        "sha256": null
+      },
+      {
+        "directory": "RealisticVision",
+        "entry": "RealisticVisionMod",
+        "installed": true,
+        "enabled": true,
+        "versions": [
+          1,
+          0,
+          0
+        ],
+        "supported": [
+          1,
+          0,
+          0
+        ],
+        "discovered": false,
+        "status": "将加载",
+        "sha256": null
+      },
+      {
+        "directory": "MoreSkills&Weapons",
+        "entry": "MoreSkillsWeaponsMod",
+        "installed": true,
+        "enabled": true,
+        "versions": [
+          1,
+          0,
+          0
+        ],
+        "supported": [
+          1,
+          0,
+          0
+        ],
+        "discovered": false,
+        "status": "将加载",
+        "sha256": null
+      },
+      {
+        "directory": "TDFC",
+        "entry": "TDFCMod",
+        "installed": true,
+        "enabled": true,
+        "versions": [
+          1,
+          0,
+          0
+        ],
+        "supported": [
+          1,
+          0,
+          0
+        ],
+        "discovered": false,
+        "status": "将加载",
+        "sha256": null
+      },
+      {
+        "directory": "RandomRooms",
+        "entry": "RandomRoomsMod",
+        "installed": true,
+        "enabled": true,
+        "versions": [
+          1,
+          1,
+          0
+        ],
+        "supported": [
+          1,
+          1,
+          0
+        ],
+        "discovered": false,
+        "status": "将加载",
+        "sha256": null
+      },
+      {
+        "directory": "RModifier",
+        "entry": "LootEditorMod",
+        "installed": true,
+        "enabled": true,
+        "versions": [
+          1,
+          0,
+          0
+        ],
+        "supported": [
+          1,
+          0,
+          0
+        ],
+        "discovered": false,
+        "status": "将加载",
+        "sha256": null
+      },
+      {
+        "directory": "PermanentInjury",
+        "entry": "PermanentInjuryMod",
+        "installed": true,
+        "enabled": true,
+        "versions": [
+          1,
+          0,
+          0
+        ],
+        "supported": [
+          1,
+          0,
+          0
+        ],
+        "discovered": false,
+        "status": "将加载",
+        "sha256": null
+      },
+      {
+        "directory": "AddictionSystem",
+        "entry": "AddictionSystemMod",
+        "installed": true,
+        "enabled": true,
+        "versions": [
+          1,
+          1,
+          1
+        ],
+        "supported": [
+          1,
+          1,
+          1
+        ],
+        "discovered": true,
+        "status": "新发现 · 兼容性未核验",
+        "sha256": null
+      },
+      {
+        "directory": "ContinuousScene",
+        "entry": "ContinuousSceneMod",
+        "installed": true,
+        "enabled": true,
+        "versions": [
+          1,
+          1,
+          1
+        ],
+        "supported": [
+          1,
+          1,
+          1
+        ],
+        "discovered": true,
+        "status": "新发现 · 兼容性未核验",
+        "sha256": null
+      },
+      {
+        "directory": "FirearmAttachments",
+        "entry": "FirearmAttachmentsMod",
+        "installed": true,
+        "enabled": true,
+        "versions": [
+          1,
+          1,
+          1
+        ],
+        "supported": [
+          1,
+          1,
+          1
+        ],
+        "discovered": true,
+        "status": "新发现 · 兼容性未核验",
+        "sha256": null
+      },
+      {
+        "directory": "LightAndDarkness",
+        "entry": "LightAndDarknessMod",
+        "installed": true,
+        "enabled": true,
+        "versions": [
+          1,
+          1,
+          1
+        ],
+        "supported": [
+          1,
+          1,
+          1
+        ],
+        "discovered": true,
+        "status": "新发现 · 兼容性未核验",
+        "sha256": null
+      },
+      {
+        "directory": "WallBlend",
+        "entry": "WallBlendMod",
+        "installed": true,
+        "enabled": true,
+        "versions": [
+          1,
+          1,
+          1
+        ],
+        "supported": [
+          1,
+          1,
+          1
+        ],
+        "discovered": true,
+        "status": "新发现 · 兼容性未核验",
+        "sha256": null
+      }
+    ],
+    "warnings": []
+  },
+  "targets": [
+    "ModLoaderMod"
+  ],
+  "fixed": [],
+  "scenario": "new-game",
+  "slot": 0,
+  "warmupMs": 2000,
+  "measureMs": 5000,
+  "timeout": 150,
+  "visible": false,
+  "repeats": 1,
+  "desktopMode": "isolated",
+  "profile": "coexist",
+  "muted": true,
+  "seedSource": null,
+  "seedHashes": {},
+  "exportSave": false,
+  "snapshotHashes": {
+    "adl64.exe": "d851eb9e68d38abd335916dd91e08de3f1660945b49f382691a188adc7c8c295",
+    "application.xml": "8fa8433a099e59dfe83ad050f0613c2dc778c14a509d0283e8cfdb889fc7a483",
+    "lang.xml": "316d5ce9e32ac195ceb872c1809eb62785ff26a6e600e854a583317a2c38e6d4",
+    "mods/AgentDebugProbe/release/AgentDebugProbeMod.swf": "ce82c8ff07db8a1ebf1932127fe849fba10c00b26ecd10d88377a4be840ddbb9",
+    "mods/ModLoader/release/ModLoaderMod.swf": "2050e023205e87fdfdf7fba4b54b9bad7769868e51767d0bfbe1742cdc7542e2",
+    "mods/ModLoader/release/telemetry.json": "a050ef06ea542b8fd8781f1e945f9adcd03c7ae5190719e66ba826e2059fce12",
+    "mods/ModLoader/RemainsModLauncher.exe": "c05b4c231a97ebd740dce64d642f994edbffbc14b74723ab40a1f27fa45f9590",
+    "mods/ModLoader/RemainsModScanner.exe": "8fa1839893b85085b788b65ccf1884495a4cab7bfc473e20fed80e894c0d33c1",
+    "mods/ModLoader/supported-mods.txt": "7fb288494055cb49f20aaef494eadc0405c0b1d55c3fa5ba798cadca890abcfe",
+    "Music/boss_1.mp3": "58b560455386fef3fc06ec21938a278df4a3f2a0a7d23a35eb2fc554016e3be0",
+    "Music/boss_2.mp3": "c614be56e230535b0a4b192c8a0feccc0398f0066ea52f23de060440cddd7346",
+    "Music/boss_3.mp3": "87788e8ead1930e0d5c8343da38bf3619d2ff10c66321423900ae6e51dd9ef92",
+    "Music/boss_4.mp3": "c5c69ef1f6e9d5e912a3695b14d7bf40a67acd1b5c46889ba50ccbbd165159c5",
+    "Music/boss_5.mp3": "c823d1e7b599df877bb2bb9fb318d4d72e75136150d128dba04b646cc2467f04",
+    "Music/boss_6.mp3": "7ce44c3413c317cc1fcf7b17d3e798be94611ecbd942c4c75095b781891226f0",
+    "Music/combat_1.mp3": "60869fdcc1c7abeac7e71aa1ebba8d8c9f8951c3e5fb2519f62979e5f44b500d",
+    "Music/mainmenu.mp3": "c8ebff88e2a93baf81212091c801e847f77cd7b1f97c3f986c2cb832f0d066ae",
+    "Music/music_base.mp3": "08deaa7302a178f51aa5fcf9d6b250dbdabe179480b94dba64ee803666228230",
+    "Music/music_begin.mp3": "068baffb5ea81dc9bbf90fc058a14a0b0b5b0e6024bcb3cffaf3c4bb4e182ece",
+    "Music/music_cat_1.mp3": "b90c148d37b41ba53e55c4d45ad9dd24b8dad608a29d024de7681fc73c11e5e9",
+    "Music/music_covert.mp3": "c0a46bf8df35e98db1b5f421803f4ed0770d96cadee66ae2cbbfdff0ba4abe42",
+    "Music/music_enc.mp3": "e027203dfffd57b74bdd8166e1c5186ab63050d3ede4e20d9f6901e164915bee",
+    "Music/music_encl_1.mp3": "174ae597441edf9f9d2ff30bf08150fab43bc5ce2a738ac2a13b9331eab01d97",
+    "Music/music_encl_2.mp3": "91b3bfb7f29d6ef956829a84a6dc2b99884cd0fe25cb677101bfcf12b8162ce5",
+    "Music/music_end.mp3": "adcbc412add025f60e20b1b41d4f4f420ff26b3393de5e878f35e7932d3102b6",
+    "Music/music_fall_1.mp3": "f09e739c211830495be4b3417b8ba07b523c775280d6b67db1bc592ddd4b847d",
+    "Music/music_fall_2.mp3": "d088fe11d4abd0323036f903b3f22cbc6e53594ff8601d65ae5bb7a396bab5cb",
+    "Music/music_hql.mp3": "1dc1e63361e3f84da68b1a882563519a5733a0805441982820321068a28dd941",
+    "Music/music_mane_1.mp3": "de0aca2ac08b8c42254fc17029879b9cc35cb996a55d22b54a3c9f56beb4c08d",
+    "Music/music_mane_2.mp3": "edcfcf57e497e0ef5ebf3471e364c63a118b6b81d565ee43d7a781d1d72f512a",
+    "Music/music_mbase.mp3": "dc95ea0775523d42ae2202cbf15a23d260368a3990244714809a96cd4643dc92",
+    "Music/music_minst.mp3": "20ecd7d1b95339172699243184fe984f5577b439b6f75f2a87b6ca48aabe745d",
+    "Music/music_pi.mp3": "72cce153866fbb5b0c5d8ffb0be2ea73bf64190e2b70a50cbcc8c83b5a8e0dbf",
+    "Music/music_plant_1.mp3": "aefa52e269ceeee7fe423ab6c6d10a7f3d00e3cfae457cc10d970f75dcaa6816",
+    "Music/music_plant_2.mp3": "cb9ec73d0019811fcc8b2529effb707389b82d18139e5088f5dd72defa6e3595",
+    "Music/music_raiders.mp3": "8c2fe9d539fa4121ac054f1fdc861f6e7f465518105072c101525c7d45a3656d",
+    "Music/music_red.mp3": "ed72defef8012ce963263409bf775e949cf16411dbbddf2b3d53a8297e9b288f",
+    "Music/music_sewer_1.mp3": "f953043e722f427df4537b19bce4df976325bd195d7bc98a4986746cbb0198ab",
+    "Music/music_stable_1.mp3": "547ec46c869974db5846ba9ad5bb09f9e480817af872c0febb50235a36cdfa24",
+    "Music/music_stable_2.mp3": "cea8b35aab5154a4dbd23c8275fca2e0fb40d51813d88c06cc4fdc226d2954f7",
+    "Music/music_strange.mp3": "2cf15202c895b142033804d3610f4040da4f872f3ac9367516170432d41d4597",
+    "Music/music_surf.mp3": "f3c9319c42cf28bdfddb1d333a7ca841e32fdedcf0291c6d4e024a1d67d5e4c7",
+    "Music/music_workshop.mp3": "bdf6ef5be336dc23ad4453e407e9fdda60edca8703bc9a727564730e0115e944",
+    "Music/pre_1.mp3": "ed018a3fd6608aadd06246d265fe04acd1c34a4a718cba89b3fd00978a5e11ec",
+    "pfe.swf": "a796827173af7d6fab9885fb66ecc62182ab5335918a30c7cce4c44914a238b7",
+    "Rooms/rooms2.xml": "d3f21afc2171e2cc5ab7c5789f598dc5df148056710a8b6cda790202bc85f6d5",
+    "Rooms/rooms_art.xml": "72c1d61baa2fb319c58b9ab1377c8ef6e8a43be96f222de09c065e73a137f244",
+    "Rooms/rooms_begin.xml": "c67dd9414195d8cc88b904c69af42c9c615c1d7348ff10edd20b11c5e576fe1e",
+    "Rooms/rooms_canter.xml": "2ab719eaac8114831bda14d9a1ddd97f439ce1055d7c2dea884276bb5ee9d015",
+    "Rooms/rooms_comm.xml": "ddab955ec3342acfd7391cac224410b87dd1b15d554e6e3118bc8fd39792f284",
+    "Rooms/rooms_core.xml": "9703aa097d27fcce4170817495ad0c46a132fbaf4cb59650335cd8661d9cadf6",
+    "Rooms/rooms_covert.xml": "2c179de25d60bf5d010bc13b0746d94c88f25ed0fc034124417c64ab60ef739c",
+    "Rooms/rooms_encl.xml": "925b667ad9b6082a732f19b0eccbacec87edff4b7931f7b7cafd3d2d210cd8f7",
+    "Rooms/rooms_garages.xml": "2e85be07fa803e630d7420f2994a791e8b5371071f521f18e104ed24e9c8a709",
+    "Rooms/rooms_grave.xml": "57046ce0c0ed1e4ef38306e8022d6f86178676cc03732c06dcc79c354d5c4686",
+    "Rooms/rooms_hql.xml": "f1e12ca30aca302a78fc1dd12781bc0de9d69b6458c0804d9a87bd5ea41111aa",
+    "Rooms/rooms_mane.xml": "d743dea9fa1eab3b5d09144ad4975e56bfdd4359fabbd73d43963a5ac5b6708e",
+    "Rooms/rooms_mbase.xml": "c24242decb03d23b6c7a5beb52100a13cf3a9c6296d6533e516ee88378312c0a",
+    "Rooms/rooms_minst.xml": "43c8973fb9eab7846dae4378b1d14dddf9fa03be1bbeffeaa7dcb445c8e933a1",
+    "Rooms/rooms_mtn.xml": "929dfe7c285b30178eff6547fe200482f255ca29183850b29eeb2039756b55a3",
+    "Rooms/rooms_nio.xml": "719e587275d726f26f3810c4148f5f083297c4251cfe43d210a202426bc0e34a",
+    "Rooms/rooms_pi.xml": "ea0e89e007398f5d8ff6c4932a5ecdf1be7f5019a57db6f9df0f42b9b92851f9",
+    "Rooms/rooms_pis.xml": "92ab52afd09429959658dd22e86a63b1e47e0bd7888f24177d735b798e951550",
+    "Rooms/rooms_plant.xml": "23e9c01848af78104b822eb3675bd3637ddeefd7c3e0a6f3dcbecd09e16e677b",
+    "Rooms/rooms_post.xml": "6e5ba29ef22ef5001356f942b74890d0e868f084bc22c6ce65fe72aacbee9f23",
+    "Rooms/rooms_prob.xml": "13a359153c982ffd1ef95a643fdb5cf48e8b4bf44e258acf30e29a0ad472c5ca",
+    "Rooms/rooms_raiders.xml": "71b047598cff815fabf20f32797b53fe894d33f7094f26749760879fee29e62d",
+    "Rooms/rooms_rbl.xml": "f2522b2c78f07988f28a0c88f87076a52448de9fbb54416d6306de68ce9ca527",
+    "Rooms/rooms_sewer.xml": "e7e178f48826de4982b64e85bb380a85f891bf421cb5e93d07ff15d3202b2dd4",
+    "Rooms/rooms_src.xml": "c97633c02772ca25747aeb8e4c98b9380f3e6053dbf213e2c3c923176127eaa9",
+    "Rooms/rooms_stable.xml": "6119717f2ff5de034f6c7b148b01c0d2e28d1f2076cc1be878f55b40b7e26109",
+    "Rooms/rooms_surf.xml": "a6f33dbee5d4fe3a0b993088ce76d94ced12cd1637a1da98e4a47699ec6817a8",
+    "Rooms/rooms_thunder.xml": "b0eb12dc0c3e90a2e3d72291082b0a4bd00ad6d974a1bf005c3d794456a4da67",
+    "Rooms/rooms_way.xml": "976f849f58cc787c0ca1a84c37ac77ec15085e7bf9a48aeaaae0874d9c50d3d5",
+    "Rooms/rooms_workshop.xml": "224eea9130073167859a4779baf36380320928e2deeea44d05e40b9391cb0ab1",
+    "Rooms/z_shablon.xml": "0511e13d0d6be4ee356cb334aaff707f30575b301c479a0d896327b4d4d6b04a",
+    "rooms.xml": "7466ded79a7438ee3de776bb1b7e00c97f1c6a8776a7f0b2ed28bf0b1e69fb68",
+    "runtimes/air/win64/Adobe AIR/sentinel": "24b99b39e76961040bc7cb0f6a207f15c35e75c00ce9e1ff5499d39ace43f376",
+    "runtimes/air/win64/Adobe AIR/Versions/1.0/Adobe AIR.dll": "fc1586a74045df4a31548a3cf0820e01558db033c2237f81abc4731badc8af01",
+    "runtimes/air/win64/Adobe AIR/Versions/1.0/Resources/CaptiveAppEntry.exe": "5c69bd289ffeef7bc8718d28f65644744f29b801ede89b10887bc65a5defa12a",
+    "runtimes/air/win64/Adobe AIR/Versions/1.0/Resources/CaptiveCmdEntry.exe": "d950026d21cd7b56b44f19313d3d470336722a70d95ea87f59423e2336f537ac",
+    "runtimes/air/win64/Adobe AIR/Versions/1.0/Resources/Licenses/cairo/COPYING": "4fdcde2e1f6aeb1df3d767a8330aff6ed6e6c0031d3c8ea72e95620613b4f827",
+    "runtimes/air/win64/Adobe AIR/Versions/1.0/Resources/Licenses/cairo/COPYING-LGPL-2.1": "6f900e8acd64a5451373d39271cdb4ff55e073855574b0b1ad99a86c728545a5",
+    "runtimes/air/win64/Adobe AIR/Versions/1.0/Resources/Licenses/cairo/COPYING-MPL-1.1": "fa01277004aff314888151ea523bdf390992892e13523984f221695d48c7455b",
+    "runtimes/air/win64/Adobe AIR/Versions/1.0/Resources/Licenses/pcre2/COPYING": "4f8defd8b03d6e0df53c3a37fd37caf2bd8a5e8e77f7886fe3557ba4cda45e8c",
+    "runtimes/air/win64/Adobe AIR/Versions/1.0/Resources/Licenses/pixman/COPYING": "6e9f39a63e6e8ae87de8afdf5e7e9571b964a52717614edb84675016042f6afc",
+    "runtimes/air/win64/Adobe AIR/Versions/1.0/Resources/Template.exe": "61ce39f4fc0554100342134a44e2a40cbcf09bda9fc4f0085c88fe5845dc4bf7",
+    "runtimes/air/win64/Adobe AIR/Versions/1.0/Resources/template.msi": "be83fc122a27c649fc60c36217c2861af1358cefc831f6dd15246e5b61c76b42",
+    "runtimes/air/win64/Adobe AIR/Versions/1.0/Resources/Thawte Root Certificate.cer": "6b6c1e01f590f5afc5fcf85cd0b9396884048659fc2c6d1170d68b045216c3fd",
+    "sound.swf": "8f120cb5ed009e0953ee034e715b146c4845792acc29b913d69178f307994ee1",
+    "sound_unit.swf": "1fe0208c783410e273efb65916b53092febcfa73507d79e7ca669dadf50e86fb",
+    "sound_weapon.swf": "2b2674d4654844efd1ee2e7a30c10abe9d40c50702bd792d46ad1a13331a43d6",
+    "sprite.swf": "49b459d129a16daa065d471cee5ebf9d59914d682a9f07e5a28caf2e52050246",
+    "sprite1.swf": "de792cbda95f06e55a91e0ca7604770f1ced6387a42026951a4bf0a70ec11e4a",
+    "text_de.xml": "0c9602f3ac8cb01a50f7a072287bc3cd40d98fe13c4a25929d3494568ed8c8a9",
+    "text_en.xml": "f4adf9ae845f08877e25e0d5e46ee9df04d614b2f402cc68ed954e01d02e9ccc",
+    "text_es.xml": "133beaa49d048b743aa44cb57013340fea7bb335bfd7cf71c4c7d71d3e31d02c",
+    "text_jp.xml": "a6d6a00b5dba418a989c28d030a1bf066d020fbe31d07ac9e80a6a6337cf3bea",
+    "text_pl.xml": "b23cf49d156c0c334ea154fe0046839ec166b9ed229db3687f2c1ab7ed322a00",
+    "text_ru.xml": "acd503ab8ec20428c2d625865d10684a26a3c20e0a056ea2ee2be46d9fd9a6ad",
+    "text_tw.xml": "be6a7b392e32e1acd5b60429392e0353c3bb4627d5cb888ceb8def5f0e26e902",
+    "text_ua.xml": "1d558baf204a8f34eb46a4206090b0ea483df17f9b44753e3b9d29c75cd33cf6",
+    "text_zh.xml": "66da212793683b19e65e3973b726a94a2885d5032395af8a2e5a0fd20a17f895",
+    "texture.swf": "ef4842a1e78f8f8661e84590c82701c3ea54efb71245116bb7a712fed8985ed8",
+    "texture1.swf": "6646ccf91f912a7384875a5ed40a33c907041645f558a79277fc5f2dc8164678"
+  },
+  "descriptorHash": "70dd3b085e5f6c66c03693cf68ce5e93a4e4136dd745d40d1a5b2a49863ba236",
+  "trials": [
+    {
+      "id": "perf-01-baseline",
+      "mode": "perf",
+      "repeat": 1,
+      "name": "baseline",
+      "enabled": []
+    },
+    {
+      "id": "perf-01-full",
+      "mode": "perf",
+      "repeat": 1,
+      "name": "full",
+      "enabled": [
+        "ModLoaderMod"
+      ]
+    },
+    {
+      "id": "perf-01-without-ModLoaderMod",
+      "mode": "perf",
+      "repeat": 1,
+      "name": "without-ModLoaderMod",
+      "enabled": []
+    }
+  ]
+}

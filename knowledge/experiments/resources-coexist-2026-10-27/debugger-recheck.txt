@@ -1,0 +1,34 @@
+test_async_error_rejected (test_debugger.DebuggerTests.test_async_error_rejected) ... ok
+test_attribution_keeps_repeated_removal_controls (test_debugger.DebuggerTests.test_attribution_keeps_repeated_removal_controls) ... ok
+test_boot_focus_ignored (test_debugger.DebuggerTests.test_boot_focus_ignored) ... ok
+test_current_run_exact_set (test_debugger.DebuggerTests.test_current_run_exact_set) ... ok
+test_different_scenes_not_compared (test_debugger.DebuggerTests.test_different_scenes_not_compared) ... ok
+test_disabled_mod_rejected (test_debugger.DebuggerTests.test_disabled_mod_rejected) ... ok
+test_fixed_mod_never_removed (test_debugger.DebuggerTests.test_fixed_mod_never_removed) ... ok
+test_focus_change_rejected (test_debugger.DebuggerTests.test_focus_change_rejected) ... ok
+test_foreign_session_refused (test_debugger.DebuggerTests.test_foreign_session_refused) ... ok
+test_invalid_trial_not_ranked (test_debugger.DebuggerTests.test_invalid_trial_not_ranked) ... ok
+test_metrics (test_debugger.DebuggerTests.test_metrics) ... ok
+test_missing_initialization_rejected (test_debugger.DebuggerTests.test_missing_initialization_rejected) ... ok
+test_muted_trial_requires_actual_zero_volume (test_debugger.DebuggerTests.test_muted_trial_requires_actual_zero_volume) ... ok
+test_old_or_changed_desktop_policy_rejected_before_launch (test_debugger.DebuggerTests.test_old_or_changed_desktop_policy_rejected_before_launch) ... ok
+test_parallel_play_samples_do_not_enter_attribution (test_debugger.DebuggerTests.test_parallel_play_samples_do_not_enter_attribution) ... ok
+test_repeated_association (test_debugger.DebuggerTests.test_repeated_association) ... ok
+test_resource_boot_incomplete_rejected (test_debugger.DebuggerTests.test_resource_boot_incomplete_rejected) ... ok
+test_reverse_alternating_order (test_debugger.DebuggerTests.test_reverse_alternating_order) ... ok
+test_scene_change_rejected (test_debugger.DebuggerTests.test_scene_change_rejected) ... ok
+test_short_sample_rejected (test_debugger.DebuggerTests.test_short_sample_rejected) ... ok
+test_single_pair_not_causal (test_debugger.DebuggerTests.test_single_pair_not_causal) ... ok
+test_smoke_only_runs_selected_combination_once (test_debugger.DebuggerTests.test_smoke_only_runs_selected_combination_once) ... ok
+test_snapshot_detects_changed_config (test_debugger.DebuggerTests.test_snapshot_detects_changed_config) ... ok
+test_stale_evidence (test_debugger.DebuggerTests.test_stale_evidence) ... ok
+test_tree_diff_prioritizes_added_overlay_before_animation (test_debugger.DebuggerTests.test_tree_diff_prioritizes_added_overlay_before_animation) ... ok
+test_tree_diff_records_truncation_and_overlay (test_debugger.DebuggerTests.test_tree_diff_records_truncation_and_overlay) ... ok
+{"trial": "perf-01-test", "valid": false, "errors": ["watchdog timeout; only this owned process was stopped", "no probe result; inspect ADL output, heartbeat, and loader log"]}
+test_watchdog_kills_owned_handle_and_preserves_failure (test_debugger.DebuggerTests.test_watchdog_kills_owned_handle_and_preserves_failure) ... ok
+test_wrong_run_rejected (test_debugger.DebuggerTests.test_wrong_run_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 0.041s
+
+OK

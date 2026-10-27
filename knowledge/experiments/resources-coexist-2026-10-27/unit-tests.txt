@@ -1,0 +1,60 @@
+test_async_error_rejected (test_debugger.DebuggerTests.test_async_error_rejected) ... ok
+test_attribution_keeps_repeated_removal_controls (test_debugger.DebuggerTests.test_attribution_keeps_repeated_removal_controls) ... ok
+test_boot_focus_ignored (test_debugger.DebuggerTests.test_boot_focus_ignored) ... ok
+test_current_run_exact_set (test_debugger.DebuggerTests.test_current_run_exact_set) ... ok
+test_different_scenes_not_compared (test_debugger.DebuggerTests.test_different_scenes_not_compared) ... ok
+test_disabled_mod_rejected (test_debugger.DebuggerTests.test_disabled_mod_rejected) ... ok
+test_fixed_mod_never_removed (test_debugger.DebuggerTests.test_fixed_mod_never_removed) ... ok
+test_focus_change_rejected (test_debugger.DebuggerTests.test_focus_change_rejected) ... ok
+test_foreign_session_refused (test_debugger.DebuggerTests.test_foreign_session_refused) ... ok
+test_invalid_trial_not_ranked (test_debugger.DebuggerTests.test_invalid_trial_not_ranked) ... ok
+test_metrics (test_debugger.DebuggerTests.test_metrics) ... ok
+test_missing_initialization_rejected (test_debugger.DebuggerTests.test_missing_initialization_rejected) ... ok
+test_muted_trial_requires_actual_zero_volume (test_debugger.DebuggerTests.test_muted_trial_requires_actual_zero_volume) ... ok
+test_old_or_changed_desktop_policy_rejected_before_launch (test_debugger.DebuggerTests.test_old_or_changed_desktop_policy_rejected_before_launch) ... ok
+test_parallel_play_samples_do_not_enter_attribution (test_debugger.DebuggerTests.test_parallel_play_samples_do_not_enter_attribution) ... ok
+test_repeated_association (test_debugger.DebuggerTests.test_repeated_association) ... ok
+test_resource_boot_incomplete_rejected (test_debugger.DebuggerTests.test_resource_boot_incomplete_rejected) ... ok
+test_reverse_alternating_order (test_debugger.DebuggerTests.test_reverse_alternating_order) ... ok
+test_scene_change_rejected (test_debugger.DebuggerTests.test_scene_change_rejected) ... ok
+test_short_sample_rejected (test_debugger.DebuggerTests.test_short_sample_rejected) ... ok
+test_single_pair_not_causal (test_debugger.DebuggerTests.test_single_pair_not_causal) ... ok
+test_smoke_only_runs_selected_combination_once (test_debugger.DebuggerTests.test_smoke_only_runs_selected_combination_once) ... ok
+test_snapshot_detects_changed_config (test_debugger.DebuggerTests.test_snapshot_detects_changed_config) ... ok
+test_stale_evidence (test_debugger.DebuggerTests.test_stale_evidence) ... ok
+test_tree_diff_prioritizes_added_overlay_before_animation (test_debugger.DebuggerTests.test_tree_diff_prioritizes_added_overlay_before_animation) ... ok
+test_tree_diff_records_truncation_and_overlay (test_debugger.DebuggerTests.test_tree_diff_records_truncation_and_overlay) ... ok
+{"trial": "perf-01-test", "valid": false, "errors": ["watchdog timeout; only this owned process was stopped", "no probe result; inspect ADL output, heartbeat, and loader log"]}
+test_watchdog_kills_owned_handle_and_preserves_failure (test_debugger.DebuggerTests.test_watchdog_kills_owned_handle_and_preserves_failure) ... ok
+test_wrong_run_rejected (test_debugger.DebuggerTests.test_wrong_run_rejected) ... ok
+test_coexist_not_ranked_even_if_endpoints_empty (test_resource_policy.ResourceComparisonTests.test_coexist_not_ranked_even_if_endpoints_empty) ... ok
+test_observed_clear_benchmark_can_be_paired (test_resource_policy.ResourceComparisonTests.test_observed_clear_benchmark_can_be_paired) ... ok
+test_other_player_only_at_end_still_excludes_comparison (test_resource_policy.ResourceComparisonTests.test_other_player_only_at_end_still_excludes_comparison) ... ok
+test_pressure_or_unavailable_policy_retains_functional_but_not_perf_evidence (test_resource_policy.ResourceComparisonTests.test_pressure_or_unavailable_policy_retains_functional_but_not_perf_evidence) ... ok
+test_child_is_on_named_desktop_and_preserves_io_arguments_and_exit (test_air_test_process.DesktopProcessTests.test_child_is_on_named_desktop_and_preserves_io_arguments_and_exit) ... ok
+test_missing_program_fails_without_foreground_fallback (test_air_test_process.DesktopProcessTests.test_missing_program_fails_without_foreground_fallback) ... ok
+test_timeout_only_terminates_owned_child (test_air_test_process.DesktopProcessTests.test_timeout_only_terminates_owned_child) ... ok
+test_cim_and_native_precision_do_not_release_same_process (test_test_registry.RegistryTests.test_cim_and_native_precision_do_not_release_same_process) ... ok
+test_cim_failure_or_invalid_identity_cannot_release (test_test_registry.RegistryTests.test_cim_failure_or_invalid_identity_cannot_release) ... ok
+test_conflict_defers_but_offline_can_run (test_test_registry.RegistryTests.test_conflict_defers_but_offline_can_run) ... 测试占用，自动等待：246294d3e6af456c8b51fc981b912697
+ok
+test_crashed_runner_child_prevents_recovery_until_exit (test_test_registry.RegistryTests.test_crashed_runner_child_prevents_recovery_until_exit) ... ok
+test_debugger_run_registers_result_and_noop_is_not_passed (test_test_registry.RegistryTests.test_debugger_run_registers_result_and_noop_is_not_passed) ... ok
+test_failure_kept_and_does_not_block_next_test (test_test_registry.RegistryTests.test_failure_kept_and_does_not_block_next_test) ... ok
+test_invalid_wait_creates_no_record (test_test_registry.RegistryTests.test_invalid_wait_creates_no_record) ... ok
+test_launch_interruption_keeps_reservation (test_test_registry.RegistryTests.test_launch_interruption_keeps_reservation) ... ok
+test_real_cim_creation_agrees_with_native (test_test_registry.RegistryTests.test_real_cim_creation_agrees_with_native) ... ok
+test_recovery_releases_only_verified_reused_cim_identity (test_test_registry.RegistryTests.test_recovery_releases_only_verified_reused_cim_identity) ... ok
+test_recovery_with_reused_cim_child_keeps_live_runner (test_test_registry.RegistryTests.test_recovery_with_reused_cim_child_keeps_live_runner) ... ok
+test_table_escapes_cells_and_preserves_report_path (test_test_registry.RegistryTests.test_table_escapes_cells_and_preserves_report_path) ... ok
+test_two_real_processes_cannot_claim_together (test_test_registry.RegistryTests.test_two_real_processes_cannot_claim_together) ... ok
+test_waiter_proceeds_after_first_finishes (test_test_registry.RegistryTests.test_waiter_proceeds_after_first_finishes) ... 测试占用，自动等待：2069dd38e1254b5bb724e8136f791e9d
+ok
+test_windows_identity_stable_and_pid_reuse_not_alive (test_test_registry.RegistryTests.test_windows_identity_stable_and_pid_reuse_not_alive) ... ok
+
+----------------------------------------------------------------------
+Ran 50 tests in 6.507s
+
+OK
+{"report": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\registry-tests\\tmpyl9aqc5d\\session\\report.md", "completed": 1, "valid": 1}
+{"report": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\registry-tests\\tmpyl9aqc5d\\session\\report.md", "completed": 1, "valid": 1}

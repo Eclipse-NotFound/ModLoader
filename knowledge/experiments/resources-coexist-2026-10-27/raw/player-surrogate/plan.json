@@ -1,0 +1,26 @@
+{
+  "id": "perf-01-full",
+  "mode": "perf",
+  "repeat": 1,
+  "name": "full",
+  "enabled": [
+    "ModLoaderMod",
+    "AgentDebugProbeMod"
+  ],
+  "protocol": 1,
+  "runnerVersion": "1.1.0",
+  "runId": "c45fa2cd53f84e3cb1e9510370e29a45",
+  "appId": "pfe-agentdebug-89dae43a62bf4b24b12b04ddbd6e9181",
+  "scenario": "new-game",
+  "slot": 0,
+  "warmupMs": 10000,
+  "measureMs": 15000,
+  "store": "C:\\Users\\hello\\AppData\\Roaming\\pfe-agentdebug-89dae43a62bf4b24b12b04ddbd6e9181\\Local Store",
+  "exportSave": false,
+  "windowVisible": false,
+  "bootTimeoutMs": 60000,
+  "recorderExitCheck": false,
+  "closeWindow": false,
+  "muted": true,
+  "profile": "coexist"
+}

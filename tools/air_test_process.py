@@ -14,6 +14,7 @@ from pathlib import Path
 import subprocess
 import sys
 import uuid
+from test_resources import configure_owned
 
 
 class StartupInfo(ctypes.Structure):
@@ -33,7 +34,7 @@ class ProcessInfo(ctypes.Structure):
 
 class HiddenProcess:
     """Small Popen-compatible owned handle; close only after the child exits."""
-    def __init__(self, command, *, cwd, stdout, stderr):
+    def __init__(self, command, *, cwd, stdout, stderr, resource_policy="test"):
         if os.name != "nt":
             raise OSError("Private test desktops require Windows; no foreground fallback")
         import msvcrt
@@ -56,6 +57,7 @@ class HiddenProcess:
         self.k.WaitForSingleObject.argtypes = [w.HANDLE, w.DWORD]; self.k.WaitForSingleObject.restype = w.DWORD
         self.k.GetExitCodeProcess.argtypes = [w.HANDLE, ctypes.POINTER(w.DWORD)]; self.k.GetExitCodeProcess.restype = w.BOOL
         self.k.TerminateProcess.argtypes = [w.HANDLE, w.UINT]; self.k.TerminateProcess.restype = w.BOOL
+        self.k.ResumeThread.argtypes = [w.HANDLE]; self.k.ResumeThread.restype = w.DWORD
         # No SWITCHDESKTOP right; this desktop is never made interactive.
         self._desktop_handle = self.u.CreateDesktopW(self.desktop, None, None, 0, 0xC7, None)
         if not self._desktop_handle:
@@ -79,12 +81,23 @@ class HiddenProcess:
                 pi = ProcessInfo()
                 exe = str(Path(self.command[0]).resolve(strict=True))
                 line = ctypes.create_unicode_buffer(subprocess.list2cmdline(self.command))
-                if not self.k.CreateProcessW(exe, line, None, None, True, subprocess.CREATE_NO_WINDOW,
+                if not self.k.CreateProcessW(exe, line, None, None, True, subprocess.CREATE_NO_WINDOW | 4 | 0x20,
                                             None, str(Path(cwd).resolve(strict=True)), ctypes.byref(si), ctypes.byref(pi)):
                     raise ctypes.WinError(ctypes.get_last_error())
                 self._process, self.pid = pi.hProcess, pi.dwProcessId
-                self.k.CloseHandle(pi.hThread)
+                try:
+                    # Apply only to our child, before its first instruction. CPU priority stays normal.
+                    self.resource_policy = configure_owned(self._process, resource_policy)
+                    if self.k.ResumeThread(pi.hThread) == 0xFFFFFFFF:
+                        raise ctypes.WinError(ctypes.get_last_error())
+                finally:
+                    self.k.CloseHandle(pi.hThread)
         except BaseException:
+            if self._process:
+                self.k.TerminateProcess(self._process, 1)
+                self.k.WaitForSingleObject(self._process, 15000)
+                self.k.CloseHandle(self._process)
+                self._process = None
             self.u.CloseDesktop(self._desktop_handle)
             self._desktop_handle = None
             raise
@@ -136,12 +149,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cwd", required=True)
     parser.add_argument("--timeout", type=float, default=120)
+    parser.add_argument("--resource-policy", choices=("test", "system"), default="test")
     parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args()
     command = args.command[1:] if args.command[:1] == ["--"] else args.command
     if not command or args.timeout <= 0:
         parser.error("Provide a direct executable command after -- and a positive timeout")
-    process = HiddenProcess(command, cwd=args.cwd, stdout=sys.stdout, stderr=sys.stderr)
+    process = HiddenProcess(command, cwd=args.cwd, stdout=sys.stdout, stderr=sys.stderr,
+                            resource_policy=args.resource_policy)
     try:
         return process.wait(args.timeout)
     except subprocess.TimeoutExpired:

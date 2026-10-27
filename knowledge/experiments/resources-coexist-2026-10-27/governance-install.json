@@ -1,0 +1,62 @@
+[
+  {
+    "path": "GOVERNANCE.md",
+    "before": "14c10c5e0f37ea45514cdc77d350b3107eb47ba254c9e293e39d16eb76538452",
+    "candidate": "GOVERNANCE.md.after.txt",
+    "after": "9957a0108424d29068d84e9d0e04e8649cebb2a74584cdbb2228fd293e0cc2c5"
+  },
+  {
+    "path": "AGENTS.md",
+    "before": "e1a53fe12f9e1b4d50d9a3b05d73e18ce5ab5da7bd6ab919e646a8b794b2ba30",
+    "candidate": "AGENTS.md.after.txt",
+    "after": "6c31626d12ade19b22345a6350747830ea6fbe150686c31eacee7a1edb6a10f1"
+  },
+  {
+    "path": ".agents/skills/remains-release-gate/SKILL.md",
+    "before": "2d6030bc3311400fdb4301e7708e45357ff7dd66f1c86c9298c3914100c6db02",
+    "candidate": ".agents_skills_remains-release-gate_SKILL.md.after.txt",
+    "after": "26a6307c7758a01936d82aefae94d12fb260a9e25f53fea6a1176f40ab8e0137"
+  },
+  {
+    "path": ".agents/skills/remains-auto-testing/SKILL.md",
+    "before": "d6c2efbb03c2d5431c438b4626b83ae00c36e2904b91dba10c4d4a2b06a4dc89",
+    "candidate": ".agents_skills_remains-auto-testing_SKILL.md.after.txt",
+    "after": "d4b08a7f0d2643bf6afe3864d07a996e334ff61d570e133c4ab8567e9f6874fe"
+  },
+  {
+    "path": ".agents/skills/remains-runtime-debug/SKILL.md",
+    "before": "6017fbd0d89c8aa08f31c3b8474f7feca6f901c483f0fe08f10178e1246f6eb7",
+    "candidate": ".agents_skills_remains-runtime-debug_SKILL.md.after.txt",
+    "after": "6c5d30bf90748a0532356b3ac469419ab7775e13add3b35e73e362f6a4236b79"
+  },
+  {
+    "path": ".agents/skills/remains-swf-patching/SKILL.md",
+    "before": "91e2b533f5229e4e122ffb8936c053566d71c4234c0f9d61b67f367c84052b8b",
+    "candidate": ".agents_skills_remains-swf-patching_SKILL.md.after.txt",
+    "after": "bab07cdacb289feb6f37171013e85788de7c4792ae12e853e6c32cf08918af40"
+  },
+  {
+    "path": ".agents/skills/remains-release-gate/references/实战验证.md",
+    "before": "966e0233784816ddc062dbb82440b1c1b50aba8314042a35313b5744101b70e0",
+    "candidate": ".agents_skills_remains-release-gate_references_实战验证.md.after.txt",
+    "after": "af3ce9acbf865c8f9b500a00e59a4506863856280f4dbf3a58101b7bb895de39"
+  },
+  {
+    "path": ".agents/skills/remains-auto-testing/references/实战验证.md",
+    "before": "ad46ed7055cc6c545052b48433ce4c3ee454a39d53d8f486019f16bc953eb185",
+    "candidate": ".agents_skills_remains-auto-testing_references_实战验证.md.after.txt",
+    "after": "6bdebd022d290462fb89e710af1415c149268a2447d41c9e5e996b2a1d00f7a1"
+  },
+  {
+    "path": ".agents/skills/remains-runtime-debug/references/实战验证.md",
+    "before": "c16596b38e125767651a7d0d84bd066b75604d689775b059a04c53a48417eee5",
+    "candidate": ".agents_skills_remains-runtime-debug_references_实战验证.md.after.txt",
+    "after": "ae1deac3498a4bb1a26b904c8e21a1b59ed6e9e0ade9c571ce35f6e7bc286925"
+  },
+  {
+    "path": ".agents/skills/remains-swf-patching/references/实战验证.md",
+    "before": "09a9c1264894f999a5dc638369b62627d599d05d26e42fc3f3e084377cde71e2",
+    "candidate": ".agents_skills_remains-swf-patching_references_实战验证.md.after.txt",
+    "after": "bc5c6147b0e22a0c44485d279a5e74f2aad2c60a4e223b95e19a1e2c8cdeb03f"
+  }
+]

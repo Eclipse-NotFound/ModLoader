@@ -49,7 +49,7 @@ def cim_token(pid):
     try:
         result = subprocess.run(
             ["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", command],
-            text=True, capture_output=True, timeout=15, check=True,
+            text=True, encoding="utf-8", errors="replace", capture_output=True, timeout=15, check=True,
             creationflags=subprocess.CREATE_NO_WINDOW)
         value = result.stdout.strip()
         if not value.isdecimal() or int(value) <= 0:

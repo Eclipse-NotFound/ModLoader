@@ -11,6 +11,8 @@ package
    import flash.utils.getDefinitionByName;
    import flash.utils.getQualifiedClassName;
    import flash.system.System;
+   import flash.media.SoundMixer;
+   import flash.media.SoundTransform;
 
    /** Passive frame delivery sampler. Only runs in a debugger-owned AIR application. */
    public class AgentDebugProbeMod extends Sprite
@@ -39,6 +41,7 @@ package
          var p:Object = JSON.parse(s.readUTFBytes(s.bytesAvailable)); s.close();
          if(p.appId != id || p.protocol != 1) return;
          probe = new AgentDebugProbeMod(); probe.main = m; probe.plan = p;
+         if(p.muted !== false) SoundMixer.soundTransform = new SoundTransform(0);
          probe.since = getTimer();
          app.addEventListener(Event.ACTIVATE, probe.activation);
          app.addEventListener(Event.DEACTIVATE, probe.activation);
@@ -68,6 +71,10 @@ package
       {
          try
          {
+            // Own AIR VM only. Reapply during boot in case saved options reset the mixer.
+            // No timer or extra audio work is added to the timed sample.
+            if(plan.muted !== false && SoundMixer.soundTransform.volume != 0)
+               SoundMixer.soundTransform = new SoundTransform(0);
             w = getDefinitionByName("fe.World")["w"];
             if(w != null && field(w,"verror") != null && w.verror.visible)
                throw new Error("game error: " + field(w.verror.txt,"text"));
@@ -208,6 +215,7 @@ package
             mode:plan.mode,error:error,framesMs:frames,sceneStart:firstScene,sceneEnd:end,
             memoryStart:memoryStart,memoryEnd:mem,rateChanged:rateChanged,activity:activity,seedExport:seedExport,
             frameRecorder:recorder,
+            audioVolume:SoundMixer.soundTransform.volume,
             recorderBenchmark:benchmark, recorderFault:fault,
             loader:SharedObject.getLocal("ModLoader","/").data}));
          var application:* = getDefinitionByName("flash.desktop.NativeApplication")["nativeApplication"];

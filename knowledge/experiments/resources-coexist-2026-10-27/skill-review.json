@@ -1,0 +1,58 @@
+[
+  {
+    "skill": "remains-release-gate",
+    "frontmatter": "manual review plus simple-field cross-check; not a YAML parser",
+    "linksChecked": [
+      "../../../GOVERNANCE.md",
+      "references/实战验证.md"
+    ],
+    "installed": true,
+    "independentAutoSelection": "not tested"
+  },
+  {
+    "skill": "remains-auto-testing",
+    "frontmatter": "manual review plus simple-field cross-check; not a YAML parser",
+    "linksChecked": [
+      "references/实战验证.md",
+      "../../../mods/ModLoader/docs/AGENT-DEBUGGING.md",
+      "../../../shared-knowledge/knowledge-validation/coordination/test-runs.md",
+      "../../../mods/ModLoader/docs/TEST-REGISTRY.md",
+      "../../../mods/ModLoader/docs/AGENT-DEBUGGING.md",
+      "../../../mods/ModLoader/docs/TEST-RESOURCES.md"
+    ],
+    "installed": true,
+    "independentAutoSelection": "not tested"
+  },
+  {
+    "skill": "remains-runtime-debug",
+    "frontmatter": "manual review plus simple-field cross-check; not a YAML parser",
+    "linksChecked": [
+      "references/实战验证.md",
+      "../../../shared-knowledge/knowledge-validation/coordination/test-runs.md",
+      "../../../mods/ModLoader/docs/TEST-REGISTRY.md",
+      "../../../mods/ModLoader/docs/AGENT-DEBUGGING.md",
+      "../../../mods/ModLoader/docs/TEST-RESOURCES.md"
+    ],
+    "installed": true,
+    "independentAutoSelection": "not tested"
+  },
+  {
+    "skill": "remains-swf-patching",
+    "frontmatter": "manual review plus simple-field cross-check; not a YAML parser",
+    "linksChecked": [
+      "references/实战验证.md",
+      "../../../GOVERNANCE.md"
+    ],
+    "installed": true,
+    "independentAutoSelection": "not tested"
+  },
+  {
+    "skill": "remains-mod-memory",
+    "frontmatter": "manual review plus simple-field cross-check; not a YAML parser",
+    "linksChecked": [
+      "references/实战验证.md"
+    ],
+    "installed": true,
+    "independentAutoSelection": "not tested"
+  }
+]

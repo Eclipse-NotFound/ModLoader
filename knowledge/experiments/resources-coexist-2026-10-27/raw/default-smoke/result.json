@@ -1,0 +1,44 @@
+{
+  "id": "perf-01-full",
+  "mode": "perf",
+  "repeat": 1,
+  "name": "full",
+  "enabled": [
+    "ModLoaderMod"
+  ],
+  "valid": true,
+  "errors": [],
+  "scene": {
+    "playerY": null,
+    "frameRate": 30,
+    "locClass": null,
+    "scenario": "menu",
+    "stageWidth": 1084,
+    "loc": null,
+    "land": null,
+    "menu": true,
+    "playerX": null,
+    "stageHeight": 661,
+    "menuLoaded": true
+  },
+  "environment": {
+    "profile": "coexist",
+    "performanceEligible": false,
+    "reasons": [
+      "coexist: functional/visual run; shared CPU/GPU, not a clean performance comparison"
+    ],
+    "boundary": "endpoint observations; background CPU/GPU, RNG and activity still require matched controls"
+  },
+  "memoryDelta": 24489984,
+  "metrics": {
+    "samples": 61,
+    "seconds": 2.031,
+    "meanMs": 33.295081967213115,
+    "p50Ms": 33,
+    "p95Ms": 36,
+    "maxMs": 51,
+    "over50": 1,
+    "over100": 0,
+    "over50PerSecond": 0.49236829148202854
+  }
+}

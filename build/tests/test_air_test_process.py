@@ -41,6 +41,11 @@ class DesktopProcessTests(unittest.TestCase):
         with (self.root/'stdout').open('wb') as out, (self.root/'stderr').open('wb') as err:
             p=HiddenProcess([sys.executable,'-X','utf8','-c',CHILD,'中文 & spaces','quote"tail\\'],cwd=self.root,stdout=out,stderr=err)
             try:
+                state = p.resource_policy["after"]
+                self.assertEqual(state["memoryPriority"], 5)
+                self.assertTrue(state["powerThrottling"]["highQoS"])
+                self.assertEqual(state["cpuPriorityClass"], 0x20)
+                self.assertFalse(p.resource_policy["errors"])
                 self.assertEqual(p.wait(10),0)
                 name=p.desktop
             finally:
