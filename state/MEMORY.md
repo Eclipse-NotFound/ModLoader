@@ -1,5 +1,7 @@
 # ModLoader 外置记忆
 
+> 2026-10-28 分盘精简：本模组 1213 个历史副本文件（3.197 GiB）经逐文件核验后转入 F 盘；源码、release、共享工具及当前验证材料保留。查位置与恢复方法见 [archive-index.md](archive-index.md) 和[本轮记录](../../../archive/migrations/2026-10-28-01/report.md)。旧测试副本需复现时先按归档原路径恢复。
+
 2026-10-26必要共享登记器修复（ContinuousScene会话明确授权）：`tools/test_registry.py`在OpenProcess拒绝访问时只读CIM创建时间，处理旧PID被受保护系统进程复用；失败仍unknown、同一进程不误释放。15项完整回归通过，原占用在系统进程自行退出后由原recover释放；未改SWF/名单。详见[证据与回退](../knowledge/experiments/test-registry-2026-10-26/README.md)。
 
 > 2026-10-25 历史资料已核验转存：A01、B04、B05，共2,868文件、原始显示5.84 GiB。查找与恢复从 [archive-index.md](archive-index.md) 进入；[本次结果](../../../archive/migrations/2026-10-25-01/report.md)。当前正式包、源码、作品及保留证据未纳入。
