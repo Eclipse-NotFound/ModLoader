@@ -1,5 +1,13 @@
 # ModLoader 开发日志（journal）
 
+## 2026-10-28 Mem Reduct测试前清理可行性调查
+
+- 用户要求调查能否在测试前腾出内存；本轮只检查安装、配置、系统快照及官方资料，没有运行清理、改Mem Reduct配置或接入自动测试。
+- 本机程序 `D:/Program Files/Mem Reduct/memreduct.exe`，版本3.5.2；调查初次进程检查未见其运行。配置有历史清理时间，不能据此推断从未使用。`test_resources.snapshot()`采样atMs=1793179027530：总物理33879638016B、可用12331630592B（11.48 GiB）；提交上限63511457792B、可用提交11579015168B（10.78 GiB）；未枚举到AIR实例。以上是单次观测，不是持续空闲保证。
+- 对应版本官方源码：[main.c](https://github.com/henrypp/memreduct/blob/v.3.5.2/src/main.c)、[main.h](https://github.com/henrypp/memreduct/blob/v.3.5.2/src/main.h)。需要管理员权限，`-clean`使用固定DEFAULT掩码（不是界面自选区域），`-clean:full`使用ALL；没有按PID排除玩家或只清单个实例的命令行参数。默认含全局工作集、系统文件缓存、低优先级备用页等；完整备用页和修改页清理被源码标为可能冻结的区域。
+- Windows解释：[Working Set](https://learn.microsoft.com/en-us/windows/win32/memory/working-set)、[Page files](https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/introduction-to-the-page-file)。移出工作集后再次访问会产生缺页，可能软恢复，也可能读盘；可用物理内存增加不等于应用取消已分配内存，更不能保证解决提交空间不足。
+- 调查建议：保留现有只读资源检查，不把Mem Reduct当每轮提速步骤；尤其玩家并行或正在测帧率时不应做全局清理。仅在证实物理内存紧张、相关游戏均未启动的受控对照中考虑单次清理，清后预热再测，并统一各组条件。提交空间不足先核对真实分配与分页文件。尚未实测清理对Remains的收益，未作性能提升结论。
+
 ## 2026-10-27 资源诊断、玩家并行与适度验证
 
 - 调试器1.1.0：自有进程挂起创建后设置并回读内存优先级5与HighQoS，CPU保持Normal；resources一次性诊断，默认静音/coexist/单次smoke，性能归因需显式attribution/benchmark。过旧计划在启动前拒绝，避免旧探针无静音。
