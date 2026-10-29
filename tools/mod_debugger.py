@@ -23,6 +23,7 @@ import xml.etree.ElementTree as ET
 from air_test_process import HiddenProcess
 from test_registry import Registry, Registration
 from test_resources import snapshot, comparison_environment
+from launch_integrity import resolve_test_host
 
 PROJECT = Path(__file__).resolve().parents[1]
 GAME = PROJECT.parents[1]
@@ -348,6 +349,8 @@ def execute_trial(session, config, trial, registration=None):
             # Own the handle directly for a watchdog. Selection is ALWAYS through the launcher.
             command = [str(game / "adl64.exe"), "-runtime", str(game / "runtimes/air/win64"),
                        str(game / "agent-debug.xml")]
+            host, meta["launchHost"] = resolve_test_host(command[0])
+            command[0] = str(host)
             if registration:
                 registration.before_launch(trial["id"] + " / " + app_id + " / " + ",".join(selected))
             if config["visible"]:
@@ -531,8 +534,10 @@ def report(session):
 
 def run(args):
     session = owned_session(args.session)
+    config = read(session / "session.json")
+    resource = "game-coexist" if config.get("profile", "coexist") == "coexist" else "game"
     with Registration(purpose="模组归因：" + (args.trial or "剩余对照"), run_dir=session,
-                      evidence=session / "report.md", owner=args.owner, wait=args.wait) as registration:
+                      evidence=session / "report.md", owner=args.owner, wait=args.wait, resource=resource) as registration:
         return run_registered(args, registration)
 
 
@@ -606,7 +611,7 @@ def main(argv=None):
     r = commands.add_parser("run", help="execute or resume an existing plan")
     r.add_argument("--session", required=True); r.add_argument("--trial"); r.add_argument("--limit", type=int)
     r.add_argument("--owner", help="module/task name; defaults to CODEX_THREAD_ID when available")
-    r.add_argument("--wait", type=float, default=300, help="seconds to wait for another registered game test; 0 defers immediately")
+    r.add_argument("--wait", type=float, default=900, help="seconds to wait in the fair test queue; 0 defers immediately")
     t = commands.add_parser("tests", help="refresh shared test register")
     t.add_argument("--json", action="store_true")
     commands.add_parser("resources", help="one-shot system memory and AIR process audit; no settings changed")

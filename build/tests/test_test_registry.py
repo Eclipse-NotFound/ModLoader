@@ -11,7 +11,7 @@ import unittest
 from types import SimpleNamespace
 from unittest.mock import patch
 
-TOOLS = Path(__file__).resolve().parents[2] / "tools"
+TOOLS = Path(os.environ.get("REMAINS_REGISTRY_CANDIDATE", str(Path(__file__).resolve().parents[2] / "tools")))
 sys.path.insert(0, str(TOOLS))
 import test_registry as r
 
@@ -181,7 +181,7 @@ class RegistryTests(unittest.TestCase):
             "import os,sys,subprocess\nfrom pathlib import Path\n"
             f"sys.path.insert(0, {str(TOOLS)!r})\n"
             "from test_registry import Registry,Registration\n"
-            "with Registration(owner='crash fixture',purpose='crash',run_dir=sys.argv[2],registry=Registry(sys.argv[1])) as reg:\n"
+            "with Registration(owner='crash fixture',purpose='crash',run_dir=sys.argv[2],registry=Registry(sys.argv[1]),managed=False) as reg:\n"
             " reg.before_launch('fixture child')\n"
             f" p=subprocess.Popen([sys.executable,{str(child_script)!r},{str(release)!r}],creationflags=subprocess.CREATE_NO_WINDOW)\n"
             " reg.child(p.pid)\n"

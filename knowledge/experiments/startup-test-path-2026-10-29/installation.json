@@ -1,0 +1,30 @@
+{
+  "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\work\\backups\\before-test-path-20261029-de6a185d96",
+  "files": [
+    {
+      "path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\tools\\launch_integrity.py",
+      "before": null,
+      "after": "6EEBD3CD52724C1CA4A8C3581CE9889470F16936B5EE235C17CAF340650E64EE",
+      "installed": true
+    },
+    {
+      "path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\tools\\air_test_process.py",
+      "before": "ECE3ED087D9E31AC4EC91FA1E7B7F82985A149D503C55E682C1C2241027CC3B0",
+      "after": "010597B00ABDCD3C80F57C2AA07517D4B8D0CA03CF643B02C5351005DBCDCFB1",
+      "installed": true
+    },
+    {
+      "path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\tools\\test_registry.py",
+      "before": "E3E43581D677D26C83B7E887C64669634CCC8D901AEFA5A826E1CFED8A5F0CF0",
+      "after": "8E052672225FCE5853973571EE60038C7C1E09ED34F1957A05C937E0CBBF1D0A",
+      "installed": true
+    },
+    {
+      "path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\tools\\mod_debugger.py",
+      "before": "AA8AA91E2AC5795DD3D5F5625625992221393280F8D0487C3C079F362A5AEFC4",
+      "after": "86AEAE637BE678C3A3B288D60B34B39E1482FAECCB1CEE5605DEC7CC21E84869",
+      "installed": true
+    }
+  ],
+  "valid": true
+}

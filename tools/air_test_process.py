@@ -15,6 +15,7 @@ import subprocess
 import sys
 import uuid
 from test_resources import configure_owned
+from launch_integrity import resolve_test_host
 
 
 class StartupInfo(ctypes.Structure):
@@ -39,6 +40,8 @@ class HiddenProcess:
             raise OSError("Private test desktops require Windows; no foreground fallback")
         import msvcrt
         self.command = [str(p) for p in command]
+        executable, self.launch_info = resolve_test_host(self.command[0])
+        self.command[0] = str(executable)
         self.desktop = "RemainsTest-" + uuid.uuid4().hex
         self._desktop_handle = self._process = None
         self.returncode = None

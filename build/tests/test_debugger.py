@@ -1,14 +1,12 @@
-import importlib.util
+import os
 from pathlib import Path
 import tempfile
 import unittest
 import sys
 from unittest.mock import patch, MagicMock
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
-spec = importlib.util.spec_from_file_location("debugger", Path(__file__).resolve().parents[2] / "tools/mod_debugger.py")
-d = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(d)
+sys.path.insert(0, os.environ.get("REMAINS_REGISTRY_CANDIDATE", str(Path(__file__).resolve().parents[2] / "tools")))
+import mod_debugger as d
 TEMP = d.PROJECT / "build/out/debugger-unit"
 TEMP.mkdir(parents=True, exist_ok=True)
 
@@ -157,6 +155,7 @@ class DebuggerTests(unittest.TestCase):
             process.wait.side_effect = [d.subprocess.TimeoutExpired("owned", .01), 0]
             process.poll.return_value = None
             with patch.object(d, "verify_inputs"), patch.object(d, "descriptor_for_trial"), \
+                 patch.object(d, "resolve_test_host", return_value=(game / "adl64.exe", {})), \
                  patch.object(d, "launcher", return_value=d.json.dumps({"selected": ["A", d.PROBE]})), \
                  patch.object(d, "HiddenProcess", return_value=process), \
                  patch.dict(d.os.environ, {"APPDATA": str(root / "appdata")}):
@@ -171,6 +170,16 @@ class DebuggerTests(unittest.TestCase):
             registration.child.assert_called_once_with(123)
             registration.child_stopped.assert_called_once_with()
             self.assertEqual(d.read(root / "trials/perf-01-test/meta.json")["registrationId"], "test-registration")
+
+    def test_run_routes_functional_and_benchmark_profiles_to_correct_reservations(self):
+        from types import SimpleNamespace
+        args=SimpleNamespace(session="fixture",trial=None,owner="test",wait=15)
+        for profile,resource in (("coexist","game-coexist"),("benchmark","game")):
+            with self.subTest(profile=profile), patch.object(d,"owned_session",return_value=Path("fixture")), \
+                 patch.object(d,"read",return_value={"profile":profile}), patch.object(d,"Registration") as registration, \
+                 patch.object(d,"run_registered",return_value=0):
+                self.assertEqual(d.run(args),0)
+                self.assertEqual(registration.call_args.kwargs["resource"],resource)
 
     def test_old_or_changed_desktop_policy_rejected_before_launch(self):
         with patch.object(d, "HiddenProcess") as hidden, patch.object(d.subprocess, "Popen") as visible:

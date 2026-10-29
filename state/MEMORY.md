@@ -1,5 +1,7 @@
 # ModLoader 外置记忆
 
+2026-10-29：原启动器与共享测试路径已修复并本机部署。四个EXE入口继承Low标签导致受限启动；仅恢复为Medium，内容/DACL不变。默认功能计划现在最多两个独立组并行，性能与旧驱动仍独占，FIFO排队900秒；受管进程全部确认退出且无启动间隙时自动释放占用。68项定向检查、两AIR各39项及两个独立CLI真实菜单同时运行通过。详见[修复、证据与回退](../knowledge/experiments/startup-test-path-2026-10-29/README.md)。工具协议仍1.1.0，SWF/正式名单未改。
+
 > 2026-10-28 分盘精简：本模组 1213 个历史副本文件（3.197 GiB）经逐文件核验后转入 F 盘；源码、release、共享工具及当前验证材料保留。查位置与恢复方法见 [archive-index.md](archive-index.md) 和[本轮记录](../../../archive/migrations/2026-10-28-01/report.md)。旧测试副本需复现时先按归档原路径恢复。
 
 2026-10-26必要共享登记器修复（ContinuousScene会话明确授权）：`tools/test_registry.py`在OpenProcess拒绝访问时只读CIM创建时间，处理旧PID被受保护系统进程复用；失败仍unknown、同一进程不误释放。15项完整回归通过，原占用在系统进程自行退出后由原recover释放；未改SWF/名单。详见[证据与回退](../knowledge/experiments/test-registry-2026-10-26/README.md)。
@@ -37,7 +39,7 @@ MainFE清单引导v2、Windows扫描器/选择启动器、游戏内设置模块�
 - 轻量记录器已完成：[使用说明](../docs/FRAME-RECORDER.md)。启动器启用ModLoader并重启，默认保留约5分钟的帧事件、长帧时刻、房间/坐标、内存与状态。游戏中不序列化/写盘，正常退出保存；强退/崩溃丢失本轮。卡顿排查先 report 并核对时段，再用既有启动器/调试器隔离对照。
 - 验证：47项离线、6项游戏场景及正式回读第7轮通过。同进程ABBA mean差−0.1645 ms/P95差+1 ms；520秒采样、自身峰值1 ms、环300窗、游玩写盘0。负差不表示提速，不承诺零开销或全模组战斗认证。退出保存约0.2秒。见[报告与安装回执](../knowledge/experiments/frame-recorder-2026-10-24/README.md)。
 
-- 测试登记：共享正本 `shared-knowledge/knowledge-validation/coordination/test-runs.sqlite3`（游戏根相对路径），同名md为自动生成阅读表；SQLite事务防双重放行，game组串行、offline可并行，默认等300秒后暂缓。记录会话/内容/时间/目录/结果/进程身份，中断保留占用并可核对恢复。10项登记检查＋24项调试器回归通过，实际本轮离线验证已登记；未运行AIR游戏。两项技能路由2026-10-20.1已安装、跨会话自动选用与其他驱动迁移待验，见[登记验证](../knowledge/experiments/test-registry-2026-10-20/README.md)。
+- 测试登记：共享正本 `shared-knowledge/knowledge-validation/coordination/test-runs.sqlite3`，同名md自动生成。当前`game-coexist`最多两组且目录不能重合，`game`与所有游戏组互斥，`offline`可并行；FIFO最多等900秒。`Registration`默认受管，必须逐个登记启动与子进程；旧未接入协议调用用`managed=False`。完整API见[登记说明](../docs/TEST-REGISTRY.md)。初版记录见[2026-10-20验证](../knowledge/experiments/test-registry-2026-10-20/README.md)，本轮68项与真实双菜单通过。
 
 - 后台桌面修复：tools/air_test_process.py；归因工具已默认接入，桌面策略写入计划/回执，旧计划需重新prepare。24项离线、3项原生进程及2项真实游戏采样/截图通过；确认AIR_Splash只在私有桌面，用户输入桌面未切换。证据见[后台启动验证](../knowledge/experiments/quiet-tests-2026-10-19/README.md)。两项调试技能路由2026-10-19.2已同步；其他旧驱动仍须按说明接入。
 
@@ -52,6 +54,8 @@ MainFE清单引导v2、Windows扫描器/选择启动器、游戏内设置模块�
 - master直提；任务前已有supported-mods.txt的PermanentInjury登记未提交，保留并排除本轮。EXE/build/out沿用忽略策略，源码与稳定证据入库。
 
 ## 4. 正在进行与卡点
+
+原启动器已实测显示主窗口；测试复制的低标签ADL由共享工具只读核对后复用完全同字节的根宿主，保留独立描述符/库/存储。不同版本不自动替换，运行器受限须走正常客户端审批；未来重新复制/更新EXE要复核标签。两个独立运行器的真实双菜单通过，不等于所有旧专用驱动已自动迁移；旧私有工具副本仍应导入正式工具。ContinuousScene镜头候选性能仍未验，本轮只恢复基础设施。
 
 本地启动器与调试器完成；未上传GitHub或更换公开ZIP，无待用户批准步骤。后续遇真实问题先明确症状与场景，通过完整组合复现后再跑候选，不把合成夹具成功当真实故障已归因。
 

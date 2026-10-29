@@ -1,0 +1,467 @@
+{
+  "valid": true,
+  "checks": {
+    "tests": 68,
+    "success": true,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "inputs": {
+      "air_test_process.py": "010597B00ABDCD3C80F57C2AA07517D4B8D0CA03CF643B02C5351005DBCDCFB1",
+      "launch_integrity.py": "6EEBD3CD52724C1CA4A8C3581CE9889470F16936B5EE235C17CAF340650E64EE",
+      "mod_debugger.py": "86AEAE637BE678C3A3B288D60B34B39E1482FAECCB1CEE5605DEC7CC21E84869",
+      "test_registry.py": "8E052672225FCE5853973571EE60038C7C1E09ED34F1957A05C937E0CBBF1D0A",
+      "test_resources.py": "86D5F280320DE95DC7DFEDA27020DBCCF432668BB7D2D0DB8C9F3D93FF55CFCB"
+    }
+  },
+  "parallelAIR": {
+    "diagnosticOnly": true,
+    "performanceEligible": false,
+    "fixtures": [
+      {
+        "name": "a",
+        "appId": "pfe-cell-phase-snap-97668edc8e3a4865bcb76445c387890d",
+        "store": "C:\\Users\\hello\\AppData\\Roaming\\pfe-cell-phase-snap-97668edc8e3a4865bcb76445c387890d\\Local Store",
+        "directory": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\startup-repair-20261029\\parallel-air-081755fb65\\a",
+        "pid": 88936,
+        "desktop": "RemainsTest-dc97df46457646e78790394a36951b1a",
+        "launch": {
+          "requestedExecutable": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\startup-repair-20261029\\parallel-air-081755fb65\\a\\adl64.exe",
+          "runnerIntegrity": 8192,
+          "requestedIntegrity": 4096,
+          "resolvedExecutable": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\adl64.exe",
+          "reusedCanonicalHost": true,
+          "hostSHA256": "D851EB9E68D38ABD335916DD91E08DE3F1660945B49F382691A188ADC7C8C295",
+          "resolvedIntegrity": 8192
+        },
+        "start": 350583.14,
+        "exitCode": 0,
+        "end": 350591.453,
+        "valid": true,
+        "assertions": 39,
+        "resourcesBalanced": true,
+        "copyBytesAndLabelUnchanged": true
+      },
+      {
+        "name": "b",
+        "appId": "pfe-cell-phase-snap-8c87099763724a9cb26938514570e2bd",
+        "store": "C:\\Users\\hello\\AppData\\Roaming\\pfe-cell-phase-snap-8c87099763724a9cb26938514570e2bd\\Local Store",
+        "directory": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\startup-repair-20261029\\parallel-air-081755fb65\\b",
+        "pid": 102128,
+        "desktop": "RemainsTest-ccb6a68358e74916923053a69ec396f1",
+        "launch": {
+          "requestedExecutable": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\startup-repair-20261029\\parallel-air-081755fb65\\b\\adl64.exe",
+          "runnerIntegrity": 8192,
+          "requestedIntegrity": 4096,
+          "resolvedExecutable": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\adl64.exe",
+          "reusedCanonicalHost": true,
+          "hostSHA256": "D851EB9E68D38ABD335916DD91E08DE3F1660945B49F382691A188ADC7C8C295",
+          "resolvedIntegrity": 8192
+        },
+        "start": 350583.546,
+        "exitCode": 0,
+        "end": 350591.375,
+        "valid": true,
+        "assertions": 39,
+        "resourcesBalanced": true,
+        "copyBytesAndLabelUnchanged": true
+      }
+    ],
+    "valid": true,
+    "overlapSeconds": 7.829000000027008,
+    "assertions": 78,
+    "leasesReleased": true
+  },
+  "installedDebugger": {
+    "environmentBefore": {
+      "atMs": 1793262387553,
+      "memory": {
+        "load": 54,
+        "totalPhysical": 33879638016,
+        "availablePhysical": 15311515648,
+        "commitLimit": 58533253120,
+        "availableCommit": 15461969920
+      },
+      "air": {
+        "processes": [],
+        "unreadableProcessCount": 168,
+        "scope": "endpoints only; absence is not proof of an idle computer"
+      },
+      "runner": {
+        "cpuPriorityClass": 32,
+        "errors": [],
+        "memoryPriority": 5,
+        "powerThrottling": {
+          "controlMask": 0,
+          "stateMask": 0,
+          "highQoS": false
+        },
+        "inJob": true,
+        "innermostJobLimits": {
+          "flags": 10240,
+          "processCommitCap": null,
+          "jobCommitCap": null,
+          "workingSetCap": null,
+          "boundary": "current innermost job only; nested ancestors may impose further limits"
+        }
+      },
+      "warnings": []
+    },
+    "sessions": [
+      "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261029-162628-eeb79739",
+      "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261029-162631-883886cb"
+    ],
+    "drivers": [
+      {
+        "pid": 86132,
+        "session": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261029-162628-eeb79739"
+      },
+      {
+        "pid": 103348,
+        "session": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261029-162631-883886cb"
+      }
+    ],
+    "valid": true,
+    "performanceEligible": false,
+    "bothLeasesRunning": [
+      {
+        "id": "886bd5bc45094227a3e3119207cc352f",
+        "pid": 86132,
+        "resource": "game-coexist"
+      },
+      {
+        "id": "2b55576a2ad5405b9459ff8360fa558c",
+        "pid": 103348,
+        "resource": "game-coexist"
+      }
+    ],
+    "details": [
+      {
+        "session": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261029-162628-eeb79739",
+        "appId": "pfe-agentdebug-b9b32fe80bbd4dccac3c5de65f352045",
+        "desktop": null,
+        "startedMs": 1793262395258,
+        "endedMs": 1793262417892,
+        "valid": true,
+        "launchHost": {
+          "requestedExecutable": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261029-162628-eeb79739\\game\\adl64.exe",
+          "runnerIntegrity": 8192,
+          "requestedIntegrity": 4096,
+          "resolvedExecutable": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\adl64.exe",
+          "reusedCanonicalHost": true,
+          "hostSHA256": "D851EB9E68D38ABD335916DD91E08DE3F1660945B49F382691A188ADC7C8C295",
+          "resolvedIntegrity": 8192
+        },
+        "result": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261029-162628-eeb79739\\trials\\perf-01-full\\result.json"
+      },
+      {
+        "session": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261029-162631-883886cb",
+        "appId": "pfe-agentdebug-9cc89a6d378042d089a431deb7bddce3",
+        "desktop": null,
+        "startedMs": 1793262395431,
+        "endedMs": 1793262417706,
+        "valid": true,
+        "launchHost": {
+          "requestedExecutable": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261029-162631-883886cb\\game\\adl64.exe",
+          "runnerIntegrity": 8192,
+          "requestedIntegrity": 4096,
+          "resolvedExecutable": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\adl64.exe",
+          "reusedCanonicalHost": true,
+          "hostSHA256": "D851EB9E68D38ABD335916DD91E08DE3F1660945B49F382691A188ADC7C8C295",
+          "resolvedIntegrity": 8192
+        },
+        "result": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\build\\out\\debugger\\20261029-162631-883886cb\\trials\\perf-01-full\\result.json"
+      }
+    ],
+    "overlapMs": 22275,
+    "allLeasesPassed": true,
+    "playerFilesUnchanged": {
+      "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\loader-manifest.txt": "33DE189E1209FDD397E811A52E9AC67FF0DEDAEEAE5CFEFF4B7D15D4536EB133",
+      "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\pfe.swf": "A80ED32BEE50C612CB46EA1E581C8CA9C81072E0B9E6EE1A51E5BACEFBDCBA19",
+      "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ContinuousScene\\release\\ContinuousSceneMod.swf": "D8A68A4C128E196FD69B50D1CC7F0FFA72669751FB2FCB85D629F30FE622E677"
+    },
+    "driverExitCodes": [
+      0,
+      0
+    ]
+  },
+  "installedDesktopReadback": [
+    {
+      "pid": 81200,
+      "appId": "pfe-agentdebug-b9b32fe80bbd4dccac3c5de65f352045",
+      "desktopName": "RemainsTest-c82a3e160c0e4366b3634184735a2a55",
+      "store": "C:\\Users\\hello\\AppData\\Roaming\\pfe-agentdebug-b9b32fe80bbd4dccac3c5de65f352045\\Local Store",
+      "startedMs": 1793262395258,
+      "endedMs": 1793262417892,
+      "audioVolume": 0,
+      "resultSHA256": "84CCC4FBD364CF81579388884E3759DD73A5D026E2332577D3DA18ED478CF69B",
+      "metaSHA256": "578836666E1331894AE60B90E15910FD3DBCDF1B9B0DB342379DA6F821F11683"
+    },
+    {
+      "pid": 37288,
+      "appId": "pfe-agentdebug-9cc89a6d378042d089a431deb7bddce3",
+      "desktopName": "RemainsTest-808622be5f1d4f5ebe56a3c012620f8b",
+      "store": "C:\\Users\\hello\\AppData\\Roaming\\pfe-agentdebug-9cc89a6d378042d089a431deb7bddce3\\Local Store",
+      "startedMs": 1793262395431,
+      "endedMs": 1793262417706,
+      "audioVolume": 0,
+      "resultSHA256": "CCE18D95EFF858FD5AEA2D1B4227230048E4302C23365ED008FF2DC8D25BCFE0",
+      "metaSHA256": "0A2241ECF08C12A0BC3FA736BD53B74E8E950241FC82D9488C714435B1C88668"
+    }
+  ],
+  "originalLauncher": {
+    "case": "launcher",
+    "runner": {
+      "cpuPriorityClass": 32,
+      "errors": [],
+      "memoryPriority": 5,
+      "powerThrottling": {
+        "controlMask": 0,
+        "stateMask": 0,
+        "highQoS": false
+      },
+      "inJob": true,
+      "innermostJobLimits": {
+        "flags": 10240,
+        "processCommitCap": null,
+        "jobCommitCap": null,
+        "workingSetCap": null,
+        "boundary": "current innermost job only; nested ancestors may impose further limits"
+      }
+    },
+    "runnerToken": {
+      "appContainer": false,
+      "restricted": false,
+      "integrityRID": 8192
+    },
+    "diagnosticOnly": true,
+    "pid": 91564,
+    "desktop": "RemainsTest-e9326168b2c446ee8ac059c495c99462",
+    "token": {
+      "appContainer": false,
+      "restricted": false,
+      "integrityRID": 8192
+    },
+    "policy": {
+      "requested": "test",
+      "before": {
+        "cpuPriorityClass": 32,
+        "errors": [],
+        "memoryPriority": 5,
+        "powerThrottling": {
+          "controlMask": 0,
+          "stateMask": 0,
+          "highQoS": false
+        },
+        "inJob": true
+      },
+      "after": {
+        "cpuPriorityClass": 32,
+        "errors": [],
+        "memoryPriority": 5,
+        "powerThrottling": {
+          "controlMask": 1,
+          "stateMask": 0,
+          "highQoS": true
+        },
+        "inJob": true
+      },
+      "errors": []
+    },
+    "windows": [
+      {
+        "text": "Tooltip",
+        "windowClass": "Touch Tooltip Window",
+        "children": []
+      },
+      {
+        "text": "",
+        "windowClass": "UAC_InputIndicatorOverlayWnd",
+        "children": []
+      },
+      {
+        "text": "",
+        "windowClass": "UAC Input Indicator",
+        "children": []
+      },
+      {
+        "text": "",
+        "windowClass": "WindowsForms10.tooltips_class32.app.0.31d2b0c_r3_ad1",
+        "children": []
+      },
+      {
+        "text": "Remains",
+        "windowClass": "WindowsForms10.Window.8.app.0.31d2b0c_r3_ad1",
+        "children": [
+          {
+            "text": "Remains",
+            "windowClass": "WindowsForms10.Static.app.0.31d2b0c_r3_ad1"
+          },
+          {
+            "text": "选择版本，回到游戏。QQ 交流群：1030093686",
+            "windowClass": "WindowsForms10.Static.app.0.31d2b0c_r3_ad1"
+          },
+          {
+            "text": "迁移存档",
+            "windowClass": "WindowsForms10.Button.app.0.31d2b0c_r3_ad1"
+          },
+          {
+            "text": "打开安装目录",
+            "windowClass": "WindowsForms10.Button.app.0.31d2b0c_r3_ad1"
+          },
+          {
+            "text": "当前版本: 1.02 官方版",
+            "windowClass": "WindowsForms10.Static.app.0.31d2b0c_r3_ad1"
+          },
+          {
+            "text": "打开 Discord",
+            "windowClass": "WindowsForms10.Button.app.0.31d2b0c_r3_ad1"
+          },
+          {
+            "text": "和玩家交流，反馈问题，并关注社区更新。",
+            "windowClass": "WindowsForms10.Static.app.0.31d2b0c_r3_ad1"
+          },
+          {
+            "text": "加入 Discord",
+            "windowClass": "WindowsForms10.Static.app.0.31d2b0c_r3_ad1"
+          },
+          {
+            "text": "Steam 新闻",
+            "windowClass": "WindowsForms10.Static.app.0.31d2b0c_r3_ad1"
+          },
+          {
+            "text": "启动游戏",
+            "windowClass": "WindowsForms10.Button.app.0.31d2b0c_r3_ad1"
+          },
+          {
+            "text": "帧率：30（原版）",
+            "windowClass": "WindowsForms10.Button.app.0.31d2b0c_r3_ad1"
+          },
+          {
+            "text": "高分辨率/宽屏支持",
+            "windowClass": "WindowsForms10.Button.app.0.31d2b0c_r3_ad1"
+          }
+        ]
+      },
+      {
+        "text": "",
+        "windowClass": "ComboLBox",
+        "children": []
+      },
+      {
+        "text": ".NET-BroadcastEventWindow.31d2b0c.0",
+        "windowClass": ".NET-BroadcastEventWindow.31d2b0c.0",
+        "children": []
+      },
+      {
+        "text": "GDI+ Window (Remains.exe)",
+        "windowClass": "GDI+ Hook Window Class",
+        "children": []
+      },
+      {
+        "text": "",
+        "windowClass": "CicLoaderWndClass",
+        "children": []
+      },
+      {
+        "text": "CiceroUIWndFrame",
+        "windowClass": "CiceroUIWndFrame",
+        "children": []
+      },
+      {
+        "text": "TF_FloatingLangBar_WndTitle",
+        "windowClass": "CiceroUIWndFrame",
+        "children": []
+      },
+      {
+        "text": "MSCTFIME UI",
+        "windowClass": "MSCTFIME UI",
+        "children": []
+      },
+      {
+        "text": "Default IME",
+        "windowClass": "IME",
+        "children": []
+      },
+      {
+        "text": "Default IME",
+        "windowClass": "IME",
+        "children": []
+      },
+      {
+        "text": "Default IME",
+        "windowClass": "IME",
+        "children": []
+      }
+    ],
+    "naturalExit": null,
+    "elapsedSeconds": 8.14000000001397,
+    "stoppedOwnedAfterObservation": true,
+    "finalExit": 1
+  },
+  "originalAIR": {
+    "case": "air-root",
+    "runner": {
+      "cpuPriorityClass": 32,
+      "errors": [],
+      "memoryPriority": 5,
+      "powerThrottling": {
+        "controlMask": 0,
+        "stateMask": 0,
+        "highQoS": false
+      },
+      "inJob": true,
+      "innermostJobLimits": {
+        "flags": 10240,
+        "processCommitCap": null,
+        "jobCommitCap": null,
+        "workingSetCap": null,
+        "boundary": "current innermost job only; nested ancestors may impose further limits"
+      }
+    },
+    "runnerToken": {
+      "appContainer": false,
+      "restricted": false,
+      "integrityRID": 8192
+    },
+    "diagnosticOnly": true,
+    "store": "C:\\Users\\hello\\AppData\\Roaming\\pfe-cell-phase-snap-adc3d709a9e84efeb2901528293faad8\\Local Store",
+    "pid": 91576,
+    "desktop": "RemainsTest-2f0b3d328e504964b320d54067f75e1f",
+    "token": {
+      "appContainer": false,
+      "restricted": false,
+      "integrityRID": 8192
+    },
+    "policy": {
+      "requested": "test",
+      "before": {
+        "cpuPriorityClass": 32,
+        "errors": [],
+        "memoryPriority": 5,
+        "powerThrottling": {
+          "controlMask": 0,
+          "stateMask": 0,
+          "highQoS": false
+        },
+        "inJob": true
+      },
+      "after": {
+        "cpuPriorityClass": 32,
+        "errors": [],
+        "memoryPriority": 5,
+        "powerThrottling": {
+          "controlMask": 1,
+          "stateMask": 0,
+          "highQoS": true
+        },
+        "inJob": true
+      },
+      "errors": []
+    },
+    "naturalExit": 0,
+    "elapsedSeconds": 8.452999999979511,
+    "sampleResultExists": true,
+    "finalExit": 0
+  }
+}

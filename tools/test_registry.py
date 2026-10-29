@@ -1,12 +1,12 @@
 """Shared Remains test register. SQLite owns reservations; Markdown is a view.
 
-No process is stopped here. Interrupted running records keep their reservation
-until an agent checks the isolated run and explicitly reconciles the record.
+No process is stopped here. Managed leases may be reaped only after their runner
+and all recorded children are proven gone and no launch is in progress.
 """
 from __future__ import annotations
 
 import argparse
-from contextlib import contextmanager
+from contextlib import closing, contextmanager
 import ctypes
 from ctypes import wintypes as w
 from datetime import datetime, timezone, timedelta
@@ -23,6 +23,8 @@ import uuid
 ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_DB = ROOT / "shared-knowledge/knowledge-validation/coordination/test-runs.sqlite3"
 ACTIVE = {"running", "needs-check"}
+GAME_RESOURCES = {"game", "game-coexist"}
+COEXIST_LIMIT = 2
 LABELS = {"waiting": "等待", "running": "测试中", "needs-check": "中断待核对",
           "passed": "通过", "failed": "未通过", "completed": "已结束（未判定）",
           "deferred": "暂缓", "interrupted": "已核对中断"}
@@ -132,35 +134,60 @@ class Registry:
 
     @staticmethod
     def save(db, row):
-        db.execute("INSERT OR REPLACE INTO runs VALUES (?, ?)",
+        # Preserve insertion order: REPLACE would move a waiting request to the tail.
+        db.execute("INSERT INTO runs VALUES (?, ?) ON CONFLICT(id) DO UPDATE SET payload=excluded.payload",
                    (row["id"], json.dumps(row, ensure_ascii=False)))
 
-    def create(self, owner, purpose, resource, run_dir, evidence):
-        if resource not in ("game", "offline") or not owner.strip() or not purpose.strip():
-            raise ValueError("owner/purpose required; resource must be game or offline")
+    def create(self, owner, purpose, resource, run_dir, evidence, *, managed=False):
+        if resource not in GAME_RESOURCES | {"offline"} or not owner.strip() or not purpose.strip():
+            raise ValueError("owner/purpose required; resource must be game, game-coexist or offline")
         stamp = now()
         row = {"id": uuid.uuid4().hex, "owner": owner, "purpose": purpose, "resource": resource,
-               "runDir": str(run_dir), "evidence": str(evidence), "created": stamp, "updated": stamp,
+               "runDir": str(Path(run_dir).resolve()), "evidence": str(evidence), "created": stamp, "updated": stamp,
                "state": "waiting", "runner": {"pid": os.getpid(), "token": process_token(os.getpid())},
-               "children": [], "launching": False, "detail": "", "note": "", "ended": None}
+               "children": [], "launching": False, "detail": "", "note": "", "ended": None,
+               "managedProtocol": 2 if managed else 0}
         with self.transaction() as db:
             self.save(db, row)
         self.status()
         return row["id"]
 
     def claim(self, ident):
+        self.status()  # Verify stale identities before taking the short claim transaction.
         with self.transaction() as db:
             rows = self.rows(db)
             row = next(r for r in rows if r["id"] == ident)
             if row["state"] != "waiting":
                 raise ValueError("Only a waiting record can acquire a reservation")
-            blockers = [r["id"] for r in rows if r["id"] != ident and r["state"] in ACTIVE
-                        and row["resource"] == "game" and r["resource"] == "game"]
+            active = [r for r in rows if r["id"] != ident and r["state"] in ACTIVE
+                      and r["resource"] in GAME_RESOURCES]
+            earlier = [r for r in rows[:rows.index(row)] if r["state"] == "waiting"
+                       and r["resource"] in GAME_RESOURCES]
+            blockers = []
+            if row["resource"] == "game":
+                blockers = [r["id"] for r in active + earlier]
+            elif row["resource"] == "game-coexist":
+                blockers = [r["id"] for r in active + earlier if r["resource"] == "game"
+                            or self.overlapping_paths(row["runDir"], r["runDir"])]
+                peers = [r for r in active + earlier if r["resource"] == "game-coexist"]
+                if len(peers) >= COEXIST_LIMIT:
+                    blockers += [r["id"] for r in peers]
+                blockers = list(dict.fromkeys(blockers))
             if not blockers:
                 row.update(state="running", started=now(), updated=now())
                 self.save(db, row)
         self.status()
         return blockers
+
+    @staticmethod
+    def overlapping_paths(left, right):
+        # Two independently selected mod sets must never write the same sandbox.
+        a = os.path.normcase(str(Path(left).resolve()))
+        b = os.path.normcase(str(Path(right).resolve()))
+        try:
+            return os.path.commonpath([a, b]) in (a, b)
+        except ValueError:
+            return False  # Different drives.
 
     def update(self, ident, **changes):
         with self.transaction() as db:
@@ -173,15 +200,28 @@ class Registry:
         self.status()
 
     def status(self):
-        # Render under the same transaction so an older view cannot overwrite a newer one.
+        # A denied PID may require a slow read-only CIM check. Do not hold the
+        # shared write lock during OS queries; apply only to an unchanged lease.
+        with closing(sqlite3.connect(self.path, timeout=60)) as db:
+            snapshots = self.rows(db)
+        changes = {}
+        for row in snapshots:
+            if row["state"] in ACTIVE and gone(row["runner"]):
+                safe = (row.get("managedProtocol") == 2 and not row.get("launching", True)
+                        and all(gone(p) for p in row["children"]))
+                changes[row["id"]] = (row, dict(
+                    state="interrupted" if safe else "needs-check", ended=now() if safe else None,
+                    note="自动核对：运行器及全部已登记子进程均已退出，且没有未完成的启动；释放占用。" if safe
+                    else "运行器已退出；启动状态或子进程未确认，保留占用并核对后 recover"))
+            elif row["state"] == "waiting" and gone(row["runner"]):
+                changes[row["id"]] = (row, dict(state="deferred", ended=now(), note="等待进程已退出；未取得占用"))
+        # Render while holding the transaction: an older view cannot replace a newer one.
         with self.transaction() as db:
             rows = self.rows(db)
             for row in rows:
-                if row["state"] == "running" and gone(row["runner"]):
-                    row.update(state="needs-check", updated=now(), note="运行器已退出；核对隔离目录与遗留进程后 recover")
-                    self.save(db, row)
-                elif row["state"] == "waiting" and gone(row["runner"]):
-                    row.update(state="deferred", updated=now(), ended=now(), note="等待进程已退出；未取得占用")
+                change = changes.get(row["id"])
+                if change and row == change[0]:
+                    row.update(**change[1], updated=now())
                     self.save(db, row)
             self.render(rows)
         return rows
@@ -237,12 +277,13 @@ class Registry:
 
 
 class Registration:
-    def __init__(self, *, purpose, run_dir, evidence="", owner=None, resource="game", wait=300, registry=None):
+    def __init__(self, *, purpose, run_dir, evidence="", owner=None, resource="game", wait=900, registry=None,
+                 managed=True):
         if not math.isfinite(wait) or wait < 0:
             raise ValueError("--wait must be finite and >= 0")
         self.registry = registry or Registry()
         self.id = self.registry.create(owner or os.environ.get("CODEX_THREAD_ID") or "未提供会话名（见 PID/隔离目录）",
-                                       purpose, resource, run_dir, evidence)
+                                       purpose, resource, run_dir, evidence, managed=managed)
         self.wait = wait
         self.children = []
         self.launching = False

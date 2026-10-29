@@ -8,7 +8,7 @@
 
 ModLoader 2.5.0 起可保留正常游玩最近约5分钟的帧率/场景记录。游戏中记录留在内存，正常退出时保存；强退/崩溃不会保存本轮。用户报告卡顿时，先按 [FRAME-RECORDER.md](FRAME-RECORDER.md) 导出并核对时段、房间、坐标和焦点状态，再做隔离对照。同时出现的状态仅作线索，不能直接给模组定责。
 
-运行游戏前先刷新[测试情况登记表](../../../shared-knowledge/knowledge-validation/coordination/test-runs.md)：`tools/agent-debug.ps1 tests`。1.0.2 起 `run` 自动登记并等待其他游戏测试释放占用；`--owner` 可写模组/任务名，`--wait 300` 默认最多等待5分钟。占用冲突先等待或暂缓，无需为了常规测试打断其他对话。专用驱动与中断恢复见[登记说明](TEST-REGISTRY.md)。
+运行游戏前先刷新[测试情况登记表](../../../shared-knowledge/knowledge-validation/coordination/test-runs.md)：`tools/agent-debug.ps1 tests`。`run` 自动登记：默认功能计划最多两组并行，性能计划独占；`--owner` 可写模组/任务名，`--wait 900` 默认最多等待15分钟，按申请顺序放行。占用冲突先等待或暂缓，无需为了常规测试打断其他对话。专用驱动与中断恢复见[登记说明](TEST-REGISTRY.md)。
 
 1. 明确现象、复现位置/动作及“异常消失”的可观察标准。没有具体复现场景时，菜单/新档结果只能验证工具与提供探索线索。
 2. 用启动器只读扫描，记录当前启用组合与入口类名；依赖放在 `--fixed`，待排查模组放在 `--mods`。不要用旧扫描器覆盖选择，也不要靠移动、改名 SWF 禁用模组。
