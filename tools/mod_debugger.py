@@ -29,7 +29,8 @@ PROJECT = Path(__file__).resolve().parents[1]
 GAME = PROJECT.parents[1]
 SESSIONS = PROJECT / "build/out/debugger"
 PROBE = "AgentDebugProbeMod"
-VERSION = "1.1.0"
+VERSION = "1.2.0"
+SESSION_RETENTION_DAYS = 14
 
 
 def resource_snapshot():
@@ -70,6 +71,43 @@ def safe_tree(source, destination):
         if p.is_symlink() or getattr(p.lstat(), "st_file_attributes", 0) & 0x400:
             raise ValueError(f"Reparse point is not a frozen input: {p}")
     shutil.copytree(source, destination)
+
+
+def link_or_copy(source, destination):
+    """Hard-link immutable assets when possible; fall back to a real copy.
+
+    Since 1.2.0 trial copies share inodes with the installation for read-only
+    assets. This is safe only under replace-semantics deployment (write a new
+    file and swap it in, never rewrite an existing file in place); a replaced
+    source then leaves linked trial copies frozen at prepare-time bytes, and
+    verify_inputs still catches any in-place drift. Writable trial state
+    (descriptors, stores, seeds) always stays a real copy.
+    """
+    source, destination = Path(source), Path(destination)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        os.link(source, destination)
+        return "link"
+    except OSError:
+        shutil.copy2(source, destination)
+        return "copy"
+
+
+def link_tree(source, destination):
+    """safe_tree's reparse guard, but hard-linking each file when possible."""
+    source = Path(source)
+    for p in [source, *source.rglob("*")]:
+        if p.is_symlink() or getattr(p.lstat(), "st_file_attributes", 0) & 0x400:
+            raise ValueError(f"Reparse point is not a frozen input: {p}")
+    modes = {"link": 0, "copy": 0}
+    destination.mkdir(parents=True, exist_ok=True)
+    for p in source.rglob("*"):
+        target = destination / p.relative_to(source)
+        if p.is_dir():
+            target.mkdir(parents=True, exist_ok=True)
+        else:
+            modes[link_or_copy(p, target)] += 1
+    return modes
 
 
 def launcher(root, *args):
@@ -123,6 +161,10 @@ def selected_plan(targets, fixed, singles, repeats, modes, plan):
 
 
 def prepare(args):
+    if not args.no_sweep:
+        swept = sweep_sessions(SESSION_RETENTION_DAYS)
+        if swept:
+            print(json.dumps({"sweptIdleSessions": swept}, ensure_ascii=False), file=sys.stderr)
     root = Path(args.root).resolve()
     inventory = json.loads(launcher(root, "--list", "--json"))
     if inventory["gameVersion"] != "1.02":
@@ -158,18 +200,23 @@ def prepare(args):
     game = session / "game"
     game.mkdir(parents=True)
     write(session / "owner.json", {"protocol": 1, "tool": "RemainsAgentDebugger", "session": session.name})
-    # Separate file copies, never hard links into a player's installation.
+    # Immutable assets share inodes with the installation (link_or_copy falls
+    # back to a real copy when linking is impossible); writable trial state
+    # stays separate. Replace-semantics deployment keeps links frozen; see
+    # TEST-RESOURCES.md before changing how game files are written.
+    assets = {"link": 0, "copy": 0}
     for directory in ("runtimes", "Rooms"):
-        safe_tree(root / directory, game / directory)
-    for directory in ("Music",):
-        if (root / directory).is_dir():
-            safe_tree(root / directory, game / directory)
+        for key, value in link_tree(root / directory, game / directory).items():
+            assets[key] += value
+    if (root / "Music").is_dir():
+        for key, value in link_tree(root / "Music", game / "Music").items():
+            assets[key] += value
     for p in root.iterdir():
         if p.is_file() and (p.name in ("adl64.exe", "pfe.swf") or
                             p.name in ("lang.xml", "rooms.xml") or
                             re.match(r"^text_.*\.xml$", p.name, re.I) or
                             re.match(r"^(sound|sprite|texture).*\.swf$", p.name, re.I)):
-            shutil.copy2(p, game / p.name)
+            assets[link_or_copy(p, game / p.name)] += 1
     # Descriptor preserves rendering defaults but uses a unique app ID on every trial.
     descriptor = Path(inventory["descriptor"])
     if not descriptor.is_absolute():
@@ -188,7 +235,7 @@ def prepare(args):
     host = game / "mods/ModLoader"
     host.mkdir(parents=True, exist_ok=True)
     for name in ("RemainsModLauncher.exe", "RemainsModScanner.exe", "supported-mods.txt"):
-        shutil.copy2(root / "mods/ModLoader" / name, host / name)
+        assets[link_or_copy(root / "mods/ModLoader" / name, host / name)] += 1
     probe_dir = game / "mods/AgentDebugProbe/release"
     probe_dir.mkdir(parents=True)
     shutil.copy2(probe, probe_dir / (PROBE + ".swf"))
@@ -203,6 +250,7 @@ def prepare(args):
               "profile": args.profile, "muted": not args.audio, "resourcePolicy": args.resource_policy,
               "seedSource": args.seed_store, "seedHashes": file_hashes(session / "seed") if args.seed_store else {},
               "exportSave": args.export_save,
+              "assetStorage": assets,
               "snapshotHashes": file_hashes(game), "descriptorHash": sha(session / "descriptor-source.xml"),
               "trials": selected_plan(targets, fixed, args.singles, args.repeats,
                                       ["perf", "visual"] if args.mode == "both" else [args.mode], args.plan)}
@@ -222,6 +270,44 @@ def owned_session(value):
             "protocol": 1, "tool": "RemainsAgentDebugger", "session": path.name}:
         raise ValueError("Not a debugger-owned session")
     return path
+
+
+def newest_write(path):
+    newest = Path(path).stat().st_mtime
+    for current, _, files in os.walk(path):
+        for name in [current, *files]:
+            try:
+                newest = max(newest, os.stat(name).st_mtime)
+            except OSError:
+                pass
+    return newest
+
+
+def sweep_sessions(days, dry_run=False):
+    """Delete debugger-owned sessions idle beyond the retention window.
+
+    Only directories whose owner.json matches this tool are considered, so any
+    foreign or unrecognized tree is left alone. A run.lock (running session or
+    interrupted run pending inspection) always keeps its session.
+    """
+    removed = []
+    if not SESSIONS.is_dir():
+        return removed
+    for session in SESSIONS.iterdir():
+        if not session.is_dir() or (session / "run.lock").exists():
+            continue
+        try:
+            if read(session / "owner.json") != {"protocol": 1, "tool": "RemainsAgentDebugger",
+                                                "session": session.name}:
+                continue
+            if time.time() - newest_write(session) < days * 86400:
+                continue
+        except (OSError, json.JSONDecodeError):
+            continue
+        if not dry_run:
+            shutil.rmtree(session)
+        removed.append(session.name)
+    return removed
 
 
 def verify_inputs(session, config):
@@ -305,7 +391,7 @@ def execute_trial(session, config, trial, registration=None):
     expected_desktop = "interactive" if config["visible"] else "isolated"
     if config.get("desktopMode") != expected_desktop:
         raise ValueError("Test desktop policy changed or predates isolation; prepare a new session")
-    if config.get("version") != VERSION:
+    if config.get("version") not in ("1.1.0", VERSION):
         raise ValueError("Session predates the current audio/resource protocol; rebuild the probe and prepare a new session")
     output = session / "trials" / trial["id"]
     output.mkdir(parents=True, exist_ok=False)
@@ -608,12 +694,17 @@ def main(argv=None):
     p.add_argument("--audio", action="store_true", help="explicitly allow test audio; muted by default")
     p.add_argument("--resource-policy", choices=["test", "system"], default="test",
                    help="test: normal memory priority and HighQoS; system: unmodified policy control")
+    p.add_argument("--no-sweep", action="store_true",
+                   help="skip the automatic deletion of sessions idle past the retention window")
     r = commands.add_parser("run", help="execute or resume an existing plan")
     r.add_argument("--session", required=True); r.add_argument("--trial"); r.add_argument("--limit", type=int)
     r.add_argument("--owner", help="module/task name; defaults to CODEX_THREAD_ID when available")
     r.add_argument("--wait", type=float, default=900, help="seconds to wait in the fair test queue; 0 defers immediately")
     t = commands.add_parser("tests", help="refresh shared test register")
     t.add_argument("--json", action="store_true")
+    s = commands.add_parser("sweep", help="delete debugger-owned sessions idle past retention")
+    s.add_argument("--days", type=float, default=SESSION_RETENTION_DAYS)
+    s.add_argument("--dry-run", action="store_true")
     commands.add_parser("resources", help="one-shot system memory and AIR process audit; no settings changed")
     q = commands.add_parser("report"); q.add_argument("--session", required=True)
     v = commands.add_parser("verdict", help="record observed visual symptom; never infer a defect from image differences")
@@ -628,6 +719,11 @@ def main(argv=None):
             rows = registry.status()
             print(json.dumps(rows, ensure_ascii=False, indent=2) if args.json else
                   registry.path.with_suffix(".md").read_text(encoding="utf-8"))
+            return 0
+        if args.command == "sweep":
+            removed = sweep_sessions(args.days, args.dry_run)
+            print(json.dumps({"days": args.days, "dryRun": args.dry_run, "removed": removed},
+                             ensure_ascii=False))
             return 0
         if args.command == "inventory":
             print(launcher(Path(args.root).resolve(), "--list", "--json")); return 0

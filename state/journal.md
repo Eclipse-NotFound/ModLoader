@@ -1,5 +1,12 @@
 # ModLoader 开发日志（journal）
 
+## 2026-11-02 调试器1.2.0：硬链接冻结与build堆积治理
+
+- 三个活跃模组（RConnect/ContinuousScene/RealisticVision）build 累计约176 GB（试验隔离设计=每试验一份完整文件副本且无保留策略），D盘一度只剩6.2 GB；git 仓库本身未受污染。经用户拍板：止血只删"与游戏根/release SHA256完全相同"或"build内字节级重复"的副本，防复发改调试器+gitignore+巡检，不动各模组自带runner。
+- 调试器1.2.0：`link_or_copy`/`link_tree` 对不变资产（Music/Rooms/runtimes/根资源SWF·XML/release/宿主工具）硬链接，失败回退复制，session.json `assetStorage` 记录分布；可写状态（描述符/存储/seed）仍真副本。安全性依赖**替换语义部署**（写新文件后替换，禁止原地写入），verify_inputs 每次 run 前复核哈希。实测 smoke 会话 297.7 MB→实占0.1 MB（101链接/0复制）。旧1.1.0会话仍可 run（版本检查放宽为兼容列表）。
+- 新增 `sweep` 子命令：prepare 自动清理闲置>14天的调试器自有会话（owner.json 校验、run.lock 保留、--dry-run/--no-sweep）。新增 `tools/cleanup_test_copies.py`：plan（只读，48h新鲜度+测试登记表+git跟踪+回退备份全排除）→apply --confirm（删除前逐文件复核SHA256）→check（build>10GB或D盘<50GB告警）。RV/CS `.gitignore` 追加 `/build/` 整体忽略（已跟踪文件不受影响）。
+- 冒烟验证：py_compile 通过；prepare→assetStorage/link:101→fsutil确认双链接→删除测试会话。首轮 plan 在 RConnect/CS 因旧代码把顶层散文件当目录产生267噪音（已修复为独立分支），这些散文件多为独有内容本就不在删除范围。空间策略细节写入 [TEST-RESOURCES.md](../docs/TEST-RESOURCES.md)。
+
 ## 2026-10-29 修复原启动器与多会话测试路径
 
 - 用户明确要求先修复原启动器、让多个对话独立发起测试。实测发现低完整性EXE使普通运行器的子进程降为Low；同字节Medium副本恢复后，仅修复原启动器/ADL/两个模组工具入口标签，内容和DACL保持不变。
