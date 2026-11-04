@@ -14,6 +14,9 @@ from pathlib import Path
 import subprocess
 import sys
 import uuid
+import json
+import time
+from contextlib import ExitStack
 from test_resources import configure_owned
 from launch_integrity import resolve_test_host
 
@@ -35,7 +38,7 @@ class ProcessInfo(ctypes.Structure):
 
 class HiddenProcess:
     """Small Popen-compatible owned handle; close only after the child exits."""
-    def __init__(self, command, *, cwd, stdout, stderr, resource_policy="test"):
+    def __init__(self, command, *, cwd, stdout, stderr, resource_policy="test", env=None):
         if os.name != "nt":
             raise OSError("Private test desktops require Windows; no foreground fallback")
         import msvcrt
@@ -84,8 +87,16 @@ class HiddenProcess:
                 pi = ProcessInfo()
                 exe = str(Path(self.command[0]).resolve(strict=True))
                 line = ctypes.create_unicode_buffer(subprocess.list2cmdline(self.command))
-                if not self.k.CreateProcessW(exe, line, None, None, True, subprocess.CREATE_NO_WINDOW | 4 | 0x20,
-                                            None, str(Path(cwd).resolve(strict=True)), ctypes.byref(si), ctypes.byref(pi)):
+                environment = None
+                if env is not None:
+                    entries = []
+                    for key, value in sorted(env.items(), key=lambda item: item[0].upper()):
+                        if not key or '=' in key or '\0' in key or '\0' in value:
+                            raise ValueError('Invalid environment entry')
+                        entries.append(key + '=' + value)
+                    environment = ctypes.create_unicode_buffer('\0'.join(entries) + '\0\0')
+                if not self.k.CreateProcessW(exe, line, None, None, True, subprocess.CREATE_NO_WINDOW | 4 | 0x20 | 0x400,
+                                            environment, str(Path(cwd).resolve(strict=True)), ctypes.byref(si), ctypes.byref(pi)):
                     raise ctypes.WinError(ctypes.get_last_error())
                 self._process, self.pid = pi.hProcess, pi.dwProcessId
                 try:
@@ -153,23 +164,61 @@ def main():
     parser.add_argument("--cwd", required=True)
     parser.add_argument("--timeout", type=float, default=120)
     parser.add_argument("--resource-policy", choices=("test", "system"), default="test")
+    parser.add_argument("--stdout", help="Owned child stdout log")
+    parser.add_argument("--stderr", help="Owned child stderr log")
+    parser.add_argument("--receipt", help="Fresh JSON receipt, written after child cleanup")
+    parser.add_argument("--until-file", help="Stop the owned child after this fresh result appears")
+    parser.add_argument("--grace", type=float, default=2, help="Seconds to let the child exit after its result")
     parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args()
     command = args.command[1:] if args.command[:1] == ["--"] else args.command
-    if not command or args.timeout <= 0:
+    if not command or args.timeout <= 0 or args.grace < 0:
         parser.error("Provide a direct executable command after -- and a positive timeout")
-    process = HiddenProcess(command, cwd=args.cwd, stdout=sys.stdout, stderr=sys.stderr,
-                            resource_policy=args.resource_policy)
-    try:
-        return process.wait(args.timeout)
-    except subprocess.TimeoutExpired:
-        print("Test timeout; stopping only the owned process", file=sys.stderr)
-        return 124
-    finally:
-        if process.poll() is None:
-            process.kill()
-            process.wait(15)
-        process.close()
+    for path in (args.receipt, args.until_file):
+        if path and Path(path).exists():
+            parser.error('Preserve existing evidence; use a fresh path: ' + path)
+    receipt = dict(desktopMode='isolated', timedOut=False, resultObserved=False)
+    process = None
+    with ExitStack() as streams:
+        stdout = streams.enter_context(open(args.stdout, 'wb')) if args.stdout else sys.stdout
+        stderr = streams.enter_context(open(args.stderr, 'wb')) if args.stderr else sys.stderr
+        try:
+            process = HiddenProcess(command, cwd=args.cwd, stdout=stdout, stderr=stderr,
+                                    resource_policy=args.resource_policy)
+            receipt.update(pid=process.pid, desktopName=process.desktop,
+                           launch=process.launch_info, resourcePolicy=process.resource_policy)
+            if args.receipt:
+                print('Isolated AIR PID ' + str(process.pid), flush=True)
+            deadline = time.monotonic() + args.timeout
+            result_deadline = None
+            while process.poll() is None:
+                now = time.monotonic()
+                if args.until_file and Path(args.until_file).is_file() and result_deadline is None:
+                    receipt['resultObserved'] = True
+                    result_deadline = now + args.grace
+                if result_deadline is not None and now >= result_deadline:
+                    break
+                if now >= deadline:
+                    receipt['timedOut'] = not receipt['resultObserved']
+                    break
+                time.sleep(.05)
+            if args.until_file and Path(args.until_file).is_file():
+                receipt['resultObserved'] = True
+            return 124 if receipt['timedOut'] else (0 if receipt['resultObserved'] else process.poll())
+        except BaseException as error:
+            receipt['error'] = str(error)
+            raise
+        finally:
+            if process is not None:
+                if process.poll() is None:
+                    process.kill()
+                    process.wait(15)
+                receipt['exitCode'] = process.poll()
+                process.close()
+                receipt['closed'] = True
+            if args.receipt:
+                with open(args.receipt, 'x', encoding='utf-8') as target:
+                    json.dump(receipt, target, ensure_ascii=False, indent=2)
 
 
 if __name__ == "__main__":

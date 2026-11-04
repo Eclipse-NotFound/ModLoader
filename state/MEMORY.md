@@ -1,5 +1,7 @@
 # ModLoader 外置记忆
 
+2026-11-04：修复测试HARMAN启动图的遗漏入口。新增 `tools/Invoke-AirTest.ps1`，共用smoke/分发/语言验证及五个近期RV测试接入独立桌面；Python支持子进程env。8项原生/桥接检查及两轮真实AIR验证通过，启动图只在私有桌面、用户桌面不切换。游戏/玩家入口未改；历史独立实验脚本未全量迁移。见[证据与回退](../knowledge/experiments/quiet-tests-2026-11-04/README.md)。
+
 2026-11-02：调试器1.2.0应对build堆积（三活跃模组累计约176 GB、D盘剩6.2 GB）。不变资产改硬链接冻结（smoke实测297.7MB→实占0.1MB，link:101/copy:0），可写状态仍真副本；安全性依赖替换语义部署，verify_inputs每次run前复核。新增`sweep`子命令（prepare自动清闲置>14天会话，run.lock保留）。新增`tools/cleanup_test_copies.py`（plan→apply --confirm→check），按用户拍板只删"与游戏根/release SHA256相同"或"build内字节级重复"副本；首轮删20.8万文件/67.4 GiB，D盘回到约73 GB。RV/CS `.gitignore`追加`/build/`整体忽略。空间策略见[TEST-RESOURCES.md](../docs/TEST-RESOURCES.md)；各模组自带runner的输出根迁移留待其正常迭代。
 
 2026-10-29：原启动器与共享测试路径已修复并本机部署。四个EXE入口继承Low标签导致受限启动；仅恢复为Medium，内容/DACL不变。默认功能计划现在最多两个独立组并行，性能与旧驱动仍独占，FIFO排队900秒；受管进程全部确认退出且无启动间隙时自动释放占用。68项定向检查、两AIR各39项及两个独立CLI真实菜单同时运行通过。详见[修复、证据与回退](../knowledge/experiments/startup-test-path-2026-10-29/README.md)。工具协议仍1.1.0，SWF/正式名单未改。

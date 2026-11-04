@@ -53,6 +53,18 @@ python tools/air_test_process.py --cwd "<隔离游戏目录>" --timeout 120 -- "
 
 该入口只隔离窗口，不创建游戏副本或隔离存档，也不会自动改造旧脚本。旧驱动直接运行 ADL 或调用启动器 `--launch` 仍可能弹出启动图，后台验证前应接入本入口。实际窗口归属、帧采样与截图证据见[后台启动验证](../knowledge/experiments/quiet-tests-2026-10-19/README.md)。
 
+PowerShell 专用测试可使用同步入口（参数传原始路径，不要手工加引号）：
+
+```powershell
+. '<游戏根>/mods/ModLoader/tools/Invoke-AirTest.ps1'
+$air = Invoke-AirTest -Executable '<游戏根>/adl64.exe' `
+    -Arguments @('-runtime', '<游戏根>/runtimes/air/win64', '<副本>/application.xml') `
+    -WorkingDirectory '<副本>' -EvidenceDirectory '<本轮新建的证据目录>' `
+    -TimeoutSeconds 120 -UntilFile '<本轮结果.json>'
+```
+
+`UntilFile` 可省略；有结果时最多再等2秒，然后仅结束自己的进程。结果内容仍由业务驱动断言；文件存在不代表通过。入口立即输出真实 `Isolated AIR PID` 供外层登记，返回前完成退出及桌面释放，保存 `air-process.json`（PID/桌面/退出码/超时/资源策略）和 `adl-output.log`、`adl-error.log`。拒绝复用已有回执/结果，创建失败报错，不回退前台。Python `HiddenProcess` 支持 `env=`，可保留测试自己的环境变量。共用 smoke/分发/语言验证及本次发现的五个 RV 入口已接入，历史实验脚本仍需按需迁移。见[本次修复与验证](../knowledge/experiments/quiet-tests-2026-11-04/README.md)。
+
 ### 从存档复现
 
 ```powershell

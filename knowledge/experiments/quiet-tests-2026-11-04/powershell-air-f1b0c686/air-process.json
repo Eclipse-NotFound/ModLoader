@@ -1,0 +1,42 @@
+{
+  "desktopMode": "isolated",
+  "timedOut": true,
+  "resultObserved": false,
+  "pid": 6064,
+  "desktopName": "RemainsTest-8c34741e3b494fb5a994a169cc96dd8c",
+  "launch": {
+    "requestedExecutable": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\adl64.exe",
+    "runnerIntegrity": 8192,
+    "requestedIntegrity": 8192,
+    "resolvedExecutable": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\adl64.exe",
+    "reusedCanonicalHost": false
+  },
+  "resourcePolicy": {
+    "requested": "test",
+    "before": {
+      "cpuPriorityClass": 32,
+      "errors": [],
+      "memoryPriority": 5,
+      "powerThrottling": {
+        "controlMask": 0,
+        "stateMask": 0,
+        "highQoS": false
+      },
+      "inJob": true
+    },
+    "after": {
+      "cpuPriorityClass": 32,
+      "errors": [],
+      "memoryPriority": 5,
+      "powerThrottling": {
+        "controlMask": 1,
+        "stateMask": 0,
+        "highQoS": true
+      },
+      "inJob": true
+    },
+    "errors": []
+  },
+  "exitCode": 1,
+  "closed": true
+}

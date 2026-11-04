@@ -1,0 +1,65 @@
+[
+  {
+    "path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\tools\\air_test_process.py",
+    "before": "010597b00abdcd3c80f57c2aa07517d4b8d0ca03cf643b02c5351005dbcdcfb1",
+    "after": "1c415b3f40203ab65103be7c2c68825023eb2790cb878fa857a9f948ff5d07a7",
+    "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\work\\backups\\quiet-launch-20261104\\mods\\ModLoader\\tools\\air_test_process.py"
+  },
+  {
+    "path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\tools\\Invoke-AirTest.ps1",
+    "before": null,
+    "after": "0002bd6f1e6fa9d09f9f3d4fc90fc7883f0a7c0c3931372e2f728ade44732033",
+    "backup": null
+  },
+  {
+    "path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RealisticVision\\build\\cs-rv-20261104\\run_one.ps1",
+    "before": "fdee6a4b0da13a121e2ea0bbc6e1b219472e47186e6e05a8309d265f4addca73",
+    "after": "be63ff3784cbe4a709635ec3fa05d2e97761629af0c08abe20fe65361e8214e6",
+    "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\work\\backups\\quiet-launch-20261104\\mods\\RealisticVision\\build\\cs-rv-20261104\\run_one.ps1"
+  },
+  {
+    "path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RealisticVision\\build\\shadowfix-20261104\\run_smoke.ps1",
+    "before": "dfba162b7a523d3f5d78ffef68dd8fef9c1ffe0d3f01a8d8d7d3cbd534736ba6",
+    "after": "264802bff49219bd375c2ce353e111a2f73c003d17f40d51570074b33df6cc0b",
+    "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\work\\backups\\quiet-launch-20261104\\mods\\RealisticVision\\build\\shadowfix-20261104\\run_smoke.ps1"
+  },
+  {
+    "path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RealisticVision\\tools\\fov-fix-20261104\\smoke.py",
+    "before": "4d98270258c8da6ccea9c8e5d98412ceb75a914fce595a605b120d7fe3e50782",
+    "after": "bf584f644fa2cde62fa97ecf1c3c6bc825600af6710926f42096621082b2ee35",
+    "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\work\\backups\\quiet-launch-20261104\\mods\\RealisticVision\\tools\\fov-fix-20261104\\smoke.py"
+  },
+  {
+    "path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RealisticVision\\build\\shadowfix-20261104\\run_checks.py",
+    "before": "c05064e4681b144118998a59169d4625dfff105d42f83700a86cef7543ca9254",
+    "after": "8e1d73cf24f02c79da590182ceb6b0255407ad225b78617b1e8d0b94a37e0faa",
+    "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\work\\backups\\quiet-launch-20261104\\mods\\RealisticVision\\build\\shadowfix-20261104\\run_checks.py"
+  },
+  {
+    "path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\RealisticVision\\build\\csopt-20261104\\run_checks.py",
+    "before": "f20d7ce42a8f4c3e45cd02b27e6d55500647fcd3616027b327c017e9f9d29346",
+    "after": "ff17b107c9b132c875514b6fe68b4e3025cbb8e0bc04be867599fe01c288ee6f",
+    "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\work\\backups\\quiet-launch-20261104\\mods\\RealisticVision\\build\\csopt-20261104\\run_checks.py"
+  },
+  {
+    "path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\tools\\smoke_test.ps1",
+    "beforeSource": "clean HEAD source (Git line endings)",
+    "before": "16cc4da44e968b112d19d6b0b75628c67d8b37b5c53340e5238d6eeafd01b9a9",
+    "after": "354943bab73138135075273192dc7efcd8731c6f5f551a2a13061251d0bd3d00",
+    "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\work\\backups\\quiet-launch-20261104\\git-before\\tools\\smoke_test.ps1"
+  },
+  {
+    "path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\tools\\verify_collection.ps1",
+    "beforeSource": "clean HEAD source (Git line endings)",
+    "before": "f4de2aa9f3f604142b0de1dda847d5526be46f512b34ffcf22ee6902d574370c",
+    "after": "7f6322173a7790cb7f1d39b32714bcf068a248610097daad88a94ac8ea8bc6b2",
+    "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\work\\backups\\quiet-launch-20261104\\git-before\\tools\\verify_collection.ps1"
+  },
+  {
+    "path": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\tools\\localization\\run.ps1",
+    "beforeSource": "clean HEAD source (Git line endings)",
+    "before": "c3dc177838bb388ed8348aae4b94639c1acee73295a6f69805a645915b240998",
+    "after": "fd3b9f7d9387c9a2092b03f33521908a85773c4079f58e68b534f0818b796897",
+    "backup": "D:\\Program Files\\Steam\\steamapps\\common\\Remains\\mods\\ModLoader\\work\\backups\\quiet-launch-20261104\\git-before\\tools\\localization\\run.ps1"
+  }
+]

@@ -1,5 +1,6 @@
 param([Parameter(Mandatory=$true)][string]$Stage,[string]$Attempt='verification')
 $ErrorActionPreference='Stop'
+. (Join-Path $PSScriptRoot 'Invoke-AirTest.ps1')
 $stageRoot=(Resolve-Path -LiteralPath $Stage).Path
 if($Attempt -notmatch '^[A-Za-z0-9-]+$') {throw 'Invalid evidence name'}
 $testRoot=Join-Path (Split-Path -Parent $stageRoot) $Attempt
@@ -77,10 +78,11 @@ $process=$null
 $store=Join-Path $env:APPDATA ($appId+'/Local Store')
 $start=[datetime]::UtcNow
 try {
-    $process=Start-Process -FilePath (Join-Path $gameRoot 'adl64.exe') -ArgumentList @('-runtime',('"'+(Join-Path $gameRoot 'runtimes/air/win64')+'"'),('"'+$descriptor+'"'),('"'+$runtime+'"')) -WorkingDirectory $runtime -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $testRoot 'stdout.log') -RedirectStandardError (Join-Path $testRoot 'stderr.log')
-    Write-Output ('Isolated distribution startup PID '+$process.Id+' / '+$appId)
-    $process.WaitForExit(50000) | Out-Null
-    Check 'game-alive-after-50-seconds' (-not $process.HasExited)
+    $process=Invoke-AirTest -Executable (Join-Path $gameRoot 'adl64.exe') -Arguments @('-runtime',(Join-Path $gameRoot 'runtimes/air/win64'),$descriptor,$runtime) -WorkingDirectory $runtime -EvidenceDirectory $testRoot -TimeoutSeconds 50
+    Copy-Item (Join-Path $testRoot 'adl-output.log') (Join-Path $testRoot 'stdout.log')
+    Copy-Item (Join-Path $testRoot 'adl-error.log') (Join-Path $testRoot 'stderr.log')
+    Write-Output ('Isolated distribution startup PID '+$process.pid+' / '+$appId)
+    Check 'game-alive-after-50-seconds' $process.timedOut
     $statusFiles=@(Get-ChildItem -LiteralPath (Join-Path $store '#SharedObjects') -Recurse -Filter 'ModLoader.sol' -File | Where-Object {$_.LastWriteTimeUtc -ge $start})
     Check 'exactly-one-fresh-loader-status' ($statusFiles.Count -eq 1)
     $status=[Text.Encoding]::UTF8.GetString([IO.File]::ReadAllBytes($statusFiles[0].FullName))
@@ -112,7 +114,6 @@ try {
     $errors=[string](Get-Content -LiteralPath (Join-Path $testRoot 'stderr.log') -Raw)
     Check 'no-uncaught-air-errors' ($errors -notmatch '(TypeError|ReferenceError|VerifyError): Error #')
 } finally {
-    if($process -and -not $process.HasExited) {$process.Kill();$process.WaitForExit()}
     if(Test-Path -LiteralPath $store) {Copy-Item -LiteralPath $store -Destination (Join-Path $testRoot 'isolated-store') -Recurse}
     [pscustomobject]@{appId=$appId;passed=(@($checks|Where-Object {-not $_.passed}).Count -eq 0);checks=$checks;scope='Installer/restore/scan plus exact-package native startup; no full gameplay or network certification'} | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $testRoot 'result.json') -Encoding UTF8
 }

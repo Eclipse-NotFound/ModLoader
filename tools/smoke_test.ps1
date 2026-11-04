@@ -8,6 +8,7 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'smoke_assertions.ps1')
+. (Join-Path $PSScriptRoot 'Invoke-AirTest.ps1')
 
 $GameRoot = (Resolve-Path -LiteralPath $GameRoot).Path
 $descriptorPath = if ([System.IO.Path]::IsPathRooted($Descriptor)) {
@@ -47,17 +48,13 @@ Write-Host "isolated app id=$appId"
 try {
     $descriptorXml.Save($tempDescriptor)
     $startedAtUtc = [datetime]::UtcNow
-    $process = Start-Process -FilePath (Join-Path $GameRoot 'adl64.exe') -ArgumentList '-runtime','runtimes\air\win64',(Split-Path -Leaf $tempDescriptor),'-nodebug' -WorkingDirectory $GameRoot -WindowStyle Hidden -PassThru
-    for ($second = 0; $second -lt $Seconds; $second++) {
-        if ($process.HasExited) { break }
-        Start-Sleep -Seconds 1
-    }
+    $evidence = Join-Path $PSScriptRoot ("../build/out/quiet-smoke/" + $appId)
+    New-Item -ItemType Directory -Path $evidence -Force | Out-Null
+    $process = Invoke-AirTest -Executable (Join-Path $GameRoot 'adl64.exe') -Arguments @('-runtime', (Join-Path $GameRoot 'runtimes/air/win64'), $tempDescriptor, '-nodebug') -WorkingDirectory $GameRoot -EvidenceDirectory $evidence -TimeoutSeconds $Seconds
     $endedAtUtc = [datetime]::UtcNow
-    $alive = -not $process.HasExited
+    # For this bounded observation, timeout means the game stayed alive throughout.
+    $alive = $process.timedOut
 } finally {
-    if ($null -ne $process -and -not $process.HasExited) {
-        Stop-Process -Id $process.Id -Force
-    }
     if (Test-Path -LiteralPath $tempDescriptor) {
         Remove-Item -LiteralPath $tempDescriptor -Force
     }

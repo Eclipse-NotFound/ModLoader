@@ -1,5 +1,11 @@
 # ModLoader 开发日志（journal）
 
+## 2026-11-04 补齐测试启动图隐藏入口
+
+- 用户再次要求测试不弹HARMAN/AIR标识，不记得具体任务。找到近期RV×CS测试经PS直接启动AIR，旧共用隔离器仍正常。
+- 新增PS同步接口；环境变量、结果等待、PID回传、日志/清理回执，迁移共用三个及RV五个入口。8项集成检查、原生窗口枚举和PS真实AIR菜单通过；记录首次探针ID不匹配导致的超时失败。
+- 安装、回退和范围见[本轮证据](../knowledge/experiments/quiet-tests-2026-11-04/README.md)。保留所有外来改动，无SWF/玩家文件变化，不宣称旧实验脚本全覆盖。
+
 ## 2026-11-02 调试器1.2.0：硬链接冻结与build堆积治理
 
 - 三个活跃模组（RConnect/ContinuousScene/RealisticVision）build 累计约176 GB（试验隔离设计=每试验一份完整文件副本且无保留策略），D盘一度只剩6.2 GB；git 仓库本身未受污染。经用户拍板：止血只删"与游戏根/release SHA256完全相同"或"build内字节级重复"的副本，防复发改调试器+gitignore+巡检，不动各模组自带runner。

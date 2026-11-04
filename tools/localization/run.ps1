@@ -1,5 +1,6 @@
 param([switch]$Prepared,[switch]$PrepareOnly,[switch]$Installed)
 $ErrorActionPreference='Stop'
+. (Join-Path $PSScriptRoot '../Invoke-AirTest.ps1')
 $taskGameRoot=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
 $taskSdk='D:/RemainsMod/mods/Sandevistan/build/tools/flexsdk'
 $taskJava='D:/Program Files/Adobe Animate 2024/jre/bin/java.exe'
@@ -61,20 +62,16 @@ Set-Content -LiteralPath (Join-Path $taskBuild 'last-run.txt') -Value $taskOut -
 if($PrepareOnly){return}
 $taskProc=$null
 try{
- $taskProc=Start-Process -FilePath (Join-Path $taskGameRoot 'adl64.exe') -ArgumentList @('-runtime',('"'+(Join-Path $taskGameRoot 'runtimes/air/win64')+'"'),('"'+$taskDescriptor+'"')) -WindowStyle Hidden -RedirectStandardOutput (Join-Path $taskOut 'stdout.log') -RedirectStandardError (Join-Path $taskOut 'stderr.log') -PassThru
- Set-Content -LiteralPath (Join-Path $taskOut 'process-id.txt') -Value $taskProc.Id
- for($taskPoll=0;$taskPoll -lt 36;$taskPoll++){
-  if($taskProc.WaitForExit(10000)){break}
-  $taskHeart=Join-Path $taskStorage 'heartbeat.txt'
-  if(Test-Path -LiteralPath $taskHeart){Get-Content -LiteralPath $taskHeart -TotalCount 1}
- }
- if(!$taskProc.HasExited){throw 'Localization probe timeout'}
+ $taskProc=Invoke-AirTest -Executable (Join-Path $taskGameRoot 'adl64.exe') -Arguments @('-runtime',(Join-Path $taskGameRoot 'runtimes/air/win64'),$taskDescriptor) -WorkingDirectory $taskRuntime -EvidenceDirectory $taskOut -TimeoutSeconds 360
+ Set-Content -LiteralPath (Join-Path $taskOut 'process-id.txt') -Value $taskProc.pid
+ Copy-Item (Join-Path $taskOut 'adl-output.log') (Join-Path $taskOut 'stdout.log')
+ Copy-Item (Join-Path $taskOut 'adl-error.log') (Join-Path $taskOut 'stderr.log')
+ if($taskProc.timedOut){throw 'Localization probe timeout'}
  $taskResult=Join-Path $taskStorage 'results.txt'
  if(!(Test-Path -LiteralPath $taskResult)){throw ('No probe result. ADL exit '+$taskProc.ExitCode)}
  Get-Content -LiteralPath $taskResult -Tail 5
  if((Get-Content -LiteralPath $taskResult -Tail 1) -notmatch '^PASS \d+ checks$'){throw 'Localization assertions failed'}
 } finally {
- if($taskProc -and !$taskProc.HasExited){Stop-Process -Id $taskProc.Id}
  if(Test-Path -LiteralPath $taskStorage){Get-ChildItem -LiteralPath $taskStorage -File | Where-Object {$_.Extension -in @('.png','.json','.txt','.log')} | ForEach-Object {Copy-Item -LiteralPath $_.FullName -Destination $taskOut}}
  Write-Output ('Evidence: '+$taskOut)
 }

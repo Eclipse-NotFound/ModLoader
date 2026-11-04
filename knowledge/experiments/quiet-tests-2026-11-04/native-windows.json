@@ -1,0 +1,82 @@
+[
+  {
+    "pid": 8984,
+    "desktop": "RemainsTest-e512ae96ffe6490d906df7a71fa73075",
+    "inputBefore": "Default",
+    "windows": [
+      {
+        "hwnd": 1972126,
+        "class": "Messaging",
+        "desktop": "RemainsTest-e512ae96ffe6490d906df7a71fa73075",
+        "visible": false
+      },
+      {
+        "hwnd": 792158,
+        "class": "IME",
+        "desktop": "RemainsTest-e512ae96ffe6490d906df7a71fa73075",
+        "visible": false
+      },
+      {
+        "hwnd": 2300044,
+        "class": "AIR_Splash",
+        "desktop": "RemainsTest-e512ae96ffe6490d906df7a71fa73075",
+        "visible": true
+      },
+      {
+        "hwnd": 790526,
+        "class": "ApolloRuntimeContentWindow",
+        "desktop": "RemainsTest-e512ae96ffe6490d906df7a71fa73075",
+        "visible": false
+      },
+      {
+        "hwnd": 3676092,
+        "class": "MSCTFIME UI",
+        "desktop": "RemainsTest-e512ae96ffe6490d906df7a71fa73075",
+        "visible": false
+      },
+      {
+        "hwnd": 727026,
+        "class": "CicLoaderWndClass",
+        "desktop": "RemainsTest-e512ae96ffe6490d906df7a71fa73075",
+        "visible": false
+      },
+      {
+        "hwnd": 3151794,
+        "class": "CiceroUIWndFrame",
+        "desktop": "RemainsTest-e512ae96ffe6490d906df7a71fa73075",
+        "visible": false
+      },
+      {
+        "hwnd": 2234430,
+        "class": "CiceroUIWndFrame",
+        "desktop": "RemainsTest-e512ae96ffe6490d906df7a71fa73075",
+        "visible": false
+      },
+      {
+        "hwnd": 1120128,
+        "class": "UAC Input Indicator",
+        "desktop": "RemainsTest-e512ae96ffe6490d906df7a71fa73075",
+        "visible": false
+      },
+      {
+        "hwnd": 464992,
+        "class": "Touch Tooltip Window",
+        "desktop": "RemainsTest-e512ae96ffe6490d906df7a71fa73075",
+        "visible": false
+      },
+      {
+        "hwnd": 464766,
+        "class": "UAC_InputIndicatorOverlayWnd",
+        "desktop": "RemainsTest-e512ae96ffe6490d906df7a71fa73075",
+        "visible": true
+      },
+      {
+        "hwnd": 1120128,
+        "class": "UAC Input Indicator",
+        "desktop": "RemainsTest-e512ae96ffe6490d906df7a71fa73075",
+        "visible": true
+      }
+    ],
+    "inputAfter": "Default"
+  }
+]
