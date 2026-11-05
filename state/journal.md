@@ -1,3 +1,11 @@
+## 2026-11-05 GitHub 开源同步
+
+- 仓库公开：https://github.com/Eclipse-NotFound/ModLoader（默认分支 `master`，MIT 许可证）
+- 发布：tag `v2.5.0`，Release 资产 `ModLoader_v2.5.0.zip`（正式版）
+- 同步内容：本地提交（源码/设计/知识/状态）+ MIT `LICENSE` + README 下载链接与版本号更新
+- 验证边界：未运行游戏、未改 `release/` 下已部署 SWF；资产回读改用 GitHub 服务端 asset digest 校验（下载域名被网络策略拒绝）
+- 残留：本条目写入时 tag 可能早于后续文档提交；各模组记忆由负责人在后续会话继续维护
+
 # ModLoader 开发日志（journal）
 
 ## 2026-11-04 补齐测试启动图隐藏入口

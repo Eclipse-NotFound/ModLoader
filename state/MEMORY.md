@@ -1,5 +1,7 @@
 # ModLoader 外置记忆
 
+> **2026-11-05 GitHub 公开**：本仓库已开源到 https://github.com/Eclipse-NotFound/ModLoader（默认分支 `master`，MIT 许可证），发布 tag `v2.5.0` 与 Release 资产 `ModLoader_v2.5.0.zip`（正式版）。由同步会话执行；未运行游戏、未改 `release/` 下已部署产物。
+
 2026-11-04：修复测试HARMAN启动图的遗漏入口。新增 `tools/Invoke-AirTest.ps1`，共用smoke/分发/语言验证及五个近期RV测试接入独立桌面；Python支持子进程env。8项原生/桥接检查及两轮真实AIR验证通过，启动图只在私有桌面、用户桌面不切换。游戏/玩家入口未改；历史独立实验脚本未全量迁移。见[证据与回退](../knowledge/experiments/quiet-tests-2026-11-04/README.md)。
 
 2026-11-02：调试器1.2.0应对build堆积（三活跃模组累计约176 GB、D盘剩6.2 GB）。不变资产改硬链接冻结（smoke实测297.7MB→实占0.1MB，link:101/copy:0），可写状态仍真副本；安全性依赖替换语义部署，verify_inputs每次run前复核。新增`sweep`子命令（prepare自动清闲置>14天会话，run.lock保留）。新增`tools/cleanup_test_copies.py`（plan→apply --confirm→check），按用户拍板只删"与游戏根/release SHA256相同"或"build内字节级重复"副本；首轮删20.8万文件/67.4 GiB，D盘回到约73 GB。RV/CS `.gitignore`追加`/build/`整体忽略。空间策略见[TEST-RESOURCES.md](../docs/TEST-RESOURCES.md)；各模组自带runner的输出根迁移留待其正常迭代。
