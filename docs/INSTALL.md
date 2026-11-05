@@ -20,7 +20,7 @@ This installs the loading entry point. You still need the scanner and mod files 
 
 ## 3. Install the settings component, scanner and chosen mods
 
-Download [ModLoader_v2.3.0-r1.zip](https://github.com/Eclipse-NotFound/ModLoader/releases/download/v2.3.0-r1/ModLoader_v2.3.0-r1.zip) and [the mods you want](../README.md#choose-mods).
+Download [ModLoader_v2.5.0.zip](https://github.com/Eclipse-NotFound/ModLoader/releases/download/v2.5.0/ModLoader_v2.5.0.zip) and [the mods you want](../README.md#choose-mods).
 
 Right-click each ZIP → **Extract All**. Copy its **`mods` folder** into the game folder and merge matching folders. Do not leave the ZIP unopened or create a nested `mods/mods` folder.
 
@@ -71,7 +71,7 @@ To restore the vanilla game, first back up mods, edited game files and saves, th
 |---|---|
 | I downloaded code and cannot find an installer | Use the homepage download link or the named ZIP / EXE under release **Assets**, not Source code |
 | The latest ModLoader release has no Patch-Game.bat | GamePatch is attached to **v2.3.0**; use the direct link in step 2 |
-| The scanner is missing | Also install **ModLoader_v2.3.0-r1.zip** from step 3 |
+| The scanner is missing | Also install **ModLoader_v2.5.0.zip** from step 3 |
 | None of the mods work | Check the game folder, one-time patch, nested `mods/mods`, scanner and full restart |
 | Only one mod does not work | Check its `release/XxxMod.swf`, unchanged folder name and use of 1.02 |
 | Editing config.txt has no effect | Try the in-game settings page; saved application data can override the template |

@@ -6,7 +6,7 @@
 
 **[打开完整安装指南](docs/INSTALL.zh-CN.md)** · [全部下载与更新记录](https://github.com/Eclipse-NotFound/ModLoader/releases)
 
-**本地新增：** 双击 `RemainsModLauncher.exe` 可扫描、勾选模组并一键启动，也支持单模组排障及 agent 命令行。[启动器用法](docs/LAUNCHER.zh-CN.md)。启动器尚未上传到下方旧发布包；旧包的安装步骤仍保留。
+**包内新增启动器：** 双击 `RemainsModLauncher.exe` 可扫描已装模组、勾选启用并一键启动，也支持「仅启用所选」、全停/全开与命令行调用；它只读扫描，不改游戏文件。[启动器用法](docs/LAUNCHER.zh-CN.md)。
 
 ## 先下载哪几个文件？
 
@@ -15,10 +15,10 @@ Agent 排查卡顿和视觉异常可用 [隔离对照调试器](docs/AGENT-DEBUG
 | 文件 | 用途 |
 |---|---|
 | [Remains-GamePatch-v2.3.0.zip](https://github.com/Eclipse-NotFound/ModLoader/releases/download/v2.3.0/Remains-GamePatch-v2.3.0.zip) | 第一次安装：让游戏能加载模组，解压后运行 Patch-Game.bat |
-| [ModLoader_v2.3.0-r1.zip](https://github.com/Eclipse-NotFound/ModLoader/releases/download/v2.3.0-r1/ModLoader_v2.3.0-r1.zip) | 设置组件与扫描器：把包内 mods 合并到游戏目录 |
+| [ModLoader_v2.5.0.zip](https://github.com/Eclipse-NotFound/ModLoader/releases/download/v2.5.0/ModLoader_v2.5.0.zip) | 设置组件、扫描器与启动器：把包内 mods 合并到游戏目录 |
 | 下表中你喜欢的模组包 | 实际增加时停、武器、地图等玩法 |
 
-**这两个前置下载都需要。** 最新发布页 v2.3.0-r1 只有设置/扫描器包；首次安装的 GamePatch 仍在 v2.3.0，所以上面提供了直达链接。
+**这两个前置下载都需要。** 最新发布页 v2.5.0 是设置/扫描器/启动器包；首次安装的 GamePatch 仍在 v2.3.0，所以上面提供了直达链接。
 
 适用 Windows。第一次游玩建议使用 **Remains 1.02**；游戏补丁能识别部分 1.03/1.04 构建，但不表示全部模组和设置都支持这些版本。
 
@@ -38,11 +38,11 @@ Agent 排查卡顿和视觉异常可用 [隔离对照调试器](docs/AGENT-DEBUG
 
 | 模组 | 会改变什么 | 当前公开版 |
 |---|---|---|
-| [Sandevistan](https://github.com/Eclipse-NotFound/Sandevistan/blob/master/README.zh-CN.md) | 慢动作、连招回放与彩色残影 | [v1.145](https://github.com/Eclipse-NotFound/Sandevistan/releases/tag/v1.145) |
-| [MoreSkillsAndWeapons](https://github.com/Eclipse-NotFound/MoreSkillsAndWeapons/blob/master/README.zh-CN.md) | 智能子弹、跳弹、激光与更多战斗操作 | [v1.15.3](https://github.com/Eclipse-NotFound/MoreSkillsAndWeapons/releases/tag/v1.15.3) |
-| [TDFC](https://github.com/Eclipse-NotFound/TDFC/blob/master/README.zh-CN.md) | 不改血量伤害，增强敌人观察和战术 | [v0.6.4](https://github.com/Eclipse-NotFound/TDFC/releases/tag/v0.6.4) |
+| [Sandevistan](https://github.com/Eclipse-NotFound/Sandevistan/blob/master/README.zh-CN.md) | 慢动作、连招回放与彩色残影 | [v1.145-k1](https://github.com/Eclipse-NotFound/Sandevistan/releases/tag/v1.145-k1) |
+| [MoreSkillsAndWeapons](https://github.com/Eclipse-NotFound/MoreSkillsAndWeapons/blob/master/README.zh-CN.md) | 智能子弹、跳弹、激光、闪光弹与更多战斗操作 | [v1.17.0](https://github.com/Eclipse-NotFound/MoreSkillsAndWeapons/releases/tag/v1.17.0) |
+| [TDFC](https://github.com/Eclipse-NotFound/TDFC/blob/master/README.zh-CN.md) | 不改血量伤害，增强敌人观察和战术 | [v0.6.4-scene2](https://github.com/Eclipse-NotFound/TDFC/releases/tag/v0.6.4-scene2) |
 | [RealisticVision](https://github.com/Eclipse-NotFound/RealisticVision/blob/main/README.zh-CN.md) | 视线遮挡、探索迷雾与暗淡地形记忆 | [v0.30.1](https://github.com/Eclipse-NotFound/RealisticVision/releases/tag/v0.30.1) |
-| [RandomRooms](https://github.com/Eclipse-NotFound/RandomRooms/blob/main/README.zh-CN.md) | 四种主题、持续扩展的随机探索地图 | [v13.2](https://github.com/Eclipse-NotFound/RandomRooms/releases/tag/v13.2) |
+| [RandomRooms](https://github.com/Eclipse-NotFound/RandomRooms/blob/main/README.zh-CN.md) | 四种主题、持续扩展的随机探索地图 | [v14.0](https://github.com/Eclipse-NotFound/RandomRooms/releases/tag/v14.0) |
 | [RConnect](https://github.com/Eclipse-NotFound/RConnect/blob/master/README.zh-CN.md) | 与一位朋友双人合作探索 | [v0.2.8](https://github.com/Eclipse-NotFound/RConnect/releases/tag/v0.2.8) |
 | [RModifier](https://github.com/Eclipse-NotFound/RModifier/blob/master/README.zh-CN.md) | 中文桌面工具，编辑掉落、台词与地图 | [v0.4.0](https://github.com/Eclipse-NotFound/RModifier/releases/tag/v0.4.0) |
 
@@ -59,7 +59,7 @@ Agent 排查卡顿和视觉异常可用 [隔离对照调试器](docs/AGENT-DEBUG
 
 [设置接口](docs/settings-interface.md) · [技术与历史验证记录](docs/DEVELOPMENT.zh-CN.md) · [源码](src/) · [发布记录](https://github.com/Eclipse-NotFound/ModLoader/releases)
 
-运行模块 2.3.0、扫描器 2.1；r1 更新兼容性表。清单生成、构建、验证与旧部署回滚信息放在开发资料中。
+运行模块 2.5.0、扫描器 2.1、启动器 1.0.0；本版加入帧记录器与菜单改键页。清单生成、构建、验证与旧部署回滚信息放在开发资料中。
 
 </details>
 

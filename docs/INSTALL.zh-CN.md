@@ -20,7 +20,7 @@ Steam 库 → 右键 Remains → **管理 → 浏览本地文件**。这个文�
 
 ## 3. 安装设置组件、扫描器与想玩的模组
 
-下载 [ModLoader_v2.3.0-r1.zip](https://github.com/Eclipse-NotFound/ModLoader/releases/download/v2.3.0-r1/ModLoader_v2.3.0-r1.zip)，以及[你选中的模组](../README.zh-CN.md#choose-mods)。
+下载 [ModLoader_v2.5.0.zip](https://github.com/Eclipse-NotFound/ModLoader/releases/download/v2.5.0/ModLoader_v2.5.0.zip)，以及[你选中的模组](../README.zh-CN.md#choose-mods)。
 
 右键 ZIP → **全部解压**。把各包里的 **`mods` 文件夹**复制到游戏目录，同名文件夹选择合并。不要把 ZIP 直接放进去，也不要复制成 `mods/mods`。
 
@@ -71,7 +71,7 @@ Steam 更新或“验证文件完整性”可能还原加载入口。先保存�
 |---|---|
 | 只看到源码，不知道运行哪个 | 重新使用首页的下载链接，或发布页 **Assets** 下的具名 ZIP / EXE；不要选 Source code |
 | 最新 ModLoader 发布没有 Patch-Game.bat | GamePatch 位于 **v2.3.0**；使用第 2 步的直接链接 |
-| 找不到扫描器 | 还需要安装第 3 步的 **ModLoader_v2.3.0-r1.zip** |
+| 找不到扫描器 | 还需要安装第 3 步的 **ModLoader_v2.5.0.zip** |
 | 全部模组都没反应 | 检查游戏目录、一次性补丁、`mods/mods` 套层、是否扫描以及是否完全重启 |
 | 只有一个没反应 | 检查对应 `release/XxxMod.swf` 是否存在，目录名是否保持原样，以及是否使用 1.02 |
 | 改 config.txt 但没变化 | 优先从游戏内设置页修改；已保存的应用数据可能覆盖模板 |
